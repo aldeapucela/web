@@ -4,7 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }}</title>
+
+  <!-- Metadatos para preview en redes sociales -->
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="La mayor comunidad online sobre Valladolid">
+  <meta property="og:image" content="/img/logo.jpg">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta name="twitter:card" content="summary_large_image">
+
   <style>
+    /* Global: que el padding se incluya en el width */
+    *, *:before, *:after {
+      box-sizing: border-box;
+    }
+    /* Estilos generales para el body */
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: #f4f4f4;
@@ -12,6 +25,7 @@
       padding: 40px 20px;
       margin: 0;
     }
+    /* Contenedor central de la landing page */
     .container {
       max-width: 400px;
       margin: auto;
@@ -20,21 +34,25 @@
       border-radius: 12px;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     }
+    /* Estilo para el logo */
     .logo {
       width: 100px;
       border-radius: 50%;
       margin-bottom: 10px;
     }
+    /* Título principal */
     h1 {
       font-size: 22px;
       margin-bottom: 10px;
       color: #333;
     }
+    /* Párrafo descriptivo */
     p {
       font-size: 16px;
       color: #666;
       margin-bottom: 20px;
     }
+    /* Estilos para los botones */
     .btn {
       display: block;
       width: 100%;
@@ -43,24 +61,43 @@
       text-decoration: none;
       font-weight: bold;
       border-radius: 8px;
-      transition: all 0.2s;
+      transition: transform 0.2s;
     }
     .btn:hover {
       transform: scale(1.05);
     }
+    /* Botón para Telegram */
     .telegram {
       background: #0088cc;
       color: white;
     }
+    /* Botón para el Foro */
     .foro {
       background: #4CAF50;
       color: white;
     }
+    /* Botón para Normas de participación */
+    .participation {
+      background: #f39c12;
+      color: white;
+    }
+    /* Pequeño margen para los iconos en los botones */
+    .btn i {
+      vertical-align: middle;
+      margin-right: 8px;
+    }
   </style>
 </head>
 <body>
+  <!-- Contenedor que envuelve el contenido Markdown -->
   <div class="container">
     {{ content }}
   </div>
+
+  <!-- Carga de Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>

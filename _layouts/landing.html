@@ -54,37 +54,35 @@
     }
     /* Estilos para los botones */
     .btn {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      margin: 10px 0;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 8px;
-      transition: transform 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px; /* Espaciado entre icono y texto */
+        font-weight: bold;
+        padding: 12px;
+        border-radius: 10px;
+        text-decoration: none;
+    }
+    .btn i {
+        display: flex;
+        align-items: center;
+        font-size: 1.2em; /* Ajusta el tamaño del icono */
     }
     .btn:hover {
       transform: scale(1.05);
     }
-    /* Botón para Telegram */
+    /* Botones personalizados*/
     .telegram {
-      background: #0088cc;
-      color: white;
+    background: #6FA9DB; /* Azul más suave */
+    color: white;
     }
-    /* Botón para el Foro */
     .foro {
-      background: #4CAF50;
-      color: white;
+        background: #79C779; /* Verde más suave */
+        color: white;
     }
-    /* Botón para Normas de participación */
-    .participation {
-      background: #f39c12;
-      color: white;
-    }
-    /* Pequeño margen para los iconos en los botones */
-    .btn i {
-      vertical-align: middle;
-      margin-right: 8px;
+    .normas {
+        background: #B0B0B0; /* Gris neutro */
+        color: white;
     }
   </style>
 </head>

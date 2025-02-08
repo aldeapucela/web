@@ -2,6 +2,7 @@
 layout: landing
 title: Normas de participación de la comunidad
 permalink: /normas/
+slug: normas
 ---
 
 # Normas para la participación en la comunidad de "Aldea Pucela"

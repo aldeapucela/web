@@ -3,7 +3,7 @@ layout: landing
 title: Aldea Pucela
 ---
 
-![Logo Aldea Pucela](https://adeldeapucela.com/img/logo.png){: .logo }
+![Logo Aldea Pucela](https://adeldeapucela.com/img/logo.jpg){: .logo }
 
 # Aldea Pucela
 

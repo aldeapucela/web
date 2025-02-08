@@ -4,6 +4,8 @@ title: Normas de participación de la comunidad
 permalink: /normas/
 ---
 
+<div class="text-container">
+
 # Normas para la participación en la comunidad de "Aldea Pucela"
 
 [Grupo de Telegram](https://t.me/AldeaPucela) y [Foro](https://foro.aldeapucela.com/)
@@ -194,3 +196,5 @@ Estas normas se han adaptado con modificaciones de las [normas originales para l
 ## Modificaciones de estas normas 
 
 Aldea Pucela puede rectificar de cuando en cuando las normas y también los procedimientos establecidos cuando sea pertinente para ciertos casos. Al aceptar cumplir las normas aceptarás también cualquier cambio que se haga en las mismas.
+
+</div>

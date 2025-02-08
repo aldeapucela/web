@@ -36,8 +36,8 @@
       border-radius: 12px;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     }
-    /* Contenedor para texto */
-    .text-container {
+    /* Estilo para páginas de texto */
+    .page-normas {
         text-align: left;
         max-width: 600px;
         margin: 0 auto;
@@ -95,7 +95,7 @@
     }
   </style>
 </head>
-<body>
+<body class="{% if page.slug %}page-{{ page.slug }}{% else %}default-page{% endif %}">
   <!-- Contenedor que envuelve el contenido Markdown -->
   <div class="container">
     {{ content }}

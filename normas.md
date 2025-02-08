@@ -9,7 +9,7 @@ slug: normas
 
 [Grupo de Telegram](https://t.me/AldeaPucela) y [Foro](https://foro.aldeapucela.com/)
 
-**[Versión 1.0.1](https://github.com/aldeapucela/normas/) - Actualizada el 29 de enero de 2025** 
+**[Versión 1.0.1](https://aldeapucela.com/normas/) - Actualizada el 29 de enero de 2025** 
 
 * Indice
 {:toc .toc-level-3}

@@ -9,7 +9,7 @@ slug: normas
 
 [Grupo de Telegram](https://t.me/AldeaPucela) y [Foro](https://foro.aldeapucela.com/)
 
-**[Versión 1.0.1](https://aldeapucela.com/normas/) - Actualizada el 29 de enero de 2025** 
+**[Versión 1.1](https://aldeapucela.com/normas/) - Actualizada el 18 de febrero de 2025** 
 
 * Indice
 {:toc .toc-level-3}
@@ -147,6 +147,16 @@ No se tolerará la interrupción repetida de eventos, foros o reuniones, incluid
 ### Fomento de comportamientos inaceptables 
 
 Consideraremos de igual gravedad el hecho de realizar estas actividades, liderarlas o influir a otros para que las realicen, por lo que las consecuencias serán las mismas. 
+
+### Publicidad y autopromoción
+
+No está permitido utilizar los espacios de Aldea Pucela para la promoción de proyectos, productos, servicios o cuentas personales sin una relación clara y relevante con los intereses y objetivos de la comunidad. Esto incluye, entre otros:
+
+* Publicar contenido con el único propósito de promocionar proyectos personales sin aportar valor a la comunidad.
+* Hacer publicidad de empresas privadas o servicios comerciales.
+* Participar en la comunidad únicamente para compartir enlaces, redes sociales o cualquier otra iniciativa de autopromoción sin contribuir de manera significativa a las conversaciones o actividades de Aldea Pucela.
+
+Los mensajes que infrinjan esta norma podrán ser eliminados sin previo aviso. La reincidencia en este comportamiento será considerada una falta grave y podrá dar lugar a restricciones en la participación o la expulsión de la comunidad.
 
 ## Consecuencias del comportamiento inaceptable 
 

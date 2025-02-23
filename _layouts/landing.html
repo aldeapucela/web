@@ -63,19 +63,24 @@
     }
     /* Estilos para los botones */
     .btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px; /* Espaciado entre icono y texto */
-        font-weight: bold;
-        padding: 12px;
-        border-radius: 10px;
-        text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px; /* Espaciado entre icono y texto */
+      font-weight: bold;
+      padding: 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      width: 100%;
     }
     .btn i {
-        display: flex;
-        align-items: center;
-        font-size: 1.2em; /* Ajusta el tamaño del icono */
+      width: 24px; /* Ancho fijo para los iconos */
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2em;
+    }
+    .btn svg {
+      margin: 0 10px;
     }
     .btn:hover {
       transform: scale(1.05);
@@ -96,6 +101,7 @@
     .bluesky {
       background: #57b6ffc2;
       color: #1a3549c4;
+      font-weight: normal;
     }
   </style>
 </head>

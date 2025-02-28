@@ -5,7 +5,7 @@ permalink: /normas/
 slug: normas
 ---
 
-⬅ (volver)[/]
+⬅ [volver](/)
 
 # Normas para la participación en la comunidad de "Aldea Pucela"
 

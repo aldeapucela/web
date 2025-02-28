@@ -6,22 +6,39 @@
   <link rel="icon" type="image/jpeg" href="/img/logo.jpg">
   <link rel="stylesheet" href="/css/styles.css">
 
-  <title>{{ page.title }}</title>
+  <title>Aldea Pucela - La mayor comunidad vecinal online sobre Valladolid</title>
 
   <!-- Metadatos para preview en redes sociales -->
-  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:title" content="Aldea Pucela - La mayor comunidad vecinal online sobre Valladolid">
   <meta property="og:description" content="La mayor comunidad vecinal online sobre Valladolid">
   <meta property="og:image" content="/img/logo.jpg">
-  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:url" content="http://localhost:4000/">
   <meta name="twitter:card" content="summary_large_image">
 
   <script src="https://foro.aldeapucela.com/javascripts/embed-topics.js"></script>
 
 </head>
-<body class="{% if page.slug %}page-{{ page.slug }}{% else %}default-page{% endif %}">
+<body class="default-page">
   <!-- Contenedor que envuelve el contenido Markdown -->
   <div class="container">
-    {{ content }}
+    <p><img src="/img/logo.jpg" alt="Logo Aldea Pucela" class="logo" /></p>
+
+<h1 id="aldea-pucela">Aldea Pucela</h1>
+
+<p>La mayor comunidad vecinal online sobre Valladolid</p>
+
+<p><a href="https://t.me/AldeaPucela" class="btn telegram"><i data-lucide="send"></i> Únete a nuestro Telegram</a></p>
+
+<p><a href="https://foro.aldeapucela.com/" class="btn foro"><i data-lucide="message-square"></i> Participa en el Foro</a></p>
+
+<p><a href="/normas/" class="btn normas"><i data-lucide="info"></i> Normas de participación</a></p>
+
+<p><a href="https://creators.spotify.com/pod/show/aldea-pucela" class="btn podcast"><i data-lucide="podcast"></i> Grabaciones y podcasts</a></p>
+
+<p><a href="https://participa.aldeapucela.com" class="btn participa"><i data-lucide="megaphone"></i> Campañas vecinales</a></p>
+
+<p><a href="https://bsky.app/profile/pucelobot.aldeapucela.com" class="btn bluesky"><i data-lucide="bot"></i> Pucelo Bot en BlueSky</a></p>
+
   </div>
 
   <div id="foro" class="container">

@@ -1,0 +1,108 @@
+/* Global: que el padding se incluya en el width */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+/* Estilos generales para el body */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #f4f4f4;
+  text-align: center;
+  padding: 40px 20px;
+  margin: 0;
+}
+/* Contenedor central de la landing page */
+.container {
+  max-width: 400px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#foro {
+    margin-top: 1em;
+}
+
+#foro h2 {
+    font-size: 16px;
+    margin: 0 0 10px 0;
+    color: #666;
+}
+
+/* Estilo para páginas de texto */
+.page-normas {
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+/* Estilo para el logo */
+.logo {
+  width: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+/* Título principal */
+h1 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #333;
+}
+/* Párrafo descriptivo */
+p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+/* Estilos para los botones */
+.btn, #foro h2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Espaciado entre icono y texto */
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  width: 100%;
+}
+.btn i, #foro h2 i {
+  width: 24px; /* Ancho fijo para los iconos */
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+}
+.btn svg {
+  margin: 0 10px;
+}
+.btn:hover {
+  transform: scale(1.05);
+}
+/* Botones personalizados*/
+.telegram {
+background: #6FA9DB; /* Azul más suave */
+color: #10314e;
+}
+.foro {
+    background: #79C779; /* Verde más suave */
+    color: #0C500C;
+}
+.normas {
+    background: #B0B0B0; /* Gris neutro */
+    color: #3A3A3A;
+}
+.podcast {
+    background: #9691ff;
+    color: #2e2b63;
+}
+.participa {
+    background: #dd91ff;
+    color: #552c67;
+}
+.bluesky {
+    background: #57b6ffc2;
+    color: #122a3dc2;
+    font-weight: normal;
+}

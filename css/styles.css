@@ -31,6 +31,12 @@ body {
     color: #666;
 }
 
+#foro a {
+    color: #666;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 /* Estilo para páginas de texto */
 .page-normas {
     text-align: left;

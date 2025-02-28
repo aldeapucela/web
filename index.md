@@ -1,6 +1,6 @@
 ---
 layout: landing
-title: Aldea Pucela
+title: Aldea Pucela - La mayor comunidad vecinal online sobre Valladolid
 ---
 
 ![Logo Aldea Pucela](/img/logo.jpg){: .logo }

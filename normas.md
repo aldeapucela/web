@@ -1,9 +1,11 @@
 ---
 layout: landing
-title: Normas de participación de la comunidad
+title: Normas de participación de la comunidad - Aldea Pucela
 permalink: /normas/
 slug: normas
 ---
+
+⬅ (volver)[/]
 
 # Normas para la participación en la comunidad de "Aldea Pucela"
 

@@ -37,6 +37,11 @@ body {
     font-weight: bold;
 }
 
+#foro iframe {
+  width: 100%;
+  padding: 0 10px;
+}
+
 /* Estilo para páginas de texto */
 .page-normas {
     text-align: left;

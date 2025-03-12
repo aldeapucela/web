@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Distribución de edades por barrios - Valladolid - Aldea Pucela</title>
+  <link rel="icon" type="image/jpeg" href="../../img/logo.jpg">
+
+  <!-- Metadatos para preview en redes sociales -->
+  <meta property="og:title" content="Distribución de edades por barrios en Valladolid - Aldea Pucela">
+  <meta property="og:description" content="Compara la distribución de edades por barrios en Valladolid">
+  <meta property="og:image" content="https://aldeapucela.com/img/logo.jpg">
+  <meta property="og:url" content="https://aldeapucela.com/stats/barrios-edades/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Distribución de edades por barrios en Valladolid - Aldea Pucela">
+  <meta name="twitter:description" content="Compara la distribución de edades por barrios en Valladolid">
+  <meta name="twitter:image" content="https://aldeapucela.com/img/logo.jpg">
+  <meta name="twitter:url" content="https://aldeapucela.com/stats/barrios-edades/">
+
+  <!-- Chart.js para gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  <!-- PapaParse para procesar CSV -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <!-- Tailwind CSS para estilos -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .chart-container {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: auto;
+      position: relative;
+    }
+    
+    .chart-container canvas {
+      max-height: 400px;
+    }
+    
+    .neighborhood-card {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .neighborhood-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .selected {
+      border: 2px solid #3b82f6;
+      background-color: #eff6ff;
+    }
+    
+    .age-group-0-14 { background-color: #bfdbfe; }
+    .age-group-15-29 { background-color: #93c5fd; }
+    .age-group-30-44 { background-color: #60a5fa; }
+    .age-group-45-64 { background-color: #3b82f6; }
+    .age-group-65-79 { background-color: #2563eb; }
+    .age-group-80-plus { background-color: #1d4ed8; }
+    
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    
+    .spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3b82f6;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+  <div id="loading-overlay">
+    <div class="text-center">
+      <div class="spinner mx-auto"></div>
+      <p class="mt-3 font-semibold">Cargando datos...</p>
+    </div>
+  </div>
+
+  <!-- Menú hamburguesa para navegación -->
+  <nav class="sticky top-0 bg-white shadow-md py-3 z-50 mb-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <div>
+        <a href="https://aldeapucela.com/" class="text-blue-600 hover:text-blue-800 font-medium">
+          &larr; Aldea Pucela
+        </a>
+      </div>
+      <button id="menu-toggle" class="block md:hidden p-2 rounded-md hover:bg-gray-100 focus:outline-none" type="button" aria-label="Menú de navegación">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <div class="hidden md:flex space-x-4">
+        <a href="#intro" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Introducción</a>
+        <a href="#distribucion" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Distribución</a>
+        <a href="#piramide" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Pirámide</a>
+        <a href="#destacados" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Destacados</a>
+        <a href="#comparacion" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Comparación</a>
+        <a href="#barrios" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Lista de barrios</a>
+      </div>
+    </div>
+    <!-- Menú desplegable para móviles -->
+    <div id="mobile-menu" class="hidden bg-white py-2 shadow-md">
+      <div class="container mx-auto px-4 flex flex-col space-y-2">
+        <a href="#intro" class="text-blue-600 hover:text-blue-800 text-sm font-medium py-1">Introducción</a>
+        <a href="#distribucion" class="text-blue-600 hover:text-blue-800 text-sm font-medium py-1">Distribución</a>
+        <a href="#piramide" class="text-blue-600 hover:text-blue-800 text-sm font-medium py-1">Pirámide</a>
+        <a href="#destacados" class="text-blue-600 hover:text-blue-800 text-sm font-medium py-1">Destacados</a>
+        <a href="#comparacion" class="text-blue-600 hover:text-blue-800 text-sm font-medium py-1">Comparación</a>
+        <a href="#barrios" class="text-blue-600 hover:text-blue-800 text-sm font-medium py-1">Lista de barrios</a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Script para el menú hamburguesa (colocado aquí para garantizar que se ejecute inmediatamente) -->
+  <script>
+    (function() {
+      console.log('Script de menú hamburguesa ejecutándose');
+      const menuToggle = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      if (menuToggle && mobileMenu) {
+        console.log('Menú hamburguesa inicializado correctamente');
+        menuToggle.addEventListener('click', function(e) {
+          e.preventDefault();
+          console.log('Clic en menú hamburguesa');
+          mobileMenu.classList.toggle('hidden');
+        });
+
+        // Agregar evento click a todos los enlaces del menú móvil
+        const mobileLinks = mobileMenu.getElementsByTagName('a');
+        for (const link of mobileLinks) {
+          link.addEventListener('click', function() {
+            mobileMenu.classList.add('hidden');
+          });
+        }
+      } else {
+        console.error('No se pudo inicializar el menú hamburguesa');
+      }
+    })();
+  </script>
+
+  <div class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold text-center my-6">Distribución de edades por barrios de Valladolid</h1>
+    <p class="text-center text-gray-600 mb-4">Fuente: <a href="https://www.valladolid.es/es/temas/hacemos/open-data-datos-abiertos/catalogo-datos/informacion-estadistica-ciudad/poblacion/caracteristicas-poblacion/caracteristicas-poblacion-fecha-referencia-1-1-2025" class="text-blue-500 hover:underline" target="_blank">Padrón Municipal del Ayuntamiento de Valladolid (1-1-2025)</a></p>
+    
+    <div id="intro" class="mb-8 bg-white p-6 rounded-lg shadow">
+      <p class="mb-4">Esta herramienta permite explorar la distribución de edades en los diferentes barrios de Valladolid. Los datos están agrupados en categorías para facilitar su comprensión:</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-4">
+        <div class="p-2 rounded age-group-0-14 text-center">
+          <span class="font-bold">Niños</span><br>0-14 años
+        </div>
+        <div class="p-2 rounded age-group-15-29 text-center">
+          <span class="font-bold">Jóvenes</span><br>15-29 años
+        </div>
+        <div class="p-2 rounded age-group-30-44 text-center">
+          <span class="font-bold">Adultos Jóvenes</span><br>30-44 años
+        </div>
+        <div class="p-2 rounded age-group-45-64 text-center text-white">
+          <span class="font-bold">Adultos</span><br>45-64 años
+        </div>
+        <div class="p-2 rounded age-group-65-79 text-center text-white">
+          <span class="font-bold">Mayores</span><br>65-79 años
+        </div>
+        <div class="p-2 rounded age-group-80-plus text-center text-white">
+          <span class="font-bold">Ed. Avanzada</span><br>80+ años
+        </div>
+      </div>
+      <p>Selecciona un barrio para ver su distribución detallada o compara varios barrios entre sí.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div class="lg:col-span-2">
+        <div class="chart-container">
+          <div class="flex justify-between items-center mb-4">
+            <h2 id="distribucion" class="text-xl font-bold">Distribución por grupos de edad</h2>
+            <div>
+              <button id="view-percentage" class="px-3 py-1 bg-blue-500 text-white rounded mr-2 text-sm">Ver Porcentajes</button>
+              <button id="view-absolute" class="px-3 py-1 bg-gray-200 rounded text-sm">Ver Valores Absolutos</button>
+            </div>
+          </div>
+          <canvas id="age-distribution-chart" height="300"></canvas>
+        </div>
+      </div>
+      
+      <div>
+        <div class="chart-container">
+          <h2 id="piramide" class="text-xl font-bold mb-4">Pirámide de edades</h2>
+          <canvas id="age-pyramid-chart" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Sección de barrios destacados -->
+    <div class="chart-container mb-8" id="destacados-section">
+      <h2 id="destacados" class="text-xl font-bold mb-4">Barrios destacados por grupo de edad</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="top-neighborhoods">
+        <!-- Esta sección se llenará dinámicamente con JavaScript -->
+      </div>
+    </div>
+
+    <div class="chart-container mb-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
+        <h2 id="comparacion" class="text-xl font-bold mb-2 sm:mb-0">Comparación entre barrios</h2>
+        <div class="flex items-center">
+          <button id="clear-selection" class="px-3 py-1 bg-red-500 text-white rounded text-sm mr-2">Limpiar</button>
+          <button id="expand-chart" class="px-3 py-1 bg-blue-500 text-white rounded text-sm">Ampliar</button>
+        </div>
+      </div>
+      <!-- Aumentar la altura en móviles -->
+      <div class="chart-wrapper" style="min-height: 450px;">
+        <canvas id="neighborhood-comparison-chart"></canvas>
+      </div>
+    </div>
+    
+    <div class="mb-4">
+      <div class="relative" id="barrios">
+        <input type="text" id="search-input" placeholder="Buscar barrio..." class="w-full p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <button id="clear-search" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <div id="neighborhoods-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
+      <!-- Las tarjetas de barrios se generarán dinámicamente aquí -->
+    </div>
+  </div>
+  
+  <script>
+    // Variables globales
+    let neighborhoodsData = [];
+    let selectedNeighborhoods = [];
+    let ageDistributionChart = null;
+    let agePyramidChart = null;
+    let neighborhoodComparisonChart = null;
+    let isPercentageView = true;
+    const defaultNeighborhood = "Todo Valladolid";
+    
+    // Grupos de edad simplificados
+    const ageGroups = [
+      { name: 'Niños (0-14)', range: ['0-4', '5-9', '10-14'], color: '#bfdbfe' },
+      { name: 'Jóvenes (15-29)', range: ['15-19', '20-24', '25-29'], color: '#93c5fd' },
+      { name: 'Adultos Jóvenes (30-44)', range: ['30-34', '35-39', '40-44'], color: '#60a5fa' },
+      { name: 'Adultos (45-64)', range: ['45-49', '50-54', '55-59', '60-64'], color: '#3b82f6' },
+      { name: 'Mayores (65-79)', range: ['65-69', '70-74', '75-79'], color: '#2563eb' },
+      { name: 'Ed. avanzada (80+)', range: ['80-84', '85-89', '90-94', '95 o más'], color: '#1d4ed8' }
+    ];
+    
+    // Inicializar la aplicación cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+      
+      // Event listeners para los botones de vista
+      document.getElementById('view-percentage').addEventListener('click', () => {
+        isPercentageView = true;
+        document.getElementById('view-percentage').classList.replace('bg-gray-200', 'bg-blue-500');
+        document.getElementById('view-percentage').classList.replace('text-gray-800', 'text-white');
+        document.getElementById('view-absolute').classList.replace('bg-blue-500', 'bg-gray-200');
+        document.getElementById('view-absolute').classList.replace('text-white', 'text-gray-800');
+        updateCharts();
+      });
+      
+      document.getElementById('view-absolute').addEventListener('click', () => {
+        isPercentageView = false;
+        document.getElementById('view-absolute').classList.replace('bg-gray-200', 'bg-blue-500');
+        document.getElementById('view-absolute').classList.replace('text-gray-800', 'text-white');
+        document.getElementById('view-percentage').classList.replace('bg-blue-500', 'bg-gray-200');
+        document.getElementById('view-percentage').classList.replace('text-white', 'text-gray-800');
+        updateCharts();
+      });
+      
+      // Event listener para limpiar selección
+      document.getElementById('clear-selection').addEventListener('click', () => {
+        selectedNeighborhoods = [];
+        updateNeighborhoodCards();
+        updateCharts();
+      });
+      
+      // Event listeners para la búsqueda
+      const searchInput = document.getElementById('search-input');
+      searchInput.addEventListener('input', filterNeighborhoods);
+      
+      document.getElementById('clear-search').addEventListener('click', () => {
+        searchInput.value = '';
+        filterNeighborhoods();
+      });
+    });
+    
+    // Cargar datos desde el archivo CSV
+    function loadData() {
+      // Iniciando carga de datos
+      const csvPath = window.location.pathname.endsWith('/') ? 'barrios-por-edades.csv' : './barrios-por-edades.csv';
+      Papa.parse(csvPath, {
+        download: true,
+        header: true,
+        dynamicTyping: true,
+        complete: function(results) {
+          // Datos CSV cargados
+          try {
+            neighborhoodsData = processData(results.data);
+            // Datos procesados
+            renderNeighborhoodCards();
+            initializeCharts();
+            document.getElementById('loading-overlay').style.display = 'none';
+            
+            // Forzar una actualización de los gráficos después de un breve retraso
+            // para asegurar que todo esté inicializado correctamente
+            setTimeout(() => {
+              // Actualizando gráficos después del timeout
+              updateCharts();
+            }, 500);
+          } catch (error) {
+            console.error('Error al procesar los datos:', error);
+            document.getElementById('loading-overlay').style.display = 'none';
+            alert('Error al procesar los datos: ' + error.message);
+          }
+        },
+        error: function(error) {
+          console.error('Error al cargar los datos:', error);
+          document.getElementById('loading-overlay').style.display = 'none';
+          alert('Error al cargar los datos. Por favor, recarga la página.');
+        }
+      });
+    }
+    
+    // Función auxiliar para limpiar y convertir valores numéricos
+    function cleanNumericValue(value) {
+      if (value === undefined || value === null || value === '') {
+        return 0;
+      }
+      
+      // Convertir a string si no lo es
+      const strValue = value.toString();
+      
+      // Eliminar puntos (separadores de miles) y reemplazar comas por puntos si es necesario
+      const cleanValue = strValue.replace(/\./g, '').replace(/,/g, '.');
+      
+      // Convertir a número
+      const numValue = parseFloat(cleanValue);
+      
+      // Retornar 0 si no es un número válido
+      return isNaN(numValue) ? 0 : numValue;
+    }
+    
+    // Procesar los datos del CSV
+    function processData(data) {
+      // Limpiar nombres de columnas (eliminar espacios en blanco)
+      const cleanData = data.map(item => {
+        const cleanItem = {};
+        Object.keys(item).forEach(key => {
+          // Eliminar espacios al principio y final de las claves
+          const cleanKey = key.trim();
+          cleanItem[cleanKey] = item[key];
+        });
+        return cleanItem;
+      });
+      
+      // Filtrar y limpiar los datos
+      const filteredData = cleanData.filter(item => {
+        // Eliminar filas sin nombre de barrio o con población cero
+        return item.Barrio && item.Barrio.trim() !== '' && cleanNumericValue(item.Total) > 0;
+      });
+      
+      // Procesar cada barrio
+      const processedData = filteredData.map(neighborhood => {
+        // Calcular totales por grupo de edad
+        const ageGroupTotals = ageGroups.map(group => {
+          let total = 0;
+          group.range.forEach(range => {
+            // Buscar la clave con o sin espacios
+            const rangeKey = Object.keys(neighborhood).find(key => key.trim() === range.trim());
+            if (rangeKey) {
+              // Usar la función auxiliar para limpiar y convertir valores numéricos
+              const cleanValue = cleanNumericValue(neighborhood[rangeKey]);
+              total += cleanValue;
+            }
+          });
+          return total;
+        });
+        
+        // Calcular porcentajes correctamente usando la función auxiliar
+        let total = 0;
+        try {
+          // Usar la función auxiliar para limpiar y convertir el valor total
+          total = cleanNumericValue(neighborhood.Total);
+          
+          // Calcular la suma de todos los grupos de edad como verificación
+          const sumOfGroups = ageGroupTotals.reduce((sum, val) => sum + val, 0);
+          
+          // Si hay una gran discrepancia entre el total declarado y la suma de grupos, usar la suma
+          if (Math.abs(total - sumOfGroups) > total * 0.1) { // 10% de tolerancia
+            console.warn(`Discrepancia en ${neighborhood.Barrio}: Total declarado=${total}, Suma de grupos=${sumOfGroups}. Usando suma de grupos.`);
+            total = sumOfGroups;
+          }
+          
+          // Procesamiento de totales completado
+        } catch (error) {
+          console.error(`Error al procesar el total para ${neighborhood.Barrio}:`, error);
+          total = 0;
+        }
+        
+        // Asegurar que estamos trabajando con números, no cadenas
+        const numericAgeGroupTotals = ageGroupTotals.map(val => typeof val === 'number' ? val : cleanNumericValue(val));
+        
+        // Calcular los porcentajes con precisión
+        const ageGroupPercentages = numericAgeGroupTotals.map(groupTotal => {
+          return total > 0 ? parseFloat((groupTotal / total * 100).toFixed(1)) : 0;
+        });
+        
+        // Verificar que los porcentajes sean correctos (deben sumar aproximadamente 100%)
+        const sumPercentages = ageGroupPercentages.reduce((sum, p) => sum + p, 0);
+        if (Math.abs(sumPercentages - 100) > 1 && total > 0) {
+          console.warn(`Porcentajes para ${neighborhood.Barrio}: suman ${sumPercentages.toFixed(1)}% en lugar de 100%`);
+        }
+        
+        return {
+          name: neighborhood.Barrio,
+          total: total,
+          ageRanges: Object.fromEntries(
+            Object.keys(neighborhood)
+              .filter(key => key !== 'Barrio' && key !== 'Total')
+              .map(key => {
+                // Usar la función auxiliar para limpiar y convertir valores numéricos
+                const value = cleanNumericValue(neighborhood[key]);
+                return [key.trim(), value];
+              })
+          ),
+          ageGroupTotals: ageGroupTotals,
+          ageGroupPercentages: ageGroupPercentages
+        };
+      });
+      
+      // Crear el barrio "Todo Valladolid" sumando todos los datos
+      const totalValladolid = {
+        name: "Todo Valladolid",
+        total: processedData.reduce((sum, n) => sum + n.total, 0),
+        ageRanges: {},
+        ageGroupTotals: [],
+        ageGroupPercentages: []
+      };
+      
+      // Calcular los totales por grupo de edad para toda la ciudad
+      totalValladolid.ageGroupTotals = ageGroups.map((_, index) => {
+        return processedData.reduce((sum, n) => sum + n.ageGroupTotals[index], 0);
+      });
+      
+      // Calcular los porcentajes para toda la ciudad
+      totalValladolid.ageGroupPercentages = totalValladolid.ageGroupTotals.map(groupTotal => {
+        return totalValladolid.total > 0 ? parseFloat((groupTotal / totalValladolid.total * 100).toFixed(1)) : 0;
+      });
+      
+      // Calcular los valores para cada rango de edad individual para Todo Valladolid
+      // Primero obtenemos todos los rangos de edad posibles de todos los barrios
+      const allAgeRanges = new Set();
+      processedData.forEach(neighborhood => {
+        Object.keys(neighborhood.ageRanges).forEach(range => {
+          if (range !== 'Total') {
+            allAgeRanges.add(range);
+          }
+        });
+      });
+      
+      // Luego sumamos los valores de cada rango para todos los barrios
+      allAgeRanges.forEach(range => {
+        totalValladolid.ageRanges[range] = processedData.reduce((sum, neighborhood) => {
+          // Usar la función auxiliar para limpiar y convertir valores numéricos
+          const value = neighborhood.ageRanges[range];
+          return sum + (value !== undefined ? (typeof value === 'number' ? value : cleanNumericValue(value)) : 0);
+        }, 0);
+      });
+      
+      // Cálculo de ageRanges para Todo Valladolid completado
+      
+      // Añadir el total al principio del array
+      return [totalValladolid, ...processedData];
+    }
+    
+    // Renderizar las tarjetas de barrios
+    function renderNeighborhoodCards() {
+      const container = document.getElementById('neighborhoods-container');
+      container.innerHTML = '';
+      
+      // Ordenar los barrios alfabéticamente, pero mantener "Todo Valladolid" al principio
+      const sortedNeighborhoods = [...neighborhoodsData].sort((a, b) => {
+        // "Todo Valladolid" siempre va primero
+        if (a.name === "Todo Valladolid") return -1;
+        if (b.name === "Todo Valladolid") return 1;
+        // El resto en orden alfabético
+        return a.name.localeCompare(b.name, 'es');
+      });
+      
+      sortedNeighborhoods.forEach(neighborhood => {
+        const card = document.createElement('div');
+        card.className = 'neighborhood-card bg-white rounded-lg shadow p-4 flex flex-col';
+        card.dataset.name = neighborhood.name;
+        
+        if (selectedNeighborhoods.some(n => n.name === neighborhood.name)) {
+          card.classList.add('selected');
+        }
+        
+        // Crear mini gráfico de barras para la distribución
+        const miniBarChart = document.createElement('div');
+        miniBarChart.className = 'flex h-4 w-full mb-2 rounded overflow-hidden';
+        
+        // Calcular el ancho proporcional para cada barra basado en el porcentaje real
+        // Primero, calculamos el total de todos los porcentajes para normalizar
+        const totalPercentage = neighborhood.ageGroupPercentages.reduce((sum, p) => sum + parseFloat(p || 0), 0);
+        
+        ageGroups.forEach((group, index) => {
+          const percentage = parseFloat(neighborhood.ageGroupPercentages[index] || 0);
+          const bar = document.createElement('div');
+          bar.className = `age-group-${index}`;
+          
+          // Calcular el ancho proporcional (normalizado a 100%)
+          const normalizedWidth = totalPercentage > 0 ? (percentage / totalPercentage) * 100 : 0;
+          bar.style.width = `${normalizedWidth}%`;
+          bar.style.backgroundColor = group.color;
+          miniBarChart.appendChild(bar);
+        });
+        
+        // Crear una copia de los porcentajes normalizados para mostrar en el texto
+        const displayPercentages = ageGroups.map((group, index) => {
+          const percentage = parseFloat(neighborhood.ageGroupPercentages[index] || 0);
+          return percentage.toFixed(1);
+        });
+        
+        // Calcular los porcentajes correctos para mostrar
+        const correctPercentages = [];
+        for (let i = 0; i < ageGroups.length; i++) {
+          const groupTotal = neighborhood.ageGroupTotals[i];
+          const total = neighborhood.total;
+          const percentage = total > 0 ? (groupTotal / total * 100).toFixed(1) : '0.0';
+          correctPercentages.push(percentage);
+        }
+        
+        // Crear el contenido HTML manualmente en lugar de usar template literals
+        const title = document.createElement('h3');
+        title.className = 'font-bold text-lg mb-1';
+        title.textContent = neighborhood.name;
+        card.appendChild(title);
+        
+        const population = document.createElement('p');
+        population.className = 'text-sm text-gray-600 mb-2';
+        population.textContent = `Población: ${neighborhood.total.toLocaleString()}`;
+        card.appendChild(population);
+        
+        card.appendChild(miniBarChart);
+        
+        const percentagesGrid = document.createElement('div');
+        percentagesGrid.className = 'grid grid-cols-2 gap-1 mt-2 text-xs';
+        
+        // Añadir cada grupo de edad con su porcentaje
+        const labels = ['Niños', 'Jóvenes', 'Adultos J.', 'Adultos', 'Mayores', 'Ed. avanzada'];
+        for (let i = 0; i < labels.length; i++) {
+          const item = document.createElement('div');
+          const label = document.createElement('span');
+          label.className = 'font-semibold';
+          label.textContent = `${labels[i]}:`;
+          item.appendChild(label);
+          item.appendChild(document.createTextNode(` ${correctPercentages[i]}%`));
+          percentagesGrid.appendChild(item);
+        }
+        
+        card.appendChild(percentagesGrid);
+        
+        card.addEventListener('click', () => toggleNeighborhoodSelection(neighborhood));
+        container.appendChild(card);
+      });
+    }
+    
+    // Filtrar barrios según la búsqueda
+    function filterNeighborhoods() {
+      const searchTerm = document.getElementById('search-input').value.toLowerCase();
+      const cards = document.querySelectorAll('.neighborhood-card');
+      
+      cards.forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        if (name.includes(searchTerm)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+    
+    // Alternar la selección de un barrio
+    function toggleNeighborhoodSelection(neighborhood) {
+      const index = selectedNeighborhoods.findIndex(n => n.name === neighborhood.name);
+      
+      if (index === -1) {
+        // Limitar a 5 barrios seleccionados
+        if (selectedNeighborhoods.length >= 5) {
+          selectedNeighborhoods.shift(); // Eliminar el más antiguo
+        }
+        selectedNeighborhoods.push(neighborhood);
+      } else {
+        selectedNeighborhoods.splice(index, 1);
+      }
+      
+      updateNeighborhoodCards();
+      updateCharts();
+    }
+    
+    // Actualizar las tarjetas de barrios según la selección
+    function updateNeighborhoodCards() {
+      const cards = document.querySelectorAll('.neighborhood-card');
+      cards.forEach(card => {
+        const name = card.dataset.name;
+        if (selectedNeighborhoods.some(n => n.name === name)) {
+          card.classList.add('selected');
+        } else {
+          card.classList.remove('selected');
+        }
+      });
+    }
+    
+    // Inicializar los gráficos
+    function initializeCharts() {
+      // Gráfico de distribución por edad
+      const ageDistributionCtx = document.getElementById('age-distribution-chart').getContext('2d');
+      ageDistributionChart = new Chart(ageDistributionCtx, {
+        type: 'bar',
+        data: {
+          labels: ageGroups.map(group => group.name),
+          datasets: []
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Porcentaje (%)'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+            }
+          }
+        }
+      });
+      
+      // Gráfico de pirámide de edades
+      const agePyramidCtx = document.getElementById('age-pyramid-chart').getContext('2d');
+      // Inicializando gráfico de pirámide de edades
+      agePyramidChart = new Chart(agePyramidCtx, {
+        type: 'bar',
+        data: {
+          // Inicializar con etiquetas predefinidas para evitar problemas al cargar
+          labels: ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', 
+                  '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80-84', '85-89', 
+                  '90-94', '95 o más'],
+          datasets: [{
+            label: 'Inicializando...',
+            data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], // Usar valores no cero para que se vea algo
+            backgroundColor: '#e5e7eb',
+            borderColor: 'rgba(0, 0, 0, 0.1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          scales: {
+            x: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Población'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+      
+      // Gráfico de comparación entre barrios
+      const neighborhoodComparisonCtx = document.getElementById('neighborhood-comparison-chart').getContext('2d');
+      neighborhoodComparisonChart = new Chart(neighborhoodComparisonCtx, {
+        type: 'radar',
+        data: {
+          labels: ageGroups.map(group => group.name),
+          datasets: []
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: {
+                display: true
+              },
+              suggestedMin: 0,
+              suggestedMax: 40  // Valor inicial más razonable, se ajustará dinámicamente
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+            }
+          }
+        }
+      });
+      
+      // Si no hay barrios seleccionados, seleccionar Todo Valladolid por defecto
+      if (selectedNeighborhoods.length === 0 && neighborhoodsData.length > 0) {
+        // Buscar el barrio Todo Valladolid
+        const defaultNeighborhoodData = neighborhoodsData.find(n => n.name === defaultNeighborhood) || neighborhoodsData[0];
+        toggleNeighborhoodSelection(defaultNeighborhoodData);
+      } else {
+        updateCharts();
+      }
+      
+      // Forzar una actualización inicial de los gráficos
+      if (neighborhoodsData.length > 0) {
+        updateCharts();
+      }
+    }
+    
+    // Actualizar los gráficos con los datos seleccionados y la sección de barrios destacados
+    function updateCharts() {
+      // Actualizando gráficos
+      if (selectedNeighborhoods.length === 0) {
+        // No hay barrios seleccionados, mostrar datos del Todo Valladolid si existe
+        const totalData = neighborhoodsData.find(n => n.name === defaultNeighborhood);
+        // Usando datos de Todo Valladolid
+        
+        // Siempre limpiar el gráfico comparativo de barrios cuando no hay barrios seleccionados
+        neighborhoodComparisonChart.data.datasets = [];
+        // Limpiando gráfico comparativo de barrios
+        
+        if (totalData) {
+          // Usar datos de Todo Valladolid para los gráficos de distribución y pirámide
+          ageDistributionChart.data.datasets = [{
+            label: totalData.name,
+            data: isPercentageView ? totalData.ageGroupPercentages : totalData.ageGroupTotals,
+            backgroundColor: getColor(0),
+            borderColor: getColor(0),
+            borderWidth: 1
+          }];
+          
+          const ageRanges = Object.keys(totalData.ageRanges).filter(key => key !== 'Total');
+          // Configurando datos para la pirámide de edades
+          agePyramidChart.data.labels = ageRanges;
+          agePyramidChart.data.datasets = [{
+            label: totalData.name,
+            data: ageRanges.map(range => totalData.ageRanges[range]),
+            backgroundColor: ageRanges.map(range => {
+              for (let i = 0; i < ageGroups.length; i++) {
+                if (ageGroups[i].range.includes(range)) {
+                  return ageGroups[i].color;
+                }
+              }
+              return '#3b82f6';
+            }),
+            borderColor: 'rgba(0, 0, 0, 0.1)',
+            borderWidth: 1
+          }];
+        } else {
+          // Si no hay datos de Todo Valladolid, mostrar gráficos vacíos
+          ageDistributionChart.data.datasets = [];
+          agePyramidChart.data.datasets = [];
+        }
+      } else {
+        // Actualizar gráfico de distribución por edad
+        ageDistributionChart.data.datasets = selectedNeighborhoods.map((neighborhood, index) => {
+          return {
+            label: neighborhood.name,
+            data: isPercentageView ? neighborhood.ageGroupPercentages : neighborhood.ageGroupTotals,
+            backgroundColor: getColor(index),
+            borderColor: getColor(index),
+            borderWidth: 1
+          };
+        });
+        
+        // Actualizar gráfico de pirámide de edades
+        if (selectedNeighborhoods.length > 0) {
+          const selectedNeighborhood = selectedNeighborhoods[selectedNeighborhoods.length - 1];
+          
+          const ageRanges = Object.keys(selectedNeighborhood.ageRanges).filter(key => key !== 'Total');
+          
+          agePyramidChart.data.labels = ageRanges;
+          agePyramidChart.data.datasets = [{
+            label: selectedNeighborhood.name,
+            data: ageRanges.map(range => {
+              // Asegurarse de que el valor es un número válido
+              const value = selectedNeighborhood.ageRanges[range];
+              return typeof value === 'number' ? value : 0;
+            }),
+            backgroundColor: ageRanges.map(range => {
+              // Asignar color según el grupo de edad
+              for (let i = 0; i < ageGroups.length; i++) {
+                if (ageGroups[i].range.includes(range)) {
+                  return ageGroups[i].color;
+                }
+              }
+              return '#ccc';
+            }),
+            borderWidth: 1
+          }];
+        }
+        
+        // Actualizar gráfico de comparación entre barrios
+        neighborhoodComparisonChart.data.datasets = selectedNeighborhoods.map((neighborhood, index) => {
+          return {
+            label: neighborhood.name,
+            data: isPercentageView ? neighborhood.ageGroupPercentages : neighborhood.ageGroupTotals,
+            backgroundColor: getColor(index, 0.2),
+            borderColor: getColor(index),
+            borderWidth: 2,
+            pointBackgroundColor: getColor(index),
+            pointRadius: 4
+          };
+        });
+        
+        // Ajustar escala para el gráfico de radar basándose en los datos reales
+        if (!isPercentageView) {
+          // Para vista absoluta, usar el máximo valor de los totales
+          const maxValue = Math.max(...selectedNeighborhoods.flatMap(n => n.ageGroupTotals));
+          neighborhoodComparisonChart.options.scales.r.suggestedMax = maxValue * 1.1;
+        } else {
+          // Para vista de porcentajes, calcular el máximo porcentaje real y añadir un margen
+          const maxPercentage = Math.max(...selectedNeighborhoods.flatMap(n => n.ageGroupPercentages));
+          // Añadir un margen del 20% y redondear al siguiente múltiplo de 5 para una escala limpia
+          const suggestedMax = Math.ceil((maxPercentage * 1.2) / 5) * 5;
+          // Asegurar que el máximo no sea menor de 25% para evitar escalas demasiado pequeñas
+          neighborhoodComparisonChart.options.scales.r.suggestedMax = Math.max(25, suggestedMax);
+          // Escala ajustada para el gráfico
+        }
+        
+        // Ajustar título del eje Y según la vista
+        ageDistributionChart.options.scales.y.title.text = isPercentageView ? 'Porcentaje (%)' : 'Población';
+      }
+      
+      // Actualizar todos los gráficos
+      // Actualizando todos los gráficos
+      ageDistributionChart.update();
+      
+      // Verificar que el gráfico de pirámide tiene datos válidos
+      if (agePyramidChart.data.datasets.length > 0 && 
+          agePyramidChart.data.datasets[0].data.some(val => val > 0)) {
+        // Actualizando gráfico de pirámide con datos válidos
+        agePyramidChart.update();
+      } else {
+        console.warn('El gráfico de pirámide no tiene datos válidos');
+      }
+      
+      agePyramidChart.update();
+      neighborhoodComparisonChart.update();
+      
+      // Verificar estado final de los gráficos
+      // Estado final del gráfico de pirámide actualizado
+      
+      // Actualizar la sección de barrios destacados
+      updateTopNeighborhoodsByAgeGroup();
+    }
+    
+    // Función para calcular y mostrar los barrios con mayor porcentaje o población de cada grupo de edad
+    function updateTopNeighborhoodsByAgeGroup() {
+      const topNeighborhoodsSection = document.getElementById('top-neighborhoods');
+      topNeighborhoodsSection.innerHTML = '';
+      
+      // Solo considerar barrios reales (excluir 'Todo Valladolid')
+      const realNeighborhoods = neighborhoodsData.filter(n => n.name !== defaultNeighborhood);
+      
+      // Para cada grupo de edad, encontrar el barrio destacado
+      ageGroups.forEach((group, groupIndex) => {
+        let topNeighborhood = null;
+        let maxValue = 0;
+        
+        if (isPercentageView) {
+          // Modo porcentaje: encontrar el barrio con mayor porcentaje
+          realNeighborhoods.forEach(neighborhood => {
+            const percentage = neighborhood.ageGroupPercentages[groupIndex];
+            if (percentage > maxValue) {
+              maxValue = percentage;
+              topNeighborhood = neighborhood;
+            }
+          });
+        } else {
+          // Modo absoluto: encontrar el barrio con mayor población absoluta
+          realNeighborhoods.forEach(neighborhood => {
+            const total = neighborhood.ageGroupTotals[groupIndex];
+            if (total > maxValue) {
+              maxValue = total;
+              topNeighborhood = neighborhood;
+            }
+          });
+        }
+        
+        if (topNeighborhood) {
+          // Crear tarjeta para este grupo de edad
+          const card = document.createElement('div');
+          card.className = 'bg-gray-50 rounded-lg p-4 border-l-4';
+          card.style.borderColor = group.color;
+          
+          // Determinar el título y valor a mostrar según el modo de visualización
+          const titlePrefix = isPercentageView ? 'Mayor % de' : 'Más';
+          const valueDisplay = isPercentageView 
+            ? `${maxValue.toFixed(1)}%` 
+            : `${maxValue.toLocaleString()}`;
+          
+          card.innerHTML = `
+            <h3 class="font-bold text-lg mb-2">${titlePrefix} ${group.name}</h3>
+            <p class="text-xl font-semibold">${topNeighborhood.name}</p>
+            <p class="text-3xl font-bold text-blue-600">${valueDisplay}</p>
+            <p class="text-sm text-gray-600">Población total: ${topNeighborhood.total.toLocaleString()}</p>
+          `;
+          
+          // Hacer que la tarjeta sea clickeable para seleccionar el barrio
+          card.style.cursor = 'pointer';
+          card.addEventListener('click', () => {
+            const neighborhood = neighborhoodsData.find(n => n.name === topNeighborhood.name);
+            if (neighborhood) {
+              toggleNeighborhoodSelection(neighborhood);
+            }
+          });
+          
+          topNeighborhoodsSection.appendChild(card);
+        }
+      });
+    }
+    
+    // Obtener un color para un índice dado
+    function getColor(index, alpha = 1) {
+      const colors = [
+        `rgba(59, 130, 246, ${alpha})`,   // Azul
+        `rgba(239, 68, 68, ${alpha})`,    // Rojo
+        `rgba(16, 185, 129, ${alpha})`,   // Verde
+        `rgba(245, 158, 11, ${alpha})`,   // Naranja
+        `rgba(139, 92, 246, ${alpha})`,   // Púrpura
+        `rgba(236, 72, 153, ${alpha})`,   // Rosa
+        `rgba(75, 85, 99, ${alpha})`,     // Gris
+        `rgba(14, 165, 233, ${alpha})`,   // Azul claro
+        `rgba(249, 115, 22, ${alpha})`,   // Naranja oscuro
+        `rgba(168, 85, 247, ${alpha})`    // Púrpura claro
+      ];
+      return colors[index % colors.length];
+    }
+
+    // ===== FUNCIONALIDADES PARA MÓVILES =====
+
+    // Funcionalidad para el botón de ampliar gráfico
+    document.getElementById('expand-chart').addEventListener('click', function() {
+      console.log('Botón ampliar clickeado');
+      const chartWrapper = document.querySelector('.chart-wrapper');
+      const expandBtn = this;
+      
+      // Comprobar si el contenedor principal o el wrapper están en pantalla completa
+      const chartContainer = chartWrapper.closest('.chart-container');
+      const isFullscreen = chartContainer ? chartContainer.classList.contains('fullscreen') : chartWrapper.classList.contains('fullscreen');
+      
+      if (isFullscreen) {
+        // Si está en pantalla completa, reducir
+        console.log('Reduciendo de pantalla completa');
+        exitFullscreen(chartWrapper, expandBtn);
+      } else {
+        // Si no está en pantalla completa, ampliar
+        console.log('Ampliando a pantalla completa');
+        enterFullscreen(chartWrapper, expandBtn);
+      }
+      
+      // Redimensionar el gráfico para que se ajuste al nuevo tamaño
+      if (neighborhoodComparisonChart) {
+        console.log('Redimensionando gráfico');
+        setTimeout(() => {
+          neighborhoodComparisonChart.resize();
+          console.log('Gráfico redimensionado');
+        }, 300); // Dar tiempo a la transición CSS
+      }
+    });
+    
+    // Función para entrar en modo pantalla completa
+    function enterFullscreen(element, button) {
+      console.log('Entrando en modo pantalla completa');
+      
+      // Obtener el contenedor principal del gráfico (chart-container)
+      const chartContainer = element.closest('.chart-container');
+      if (chartContainer) {
+        console.log('Aplicando pantalla completa al contenedor principal');
+        chartContainer.classList.add('fullscreen');
+      } else {
+        console.log('No se encontró el contenedor principal, aplicando al elemento wrapper');
+        element.classList.add('fullscreen');
+      }
+      
+      button.textContent = 'Reducir';
+      document.body.style.overflow = 'hidden';
+      
+      // Añadir botón de cerrar
+      const closeButton = document.createElement('button');
+      closeButton.className = 'close-fullscreen-btn';
+      closeButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+      closeButton.setAttribute('aria-label', 'Cerrar pantalla completa');
+      
+      closeButton.addEventListener('click', function() {
+        exitFullscreen(element, button);
+      });
+      
+      // Añadir el botón de cerrar al contenedor en pantalla completa
+      if (chartContainer && chartContainer.classList.contains('fullscreen')) {
+        chartContainer.appendChild(closeButton);
+      } else {
+        element.appendChild(closeButton);
+      }
+    }
+    
+    // Función para salir del modo pantalla completa
+    function exitFullscreen(element, button) {
+      console.log('Saliendo de modo pantalla completa');
+      
+      // Obtener el contenedor principal del gráfico (chart-container)
+      const chartContainer = element.closest('.chart-container');
+      if (chartContainer && chartContainer.classList.contains('fullscreen')) {
+        console.log('Quitando pantalla completa del contenedor principal');
+        chartContainer.classList.remove('fullscreen');
+        
+        // Eliminar el botón de cerrar
+        const closeButton = chartContainer.querySelector('.close-fullscreen-btn');
+        if (closeButton) {
+          closeButton.remove();
+        }
+      } else {
+        console.log('Quitando pantalla completa del elemento wrapper');
+        element.classList.remove('fullscreen');
+        
+        // Eliminar el botón de cerrar
+        const closeButton = element.querySelector('.close-fullscreen-btn');
+        if (closeButton) {
+          closeButton.remove();
+        }
+      }
+      
+      button.textContent = 'Ampliar';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Estilos para el modo de pantalla completa
+    const style = document.createElement('style');
+    style.textContent = `
+      .fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1000;
+        background: white;
+        padding: 20px;
+        box-sizing: border-box;
+        overflow: auto;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+      .fullscreen .chart-wrapper {
+        flex-grow: 1;
+        height: calc(100vh - 100px) !important;
+        width: 100% !important;
+        min-height: unset !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .fullscreen canvas {
+        height: 100% !important;
+        width: 100% !important;
+        max-height: none !important;
+      }
+      .chart-wrapper {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+      .close-fullscreen-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1010;
+        transition: background 0.2s ease;
+      }
+      .close-fullscreen-btn:hover {
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .close-fullscreen-btn svg {
+        width: 24px;
+        height: 24px;
+        color: #333;
+      }
+      @media (max-width: 768px) {
+        .fullscreen {
+          padding: 10px;
+        }
+        .close-fullscreen-btn {
+          top: 5px;
+          right: 5px;
+          width: 36px;
+          height: 36px;
+        }
+      }
+      @media (max-width: 640px) {
+        .container {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+        h1 {
+          font-size: 1.5rem;
+        }
+        h2 {
+          font-size: 1.25rem;
+        }
+        .fixed.bottom-4.right-4 {
+          bottom: 1rem;
+          right: 1rem;
+          z-index: 50;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Las funcionalidades de los botones flotantes se inicializan en el evento 'load'
+
+    // Funcionalidad para el buscador de barrios
+    document.getElementById('search-input').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const cards = document.querySelectorAll('.neighborhood-card');
+      
+      cards.forEach(card => {
+        const neighborhoodName = card.getAttribute('data-name').toLowerCase();
+        if (neighborhoodName.includes(searchTerm)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    // Detectar dispositivos móviles y ajustar la interfaz
+    function isMobileDevice() {
+      return (window.innerWidth <= 768);
+    }
+
+    // Ajustes específicos para móviles
+    function optimizeForMobile() {
+      if (isMobileDevice()) {
+        // Reducir el padding en contenedores
+        document.querySelectorAll('.chart-container').forEach(container => {
+          container.style.padding = '10px';
+        });
+        
+        // Hacer que los gráficos sean más altos en móviles para mejor visualización
+        document.getElementById('neighborhood-comparison-chart').height = 500;
+        
+        // Actualizar los gráficos para que se ajusten al nuevo tamaño
+        if (ageDistributionChart) ageDistributionChart.resize();
+        if (agePyramidChart) agePyramidChart.resize();
+        if (neighborhoodComparisonChart) neighborhoodComparisonChart.resize();
+      }
+    }
+
+    // Inicializar el menú hamburguesa inmediatamente
+    const initHamburgerMenu = function() {
+      console.log('Inicializando menú hamburguesa');
+      const menuToggle = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      if (menuToggle && mobileMenu) {
+        console.log('Menú hamburguesa y menú móvil encontrados');
+        
+        // Eliminar cualquier event listener existente
+        const newMenuToggle = menuToggle.cloneNode(true);
+        menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+        
+        // Añadir nuevo event listener
+        newMenuToggle.onclick = function() {
+          console.log('Clic en menú hamburguesa');
+          mobileMenu.classList.toggle('hidden');
+          console.log('Menú móvil alternado - Estado actual:', mobileMenu.classList.contains('hidden') ? 'oculto' : 'visible');
+        };
+      } else {
+        console.error('Elementos del menú no encontrados:', 
+                    menuToggle ? 'Menú toggle OK' : 'Menú toggle NO ENCONTRADO', 
+                    mobileMenu ? 'Menú móvil OK' : 'Menú móvil NO ENCONTRADO');
+      }
+    };
+    
+    // Ejecutar inmediatamente y también cuando el DOM esté cargado
+    initHamburgerMenu();
+    
+    // Función para inicializar los botones flotantes
+    function initFloatingButtons() {
+      console.log('Inicializando botones flotantes');
+      
+      // Botón para volver arriba
+      const scrollTopBtn = document.getElementById('scroll-top');
+      if (scrollTopBtn) {
+        console.log('Botón scroll-top encontrado');
+        scrollTopBtn.onclick = function() {
+          console.log('Clic en botón scroll-top');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+      } else {
+        console.error('Botón scroll-top NO ENCONTRADO');
+      }
+      
+      // Botón para limpiar selección
+      const quickClearBtn = document.getElementById('quick-clear');
+      if (quickClearBtn) {
+        console.log('Botón quick-clear encontrado');
+        quickClearBtn.onclick = function() {
+          console.log('Clic en botón quick-clear');
+          selectedNeighborhoods = [];
+          updateCharts();
+          document.querySelectorAll('.neighborhood-card.selected').forEach(card => {
+            card.classList.remove('selected');
+          });
+        };
+      } else {
+        console.error('Botón quick-clear NO ENCONTRADO');
+      }
+    }
+    
+    // También inicializar cuando el DOM esté completamente cargado
+    document.addEventListener('DOMContentLoaded', function() {
+      // Volver a inicializar el menú hamburguesa cuando el DOM esté cargado
+      initHamburgerMenu();
+      
+      // Volver a inicializar los botones flotantes
+      initFloatingButtons();
+      
+      // Cerrar menú al hacer clic en un enlace
+      document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', function() {
+          const mobileMenu = document.getElementById('mobile-menu');
+          if (mobileMenu) {
+            mobileMenu.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Ejecutar optimizaciones para móviles al cargar y al cambiar el tamaño de la ventana
+    window.addEventListener('load', function() {
+      console.log('Ventana cargada - Optimizando para móviles');
+      optimizeForMobile();
+    });
+    
+    window.addEventListener('resize', optimizeForMobile);
+  </script>
+  <!-- Pie de página -->
+  <footer class="mt-12 py-6 border-t border-gray-200">
+    <div class="container mx-auto px-4">
+      <p class="text-center text-gray-600">
+        <span>Aldea Pucela - Contenido bajo licencia </span>
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" class="text-blue-500 hover:underline" target="_blank">
+          Creative Commons BY-SA 4.0
+        </a>
+      </p>
+    </div>
+  </footer>
+  <!-- Botones flotantes para acciones frecuentes -->
+  <div id="floating-buttons" class="fixed bottom-4 right-4 flex flex-col space-y-2 z-50">
+    <button id="scroll-top" class="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-blue-600 cursor-pointer" type="button" aria-label="Volver arriba">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
+    <button id="quick-clear" class="bg-red-200 text-red-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-red-300 cursor-pointer" type="button" aria-label="Limpiar selección">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+      </svg>
+    </button>
+  </div>
+  
+
+</body>
+</html>

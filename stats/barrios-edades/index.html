@@ -125,6 +125,7 @@
         <a href="#destacados" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Destacados</a>
         <a href="#comparacion" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Comparación</a>
         <a href="#barrios" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Lista de barrios</a>
+        <a href="#comments" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Comentarios</a>
       </div>
     </div>
     <!-- Menú desplegable para móviles -->
@@ -136,6 +137,7 @@
         <a href="#destacados" class="text-blue-600 hover:text-blue-800 text-sm font-medium py-1">Destacados</a>
         <a href="#comparacion" class="text-blue-600 hover:text-blue-800 text-sm font-medium py-1">Comparación</a>
         <a href="#barrios" class="text-blue-600 hover:text-blue-800 text-sm font-medium py-1">Lista de barrios</a>
+        <a href="#comments" class="text-blue-600 hover:text-blue-800 text-sm font-medium py-1">Comentarios</a>
       </div>
     </div>
   </nav>
@@ -255,6 +257,16 @@
     <div id="neighborhoods-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-8">
       <!-- Las tarjetas de barrios se generarán dinámicamente aquí -->
     </div>
+
+    <!-- Comentarios en el foro -->
+    <div id="comments" class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden p-6">
+      <h2 class="text-xl font-semibold text-primary mb-2">Comentarios</h2>
+      <div class="flex justify-between items-center mb-4">
+          <p class="text-sm text-gray-600">Déjanos tu opinión también</p>
+          <a href="https://foro.aldeapucela.com/t/299" class="text-sm text-aldeapucela hover:underline">Añadir comentario</a>
+      </div>
+      <div id='discourse-comments'></div>
+  </div>
   </div>
   
   <script>
@@ -1332,6 +1344,31 @@
         _paq.push(['setSiteId', '13']);
         var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
         g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+
+  <script type="text/javascript">
+    window.DiscourseEmbed = {
+    discourseUrl: 'https://foro.aldeapucela.com/', // Replace with your Discourse URL
+    topicId: 299
+    };
+
+    (function() {
+    var d = document.createElement('script');
+    d.type = 'text/javascript';
+    d.async = true;
+    d.src = window.DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
+
+    var head = document.getElementsByTagName('head')[0];
+    var body = document.getElementsByTagName('body')[0];
+
+    if (head) {
+        head.appendChild(d);
+    } else if (body) {
+        body.appendChild(d);
+    } else {
+        console.error('Neither <head> nor <body> elements found.');
+    }
     })();
   </script>
 </body>

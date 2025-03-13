@@ -23,6 +23,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <!-- Tailwind CSS para estilos -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   
   <style>
     body {
@@ -201,15 +203,27 @@
       <p class="text-gray-600 text-sm mt-2"><strong>Nota:</strong> Los datos del ayuntamiento se dividen en <a href="https://www.valladolid.es/es/temas/hacemos/observatorio-urbano-datos-estadisticos-ciudad/datos-estadisticos-temas/division-territorial-ciudad-mapas/division-zonas-estadisticas" target="_blank" class="text-blue-500 hover:underline">zonas estadísticas</a>, que puede no coincidir exactamente con la definición de barrios.</p>
     </div>
     
+    <!-- Botones centralizados para cambiar entre porcentajes y valores absolutos -->
+    <div class="flex justify-center items-center mb-6">
+      <div class="inline-flex bg-white shadow rounded-lg p-1">
+        <button id="view-percentage" class="px-4 py-2 bg-blue-500 text-white rounded-md mr-2 text-sm flex items-center">
+          <span class="text-lg font-bold mr-1">%</span>
+          Ver porcentajes
+        </button>
+        <button id="view-absolute" class="px-4 py-2 bg-gray-200 rounded-md text-sm flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+          </svg>
+          Ver valores absolutos
+        </button>
+      </div>
+    </div>
+    
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
       <div class="lg:col-span-2">
         <div class="chart-container">
           <div class="flex justify-between items-center mb-4">
             <h2 id="distribucion" class="text-xl font-bold">Distribución por grupos de edad</h2>
-            <div>
-              <button id="view-percentage" class="px-3 py-1 bg-blue-500 text-white rounded mr-2 text-sm">Ver Porcentajes</button>
-              <button id="view-absolute" class="px-3 py-1 bg-gray-200 rounded text-sm">Ver Valores Absolutos</button>
-            </div>
           </div>
           <canvas id="age-distribution-chart" height="300"></canvas>
         </div>
@@ -235,8 +249,14 @@
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
         <h2 id="comparacion" class="text-xl font-bold mb-2 sm:mb-0">Comparación entre barrios</h2>
         <div class="flex items-center">
-          <button id="clear-selection" class="px-3 py-1 bg-red-500 text-white rounded text-sm mr-2">Limpiar</button>
-          <button id="expand-chart" class="px-3 py-1 bg-blue-500 text-white rounded text-sm">Ampliar</button>
+          <button id="clear-selection" class="px-3 py-1 bg-red-400 text-white rounded text-sm mr-2 flex items-center">
+            <i data-lucide="eraser" class="h-4 w-4 mr-1"></i>
+            Limpiar
+          </button>
+          <button id="expand-chart" class="px-3 py-1 bg-blue-400 text-white rounded text-sm flex items-center">
+            <i data-lucide="maximize" class="h-4 w-4 mr-1"></i>
+            Ampliar
+          </button>
         </div>
       </div>
       <!-- Aumentar la altura en móviles -->
@@ -957,8 +977,8 @@
           
           card.innerHTML = `
             <h3 class="font-bold text-lg mb-2">${titlePrefix} ${group.name}</h3>
-            <p class="text-xl font-semibold">${topNeighborhood.name}</p>
-            <p class="text-3xl font-bold text-blue-600">${valueDisplay}</p>
+            <p class="text-large font-semibold">${topNeighborhood.name}</p>
+            <p class="text-large font-bold text-blue-600">${valueDisplay}</p>
             <p class="text-sm text-gray-600">Población total: ${topNeighborhood.total.toLocaleString()}</p>
           `;
           
@@ -1039,13 +1059,16 @@
         element.classList.add('fullscreen');
       }
       
-      button.textContent = 'Reducir';
+      // Update button content to show minimize icon
+      button.innerHTML = '<i data-lucide="minimize" class="h-4 w-4 mr-1"></i>Reducir';
+      // Reinitialize the icon
+      lucide.createIcons({selector: button.querySelector('[data-lucide="minimize"]')});
       document.body.style.overflow = 'hidden';
       
       // Añadir botón de cerrar
       const closeButton = document.createElement('button');
       closeButton.className = 'close-fullscreen-btn';
-      closeButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+      closeButton.innerHTML = '<i data-lucide="x" class="h-6 w-6"></i>';
       closeButton.setAttribute('aria-label', 'Cerrar pantalla completa');
       
       closeButton.addEventListener('click', function() {
@@ -1058,6 +1081,9 @@
       } else {
         element.appendChild(closeButton);
       }
+      
+      // Initialize the Lucide icon in the close button
+      lucide.createIcons({selector: closeButton.querySelector('[data-lucide="x"]')});
     }
     
     // Función para salir del modo pantalla completa
@@ -1086,7 +1112,10 @@
         }
       }
       
-      button.textContent = 'Ampliar';
+      // Update button content to show maximize icon
+      button.innerHTML = '<i data-lucide="maximize" class="h-4 w-4 mr-1"></i>Ampliar';
+      // Reinitialize the icon
+      lucide.createIcons({selector: button.querySelector('[data-lucide="maximize"]')});
       document.body.style.overflow = 'auto';
     }
 
@@ -1266,6 +1295,43 @@
         console.error('Botón scroll-top NO ENCONTRADO');
       }
       
+      // Botón para alternar entre porcentajes y valores absolutos
+      const toggleViewBtn = document.getElementById('toggle-view');
+      if (toggleViewBtn) {
+        console.log('Botón toggle-view encontrado');
+        toggleViewBtn.onclick = function() {
+          console.log('Clic en botón toggle-view');
+          // Cambiar el estado actual
+          isPercentageView = !isPercentageView;
+          
+          // Actualizar el botón flotante
+          if (isPercentageView) {
+            toggleViewBtn.innerHTML = '<span class="text-lg font-bold">%</span>';
+            // También actualizar los botones principales si existen
+            if (document.getElementById('view-percentage')) {
+              document.getElementById('view-percentage').classList.replace('bg-gray-200', 'bg-blue-500');
+              document.getElementById('view-percentage').classList.replace('text-gray-800', 'text-white');
+              document.getElementById('view-absolute').classList.replace('bg-blue-500', 'bg-gray-200');
+              document.getElementById('view-absolute').classList.replace('text-white', 'text-gray-800');
+            }
+          } else {
+            toggleViewBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" /></svg>';
+            // También actualizar los botones principales si existen
+            if (document.getElementById('view-absolute')) {
+              document.getElementById('view-absolute').classList.replace('bg-gray-200', 'bg-blue-500');
+              document.getElementById('view-absolute').classList.replace('text-gray-800', 'text-white');
+              document.getElementById('view-percentage').classList.replace('bg-blue-500', 'bg-gray-200');
+              document.getElementById('view-percentage').classList.replace('text-white', 'text-gray-800');
+            }
+          }
+          
+          // Actualizar los gráficos
+          updateCharts();
+        };
+      } else {
+        console.error('Botón toggle-view NO ENCONTRADO');
+      }
+      
       // Botón para limpiar selección
       const quickClearBtn = document.getElementById('quick-clear');
       if (quickClearBtn) {
@@ -1280,6 +1346,36 @@
         };
       } else {
         console.error('Botón quick-clear NO ENCONTRADO');
+      }
+      
+      // Botón para ir a la sección de barrios
+      const scrollToBarriosBtn = document.getElementById('scroll-to-barrios');
+      if (scrollToBarriosBtn) {
+        console.log('Botón scroll-to-barrios encontrado');
+        scrollToBarriosBtn.onclick = function() {
+          console.log('Clic en botón scroll-to-barrios');
+          const barriosSection = document.getElementById('barrios');
+          if (barriosSection) {
+            barriosSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        };
+      } else {
+        console.error('Botón scroll-to-barrios NO ENCONTRADO');
+      }
+      
+      // Botón para ir a la sección de comentarios
+      const scrollToCommentsBtn = document.getElementById('scroll-to-comments');
+      if (scrollToCommentsBtn) {
+        console.log('Botón scroll-to-comments encontrado');
+        scrollToCommentsBtn.onclick = function() {
+          console.log('Clic en botón scroll-to-comments');
+          const commentsSection = document.getElementById('comments');
+          if (commentsSection) {
+            commentsSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        };
+      } else {
+        console.error('Botón scroll-to-comments NO ENCONTRADO');
       }
     }
     
@@ -1328,10 +1424,17 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
       </svg>
     </button>
+    <button id="toggle-view" class="bg-blue-300 text-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-blue-600 cursor-pointer" type="button" aria-label="Cambiar entre porcentajes y valores absolutos">
+      <span class="text-lg font-bold">%</span>
+    </button>
     <button id="quick-clear" class="bg-red-200 text-red-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-red-300 cursor-pointer" type="button" aria-label="Limpiar selección">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-      </svg>
+      <i data-lucide="eraser" class="h-6 w-6"></i>
+    </button>
+    <button id="scroll-to-barrios" class="bg-green-200 text-green-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-green-300 cursor-pointer" type="button" aria-label="Ir a barrios">
+      <i data-lucide="building-2" class="h-6 w-6"></i>
+    </button>
+    <button id="scroll-to-comments" class="bg-purple-200 text-purple-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-purple-300 cursor-pointer" type="button" aria-label="Ir a comentarios">
+      <i data-lucide="message-circle-more" class="h-6 w-6"></i>
     </button>
   </div>
   
@@ -1373,6 +1476,13 @@
         console.error('Neither <head> nor <body> elements found.');
     }
     })();
+  </script>
+  
+  <!-- Initialize Lucide icons -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      lucide.createIcons();
+    });
   </script>
 </body>
 </html>

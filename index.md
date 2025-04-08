@@ -17,4 +17,4 @@ title: Aldea Pucela - La mayor comunidad vecinal online sobre Valladolid
 
 [<i data-lucide="info"></i> Normas de participación](/normas/){: .btn .normas }
 
-[<i data-lucide="bot"></i> Pucelo Bot en BlueSky](https://bsky.app/profile/pucelobot.aldeapucela.com){: .btn .bluesky }
+[<i data-lucide="bot"></i> Pucelo Bot en BlueSky](https://bsky.app/profile/pucelobot.aldeapucela.org){: .btn .bluesky }

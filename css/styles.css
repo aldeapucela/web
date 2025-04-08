@@ -51,9 +51,9 @@ body {
 }
 /* Estilo para el logo */
 .logo {
-  width: 100px;
-  border-radius: 50%;
-  margin-bottom: 10px;
+  width: 215px;
+  border-radius: 10%;
+  margin-bottom: 0;
 }
 /* Título principal */
 h1 {

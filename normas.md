@@ -9,9 +9,9 @@ slug: normas
 
 # Normas para la participación en la comunidad de "Aldea Pucela"
 
-[Grupo de Telegram](https://t.me/AldeaPucela) y [Foro](https://foro.aldeapucela.com/)
+[Grupo de Telegram](https://t.me/AldeaPucela) y [Foro](https://foro.aldeapucela.org/)
 
-**[Versión 1.1](https://aldeapucela.com/normas/) - Actualizada el 18 de febrero de 2025** 
+**[Versión 1.1](https://aldeapucela.org/normas/) - Actualizada el 18 de febrero de 2025** 
 
 * Indice
 {:toc .toc-level-3}

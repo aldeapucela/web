@@ -15,6 +15,8 @@ title: Aldea Pucela - La mayor comunidad vecinal online sobre Valladolid
 
 [<i data-lucide="megaphone"></i> Campañas vecinales](https://participa.aldeapucela.org){: .btn .participa }
 
+[<i data-lucide="camera"></i> Fotos de Valladolid](https://fotos.aldeapucela.org){: .btn .fotos }
+
 [<i data-lucide="info"></i> Normas de participación](/normas/){: .btn .normas }
 
 [<i data-lucide="bot"></i> Pucelo Bot en BlueSky](https://bsky.app/profile/pucelobot.aldeapucela.org){: .btn .bluesky }

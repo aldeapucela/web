@@ -120,8 +120,13 @@ color: #10314e;
   background: #e0b79b;
   color: #635043;
 }
+.integracion {
+  background: rgba(219, 118, 118, 0.76);
+  color: #122a3dc2;
+}
 .bluesky {
     background: #57b6ffc2;
     color: #122a3dc2;
     font-weight: normal;
 }
+

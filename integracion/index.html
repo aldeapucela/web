@@ -88,8 +88,20 @@
 </head>
 <body>
     <div class="loading">
-        <div class="spinner"></div>
-        <p>Redirigiendo...</p>
+        <div class="spinner" id="spinner"></div>
+        <p id="redirect-msg">Redirigiendo...</p>
+        <noscript>
+            <p><a href="https://foro.aldeapucela.org/t/plataforma-por-la-integracion-ferroviaria-de-valladolid/512">Ir al post del foro</a></p>
+        </noscript>
+        <p id="bot-forum-link" style="display:none;"><a href="https://foro.aldeapucela.org/t/plataforma-por-la-integracion-ferroviaria-de-valladolid/512">Ir al post del foro</a></p>
     </div>
+    <script>
+    // Mostrar enlace si es bot de red social
+    if (typeof isSocialBot !== 'undefined' && isSocialBot) {
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('redirect-msg').style.display = 'none';
+        document.getElementById('bot-forum-link').style.display = 'block';
+    }
+    </script>
 </body>
 </html>

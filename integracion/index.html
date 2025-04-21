@@ -33,11 +33,28 @@
     </script>
 
     <script>
-        // Esperar a que Matomo se cargue y registre la visita (500ms debería ser suficiente)
-        setTimeout(function() {
-            // URL de destino
-            window.location.href = 'https://foro.aldeapucela.org/t/plataforma-por-la-integracion-ferroviaria-de-valladolid/512';
-        }, 500);
+        // Lista de bots de redes sociales más comunes
+        var botUserAgents = [
+            /facebookexternalhit/i,
+            /Twitterbot/i,
+            /Slackbot-LinkExpanding/i,
+            /WhatsApp/i,
+            /TelegramBot/i,
+            /LinkedInBot/i,
+            /Discordbot/i,
+            /Googlebot/i,
+            /bingbot/i,
+            /Pinterest/i
+        ];
+        var isSocialBot = botUserAgents.some(function(rx) {
+            return rx.test(navigator.userAgent);
+        });
+        // Solo redirigir si NO es bot
+        if (!isSocialBot) {
+            setTimeout(function() {
+                window.location.href = 'https://foro.aldeapucela.org/t/plataforma-por-la-integracion-ferroviaria-de-valladolid/512';
+            }, 500);
+        }
     </script>
 
     <style>

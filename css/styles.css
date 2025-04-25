@@ -72,12 +72,13 @@ p {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 8px; /* Espaciado entre icono y texto */
+  gap: 3px; /* Espaciado entre icono y texto */
   font-weight: bold;
   padding: 12px;
   border-radius: 10px;
   text-decoration: none;
   width: 100%;
+  font-size: 0.84rem;
 }
 .btn i, #foro h2 i {
   width: 24px; /* Ancho fijo para los iconos */

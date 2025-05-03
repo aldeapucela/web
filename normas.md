@@ -11,7 +11,7 @@ slug: normas
 
 [Grupo de Telegram](https://t.me/AldeaPucela) y [Foro](https://foro.aldeapucela.org/)
 
-**[Versión 1.1](https://aldeapucela.org/normas/) - Actualizada el 18 de febrero de 2025** 
+**[Versión 1.1.2](https://aldeapucela.org/normas/) - Actualizada el 3 de mayo de 2025** 
 
 * Indice
 {:toc .toc-level-3}
@@ -172,7 +172,9 @@ Además, se considerará que todos los participantes que abusen del proceso de d
 
 ## Denuncias 
 
-Si crees que estás experimentando un comportamiento inaceptable que no será tolerado como se ha descrito anteriormente, por favor contacta con cualquiera de los admins para informar. Los informes son evaluados por el responsable de las normas para la participación en la comunidad. 
+Si crees que estás experimentando un comportamiento inaceptable que no será tolerado como se ha descrito anteriormente, por favor contacta con cualquiera de los admins para informar, puedes hacerlo desde el [siguiente formulario de reporte](https://aldeapucela.org/reportar/).
+
+Los informes son evaluados por el responsable de las normas para la participación en la comunidad. 
 
 Después de recibir una descripción concisa de la situación, se analizará y determinará las medidas pertinentes. Además de llevar a cabo una investigación, pueden ofrecerte diversos servicios, desde una consulta privada hasta otros servicios de la comunidad. Solo solicitarán la participación de otros colegas, incluidos los asesores legales, si es necesario para abordar la situación adecuadamente. 
 

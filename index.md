@@ -13,9 +13,11 @@ title: Aldea Pucela - La mayor comunidad vecinal online sobre Valladolid
 
 [<i data-lucide="podcast"></i> Grabaciones y podcasts](https://creators.spotify.com/pod/show/aldea-pucela){: .btn .podcast }
 
-[<i data-lucide="megaphone"></i> Campañas vecinales](https://participa.aldeapucela.org){: .btn .participa }
+[<i data-lucide="calendar"></i> Calendario de eventos](https://foro.aldeapucela.org/c/eventos/6){: .btn .eventos }
 
 [<i data-lucide="camera"></i> Fotos de Valladolid](https://fotos.aldeapucela.org){: .btn .fotos }
+
+[<i data-lucide="megaphone"></i> Campañas vecinales](https://participa.aldeapucela.org){: .btn .participa }
 
 [<i data-lucide="train-track"></i> Plataforma por la Integración](https://aldeapucela.org/integracion/){: .btn .integracion }
 

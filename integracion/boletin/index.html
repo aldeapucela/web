@@ -33,50 +33,7 @@
     </script>
 
     <!-- START - We recommend to place the below code in head tag of your website html  -->
-<style>
-    @font-face {
-      font-display: block;
-      font-family: Roboto;
-      src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/25c678feafdc175a70922a116c9be3e7.woff) format("woff")
-    }
-  
-    @font-face {
-      font-display: fallback;
-      font-family: Roboto;
-      font-weight: 600;
-      src: url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/6e9caeeafb1f3491be3e32744bc30440.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/71501f0d8d5aa95960f6475d5487d4c2.woff) format("woff")
-    }
-  
-    @font-face {
-      font-display: fallback;
-      font-family: Roboto;
-      font-weight: 700;
-      src: url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/3ef7cf158f310cf752d5ad08cd0e7e60.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/ece3a1d82f18b60bcce0211725c476aa.woff) format("woff")
-    }
-  
-    #sib-container input:-ms-input-placeholder {
-      text-align: left;
-      font-family: Helvetica, sans-serif;
-      color: #c0ccda;
-    }
-  
-    #sib-container input::placeholder {
-      text-align: left;
-      font-family: Helvetica, sans-serif;
-      color: #c0ccda;
-    }
-  
-    #sib-container textarea::placeholder {
-      text-align: left;
-      font-family: Helvetica, sans-serif;
-      color: #c0ccda;
-    }
-  
-    #sib-container a {
-      text-decoration: underline;
-      color: #2BB2FC;
-    }
-  </style>
+  <link rel="stylesheet" href="./boletin.css">
   <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
   <!--  END - We recommend to place the above code in head tag of your website html -->
 </head>
@@ -97,7 +54,7 @@
         </div>
       </div>
       <div></div>
-      <div id="success-message" class="sib-form-message-panel" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#085229; background-color:#e7faf0; border-radius:3px; border-color:#13ce66;max-width:540px;">
+      <div id="success-message" class="sib-form-message-panel sib-form-message-panel--success">
         <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
           <svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon">
             <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z" />
@@ -108,95 +65,84 @@
         </div>
       </div>
       <div></div>
-      <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center; background-color:rgba(255,255,255,1); max-width:540px; border-radius:3px; border-width:1px; border-color:#C0CCD9; border-style:solid; direction:ltr">
+      <div id="sib-container" class="sib-container--large sib-container--vertical sib-container-custom">
         <form id="sib-form" method="POST" action="https://sibforms.com/serve/MUIFAIOyhAzP4EMyAUPmszZwzdMLKhAnjpPtvWuNWmFroMRKOwvh_IxYRKXSAM_hDKGvDEi5pyk0rlj1NXWoxwcnHPd1SSvWc91Np9WKxuFAl1wr0p2rK2tiPTBfvbP9Iso5SsKuBnABGdYBh69suv31N1HcyXXjM8aay0N-ZZFba4RNwLVSgyIZIOJvjn_29Opg9-AzqErXfMfc" data-type="subscription">
-          <div style="padding: 8px 0;">
-            <div class="sib-form-block sib-image-form-block" style="text-align: center">
-              <img src="https://img.mailinblue.com/8704089/images/content_library/original/681c8a2248232c60367276bf.png" style="width: 250px;height: 250px;" alt="Logo boletín" title="Logo boletín" />
+          <div class="sib-form-padding">
+            <div class="sib-form-block sib-image-form-block sib-image-form-block--center">
+              <img src="https://img.mailinblue.com/8704089/images/content_library/original/681c8a2248232c60367276bf.png" class="boletin-logo" alt="Logo boletín" title="Logo boletín" />
             </div>
           </div>
-          <div style="padding: 8px 0;">
-            <div class="sib-form-block" style="font-size:18px; text-align:left; font-weight:700; font-family:Helvetica, sans-serif; color:#3C4858; background-color:transparent; text-align:left">
+          <div class="sib-form-padding">
+            <div class="sib-form-block sib-form-block--title">
               <p>Plataforma por la Integración Ferroviaria de Valladolid</p>
             </div>
           </div>
-          <div style="padding: 8px 0;">
-            <div class="sib-form-block" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#3C4858; background-color:transparent; text-align:left">
+          <div class="sib-form-padding">
+            <div class="sib-form-block sib-form-block--desc">
               <div class="sib-text-form-block">
                 <p>Suscríbete a nuestro boletín para recibir las novedades y actividades de <a href="https://aldeapucela.org/integracion/" target="_blank">la plataforma</a>.</p>
               </div>
             </div>
           </div>
-          <div style="padding: 8px 0;">
+          <div class="sib-form-padding">
             <div class="sib-input sib-form-block">
               <div class="form__entry entry_block">
                 <div class="form__label-row ">
-                  <label class="entry__label" style="font-weight: 700; text-align:left; font-size:16px; text-align:left; font-weight:700; font-family:Helvetica, sans-serif; color:#3c4858;" for="EMAIL" data-required="*">Tu email</label>
+                  <label class="entry__label entry__label--main" for="EMAIL" data-required="*">Tu email</label>
   
                   <div class="entry__field">
                     <input class="input " type="text" id="EMAIL" name="EMAIL" autocomplete="off" placeholder="EMAIL" data-required="true" required />
                   </div>
                 </div>
   
-                <label class="entry__error entry__error--primary" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
+                <label class="entry__error entry__error--primary entry__error--custom">
                 </label>
-                <label class="entry__specification" style="font-size:12px; text-align:left; font-family:Helvetica, sans-serif; color:#8390A4; text-align:left">
+                <label class="entry__specification entry__specification--custom">
                   Ej.: abc@xyz.com
                 </label>
               </div>
             </div>
           </div>
-          <div style="padding: 8px 0;">
+          <div class="sib-form-padding">
             <div class="sib-input sib-form-block">
               <div class="form__entry entry_block">
                 <div class="form__label-row ">
-                  <label class="entry__label" style="font-weight: 700; text-align:left; font-size:16px; text-align:left; font-weight:700; font-family:Helvetica, sans-serif; color:#3c4858;" for="FIRSTNAME">Tu nombre (opcional)</label>
+                  <label class="entry__label entry__label--main" for="FIRSTNAME">Tu nombre (opcional)</label>
   
                   <div class="entry__field">
                     <input class="input " maxlength="200" type="text" id="FIRSTNAME" name="FIRSTNAME" autocomplete="off" placeholder="Nombre" />
                   </div>
                 </div>
   
-                <label class="entry__error entry__error--primary" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
+                <label class="entry__error entry__error--primary entry__error--custom">
                 </label>
               </div>
             </div>
           </div>
-          <div style="padding: 8px 0;">
-            <div class="sib-captcha sib-form-block">
+          <div class="sib-form-padding">
+            <div class="sib-captcha sib-form-block sib-captcha--custom">
               <div class="form__entry entry_block">
                 <div class="form__label-row ">
-                  <script>
-                    function handleCaptchaResponse() {
-                      var event = new Event('captchaChange');
-                      document.getElementById('sib-captcha').dispatchEvent(event);
-                      window.grecaptcha = window.turnstile;
-                    }
-                  </script>
+                  
                   <div class="cf-turnstile g-recaptcha" data-sitekey="0x4AAAAAABbhntxCE9qPh5pr" id="sib-captcha" data-callback="handleCaptchaResponse" data-language="es"></div>
                 </div>
-                <label class="entry__error entry__error--primary" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
+                <label class="entry__error entry__error--primary entry__error--custom">
                 </label>
               </div>
             </div>
           </div>
-          <div style="padding: 8px 0;">
-            <div class="sib-form-block" style="text-align: center">
-              <button class="sib-form-block__button sib-form-block__button-with-loader" style="font-size:16px; text-align:center; font-weight:700; font-family:Helvetica, sans-serif; color:#FFFFFF; background-color:#3E4857; border-radius:3px; border-width:0px;" form="sib-form" type="submit">
-                <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512">
-                  <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" />
-                </svg>
-                SUSCRIBIRSE
-              </button>
+          <div class="sib-form-padding">
+            <div class="sib-form-block sib-form-block--center">
+              <button class="sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit">
+  SUSCRIBIRSE
+</button>
             </div>
           </div>
-          <div style="padding: 8px 0;">
-            <div class="sib-form-block sib-divider-form-block">
-              <div style="border: 0; border-bottom: 1px solid #E5EDF6"></div>
-            </div>
+          <div class="sib-form-padding">
+            <div class="sib-form-block sib-divider-form-block"><div class="sib-divider"></div></div>
           </div>
-          <div style="padding: 8px 0;">
-            <div class="sib-form__declaration" style="direction:ltr">
+          <div class="sib-form-padding">
+            <div class="sib-form__declaration sib-form__declaration--custom">
               <div class="declaration-block-icon">
                 <svg class="icon__SVG" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
                   <defs>
@@ -209,7 +155,7 @@
                   <use xlink:href="#svgIcon-sphere"></use>
                 </svg>
               </div>
-              <div style="font-size:14px; text-align:left; font-family:Helvetica, sans-serif; color:#687484; background-color:transparent;">
+              <div class="declaration-text">
                 <p>Usamos Brevo como plataforma de envío de emails. Al enviar este formulario, aceptas que los datos personales que proporcionaste se transferirán a Brevo para su procesamiento, de acuerdo con <a href="https://www.brevo.com/es/legal/privacypolicy/" target="_blank">la Política de privacidad de Brevo</a> y se usarán para enviarte información de la plataforma, pudiendo darte de baja en cualquier momento desde los enlaces al pie de estos emails.</p>
               </div>
             </div>
@@ -221,90 +167,22 @@
       </div>
     </div>
 
-    <!-- Bloque de últimos boletines publicados con estilo sib-container -->
-  <div id="boletin-listado" class="sib-container--large sib-container--vertical boletin-listado" style="text-align:center; background-color:rgba(255,255,255,1); max-width:540px; margin:32px auto 32px auto; border-radius:3px; border-width:1px; border-color:#C0CCD9; border-style:solid; direction:ltr; padding: 24px 16px;">
-    <h2 style="font-size: 22px; color: #3C4858; font-family: Helvetica, sans-serif; font-weight: 700; margin-bottom: 18px;">Últimos boletines publicados</h2>
-    <div id="temas" style="display: flex; flex-direction: column; gap: 16px; align-items: stretch; text-align: left; font-size: 16px; color: #3C4858; font-family: Helvetica, sans-serif;"></div>
-  </div>
-  <script>
-    fetch('https://tasks.nukeador.com/webhook/boletin-integracion')
-      .then(response => response.json())
-      .then(data => {
-        const temas = data.topic_list.topics;
-        const lista = document.getElementById('temas');
-        lista.innerHTML = '';
-        temas.forEach(t => {
-  const item = document.createElement('div');
-  item.className = 'boletin-item';
-  item.style.padding = '12px 0';
-  item.style.borderBottom = '1px solid #E5EDF6';
-  const link = document.createElement('a');
-  link.href = `https://foro.aldeapucela.org/t/${t.slug}/${t.id}`;
-  link.textContent = t.title;
-  link.style.color = '#2BB2FC';
-  link.style.textDecoration = 'underline';
-  link.style.fontWeight = '700';
-  link.style.fontSize = '18px';
-  link.style.fontFamily = 'Helvetica, sans-serif';
-  link.target = '_blank';
+    <div class="boletin-share-row">
+      <button id="share-btn" class="sib-form-block__button sib-form-block__button-with-loader" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-share-2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.42 6.51l-6.83 3.98"/></svg>
+      COMPARTIR BOLETÍN
+    </button>
+    </div>
 
-  // Añadir fecha si existe
-  let fecha = '';
-  if (t.created_at) {
-    const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-    const d = new Date(t.created_at);
-    fecha = `${d.getDate()} ${meses[d.getMonth()]} ${d.getFullYear()}`;
-  }
-  const spanFecha = document.createElement('span');
-  spanFecha.textContent = fecha ? ` — ${fecha}` : '';
-  spanFecha.style.fontWeight = 'normal';
-  spanFecha.style.fontSize = '15px';
-  spanFecha.style.color = '#687484';
-  spanFecha.style.marginLeft = '8px';
-
-  item.appendChild(link);
-  item.appendChild(spanFecha);
-  lista.appendChild(item);
-});
-      })
-      .catch(err => {
-        document.getElementById('temas').innerHTML = '<div style="color:#661d1d">No se pudieron cargar los temas.</div>';
-      });
-  </script>
-  <!-- END Bloque de últimos boletines publicados -->
+    <!-- Bloque de últimos boletines publicados -->
+    <div id="boletin-listado" class="sib-container--large sib-container--vertical boletin-listado sib-container-custom-listado">
+      <h2 class="boletin-listado-title">Últimos boletines publicados</h2>
+      <div id="temas" class="boletin-listado-temas"></div>
+    </div>
   </div>
-  <!-- END - We recommend to place the above code where you want the form in your website html  -->
-  
-  <!-- START - We recommend to place the below code in footer or bottom of your website html  -->
-  <script>
-    window.REQUIRED_CODE_ERROR_MESSAGE = 'Elija un código de país';
-    window.LOCALE = 'es';
-    window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "La información que has proporcionado no es válida. Comprueba el formato del campo e inténtalo de nuevo.";
-  
-    window.REQUIRED_ERROR_MESSAGE = "Este campo no puede estar vacío. ";
-  
-    window.GENERIC_INVALID_MESSAGE = "La información que has proporcionado no es válida. Comprueba el formato del campo e inténtalo de nuevo.";
-  
-  
-  
-  
-    window.translation = {
-      common: {
-        selectedList: '{quantity} lista seleccionada',
-        selectedLists: '{quantity} listas seleccionadas',
-        selectedOption: '{quantity} seleccionado',
-        selectedOptions: '{quantity} seleccionados',
-      }
-    };
-  
-    var AUTOHIDE = Boolean(0);
-  </script>
-  
+
+  <script src="./boletin.js"></script>
   <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
-  
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-
-  <!-- END - We recommend to place the above code in footer or bottom of your website html  -->
-  <!-- End Brevo Form -->
 </body>
 </html>

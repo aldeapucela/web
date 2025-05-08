@@ -124,7 +124,14 @@
               <div class="form__entry entry_block">
                 <div class="form__label-row ">
                   
-                  <div class="cf-turnstile g-recaptcha" data-sitekey="0x4AAAAAABbhntxCE9qPh5pr" id="sib-captcha" data-language="es"></div>
+                  <script>
+                  function handleCaptchaResponse() {
+                    var event = new Event('captchaChange');
+                    document.getElementById('sib-captcha').dispatchEvent(event);
+                    window.grecaptcha = window.turnstile;
+                  }
+                </script>
+                <div class="cf-turnstile g-recaptcha" data-sitekey="0x4AAAAAABbhntxCE9qPh5pr" id="sib-captcha" data-callback="handleCaptchaResponse" data-language="es"></div>
                 </div>
                 <label class="entry__error entry__error--primary entry__error--custom">
                 </label>

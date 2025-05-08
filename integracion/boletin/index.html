@@ -220,6 +220,58 @@
         </form>
       </div>
     </div>
+
+    <!-- Bloque de últimos boletines publicados con estilo sib-container -->
+  <div id="boletin-listado" class="sib-container--large sib-container--vertical boletin-listado" style="text-align:center; background-color:rgba(255,255,255,1); max-width:540px; margin:32px auto 32px auto; border-radius:3px; border-width:1px; border-color:#C0CCD9; border-style:solid; direction:ltr; padding: 24px 16px;">
+    <h2 style="font-size: 22px; color: #3C4858; font-family: Helvetica, sans-serif; font-weight: 700; margin-bottom: 18px;">Últimos boletines publicados</h2>
+    <div id="temas" style="display: flex; flex-direction: column; gap: 16px; align-items: stretch; text-align: left; font-size: 16px; color: #3C4858; font-family: Helvetica, sans-serif;"></div>
+  </div>
+  <script>
+    fetch('https://tasks.nukeador.com/webhook/boletin-integracion')
+      .then(response => response.json())
+      .then(data => {
+        const temas = data.topic_list.topics;
+        const lista = document.getElementById('temas');
+        lista.innerHTML = '';
+        temas.forEach(t => {
+  const item = document.createElement('div');
+  item.className = 'boletin-item';
+  item.style.padding = '12px 0';
+  item.style.borderBottom = '1px solid #E5EDF6';
+  const link = document.createElement('a');
+  link.href = `https://foro.aldeapucela.org/t/${t.slug}/${t.id}`;
+  link.textContent = t.title;
+  link.style.color = '#2BB2FC';
+  link.style.textDecoration = 'underline';
+  link.style.fontWeight = '700';
+  link.style.fontSize = '18px';
+  link.style.fontFamily = 'Helvetica, sans-serif';
+  link.target = '_blank';
+
+  // Añadir fecha si existe
+  let fecha = '';
+  if (t.created_at) {
+    const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    const d = new Date(t.created_at);
+    fecha = `${d.getDate()} ${meses[d.getMonth()]} ${d.getFullYear()}`;
+  }
+  const spanFecha = document.createElement('span');
+  spanFecha.textContent = fecha ? ` — ${fecha}` : '';
+  spanFecha.style.fontWeight = 'normal';
+  spanFecha.style.fontSize = '15px';
+  spanFecha.style.color = '#687484';
+  spanFecha.style.marginLeft = '8px';
+
+  item.appendChild(link);
+  item.appendChild(spanFecha);
+  lista.appendChild(item);
+});
+      })
+      .catch(err => {
+        document.getElementById('temas').innerHTML = '<div style="color:#661d1d">No se pudieron cargar los temas.</div>';
+      });
+  </script>
+  <!-- END Bloque de últimos boletines publicados -->
   </div>
   <!-- END - We recommend to place the above code where you want the form in your website html  -->
   
@@ -251,7 +303,7 @@
   <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
   
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-  
+
   <!-- END - We recommend to place the above code in footer or bottom of your website html  -->
   <!-- End Brevo Form -->
 </body>

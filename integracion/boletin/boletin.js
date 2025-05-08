@@ -1,5 +1,5 @@
 // JS principal para el boletín de integración
-// Incluye: carga de temas, mensajes, lógica de validación y botón compartir
+// Incluye: carga de temas, botón compartir
 
 document.addEventListener('DOMContentLoaded', function() {
   // --- Botón compartir (Web Share API + fallback) ---
@@ -86,20 +86,4 @@ document.addEventListener('DOMContentLoaded', function() {
         lista.innerHTML = '<div style="color:#661d1d">No se pudieron cargar los temas.</div>';
       }
     });
-
-  // --- Mensajes y validaciones globales (usados por el formulario) ---
-  window.REQUIRED_CODE_ERROR_MESSAGE = 'Elija un código de país';
-  window.LOCALE = 'es';
-  window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "La información que has proporcionado no es válida. Comprueba el formato del campo e inténtalo de nuevo.";
-  window.REQUIRED_ERROR_MESSAGE = "Este campo no puede estar vacío. ";
-  window.GENERIC_INVALID_MESSAGE = "La información que has proporcionado no es válida. Comprueba el formato del campo e inténtalo de nuevo.";
-  window.translation = {
-    common: {
-      selectedList: '{quantity} lista seleccionada',
-      selectedLists: '{quantity} listas seleccionadas',
-      selectedOption: '{quantity} seleccionado',
-      selectedOptions: '{quantity} seleccionados',
-    }
-  };
-  window.AUTOHIDE = Boolean(0);
 });

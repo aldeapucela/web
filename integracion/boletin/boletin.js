@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(response => response.json())
     .then(data => {
       const temas = data.topic_list.topics;
+      // Ordenar temas por fecha de más reciente a más antiguo
+      temas.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       const lista = document.getElementById('temas');
       if (!lista) return;
       lista.innerHTML = '';

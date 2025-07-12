@@ -142,8 +142,8 @@ function mostrarMapa(negocios) {
             telefonoHtml = `<div style='margin-bottom:7px;'><a href='tel:${n["Teléfono"]}' style='color:#786698;font-size:0.92rem;text-decoration:none;display:inline-flex;align-items:center;gap:4px;'><i class='fa-solid fa-phone' style='font-size:0.95em;color:#786698;'></i><span>${n["Teléfono"]}</span></a></div>`;
         }
         let fotoHtml = '';
-        if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.small?.signedPath) {
-            fotoHtml = `<img src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.small.signedPath}' alt='${n.Foto[0].title}' style='width:60px;height:60px;object-fit:cover;border-radius:0.5rem;border:2px solid #eee;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-left:12px;' />`;
+        if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.card_cover?.signedPath) {
+            fotoHtml = `<img src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.card_cover.signedPath}' alt='${n.Foto[0].title}' style='width:60px;height:60px;object-fit:cover;border-radius:0.5rem;border:2px solid #eee;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-left:12px;' loading='lazy' />`;
         }
         let popupHtml = `
             <div style='min-width:220px;max-width:340px;font-family:Segoe UI,Roboto,sans-serif;position:relative;padding-bottom:36px;'>
@@ -196,8 +196,8 @@ function mostrarTarjetas(negocios) {
     cont.innerHTML = '';
     ordenarPorFechaDesc(negocios).forEach(n => {
         let imgHtml = '';
-        if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.small?.signedPath) {
-            imgHtml = `<img class='w-full h-56 object-contain bg-gray-200' src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.small.signedPath}' alt='${n.Foto[0].title}' />`;
+        if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.card_cover?.signedPath) {
+            imgHtml = `<img class='w-full h-56 object-contain bg-gray-200' src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.card_cover.signedPath}' alt='${n.Foto[0].title}' loading='lazy' />`;
         } else {
             imgHtml = `<div class='w-full h-56 bg-gray-200 flex items-center justify-center text-gray-400'>${getCategoriaIcon(n.Categoría).replace('mr-1', 'text-5xl')}</div>`;
         }

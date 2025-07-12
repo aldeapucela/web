@@ -143,17 +143,20 @@ function mostrarMapa(negocios) {
             fotoHtml = `<img src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.small.signedPath}' alt='${n.Foto[0].title}' style='width:60px;height:60px;object-fit:cover;border-radius:0.5rem;border:2px solid #eee;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-left:12px;' />`;
         }
         let popupHtml = `
-            <div style='min-width:220px;max-width:340px;font-family:Segoe UI,Roboto,sans-serif;display:flex;flex-direction:row;align-items:flex-start;'>
-                <div style='flex:1 1 0%;min-width:0;'>
-                    <div style='font-size:1.1rem;font-weight:bold;color:#786698;margin-bottom:2px;'>${n.Nombre}</div>
-                    <div style='font-size:0.95rem;color:#786698;margin-bottom:6px;display:flex;align-items:center;gap:4px;'>${window.getCategoriaIcon(n.Categoría)} <span style='background:#ede7f6;color:#786698;border-radius:6px;padding:2px 8px;font-size:0.85rem;'>${n.Categoría}</span></div>
-                    <div style='font-size:0.95rem;color:#374151;margin-bottom:6px;'>${n.Descripción || ''}</div>
-                    ${n["Ventaja para comunidad"] ? `<div style='font-size:0.85rem;color:#059669;margin-bottom:6px;'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
-                    ${direccionHtml}
-                    ${telefonoHtml}
-                    ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<div style='margin-bottom:2px;'><a href='${n.Web}' target='_blank' style='color:#786698;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a></div>`; } catch { return ''; } })() : ''}
+            <div style='min-width:220px;max-width:340px;font-family:Segoe UI,Roboto,sans-serif;position:relative;padding-bottom:36px;'>
+                <div style='display:flex;flex-direction:row;align-items:flex-start;'>
+                    <div style='flex:1 1 0%;min-width:0;'>
+                        <a href='#${n.Id}' style='color:#786698;font-weight:bold;text-decoration:none;'>${n.Nombre}</a>
+                        <div style='font-size:0.95rem;color:#786698;margin-bottom:6px;display:flex;align-items:center;gap:4px;'>${window.getCategoriaIcon(n.Categoría)} <span style='background:#ede7f6;color:#786698;border-radius:6px;padding:2px 8px;font-size:0.85rem;'>${n.Categoría}</span></div>
+                        <div style='font-size:0.95rem;color:#374151;margin-bottom:6px;'>${n.Descripción || ''}</div>
+                        ${n["Ventaja para comunidad"] ? `<div style='font-size:0.85rem;color:#059669;margin-bottom:6px;'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
+                        ${direccionHtml}
+                        ${telefonoHtml}
+                        ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<div style='margin-bottom:2px;'><a href='${n.Web}' target='_blank' style='color:#786698;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a></div>`; } catch { return ''; } })() : ''}
+                    </div>
+                    ${fotoHtml}
                 </div>
-                ${fotoHtml}
+                <button class='text-[#786698] hover:text-[#5e507a] focus:outline-none' style='background:none;border:none;cursor:pointer;position:absolute;right:10px;bottom:8px;z-index:10;' title='Compartir' onclick='compartirNegocio(event, "${n.Id}", "${n.Nombre}")'><i class="fa-solid fa-share-nodes fa-lg"></i></button>
             </div>
         `;
         marker.bindPopup(popupHtml);
@@ -221,23 +224,26 @@ function mostrarTarjetas(negocios) {
                 ${imgHtml}
                 <div class='flex-1 flex flex-col gap-1 p-4'>
                     <div class='flex items-center gap-2 mb-1'>
-                        <span class='text-lg font-bold' style='color:#786698;'>${n.Nombre}</span>
-                        <span class='flex items-center gap-1 bg-[#ede7f6] text-[#786698] rounded px-2 py-0.5' style='font-size:0.85rem;'>
-                            ${getCategoriaIcon(n.Categoría)}
-                            <span style='font-size:0.85rem;'>${n.Categoría}</span>
-                        </span>
-                    </div>
-                    <div class='text-gray-700 text-sm mb-1'>${n.Descripción || ''}</div>
-                    ${n["Ventaja para comunidad"] ? `<div class='text-green-700 text-xs mb-1'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
-                    <div class='flex justify-between items-center border-t pt-3 mt-2 gap-2'>
-                        <div class='flex flex-col flex-1 min-w-0'>
-                            ${direccionHtml}
-                        </div>
-                        <div class='flex-shrink-0 flex flex-col items-end justify-end'>
-                            ${telefonoHtml}
-                            ${webHtml}
-                        </div>
-                    </div>
+    <a href='#${n.Id}' class='text-lg font-bold hover:text-[#5e507a]' style='color:#786698;text-decoration:none;'>${n.Nombre}</a>
+    <span class='flex items-center gap-1 bg-[#ede7f6] text-[#786698] rounded px-2 py-0.5' style='font-size:0.85rem;'>
+        ${getCategoriaIcon(n.Categoría)}
+        <span style='font-size:0.85rem;'>${n.Categoría}</span>
+    </span>
+</div>
+<div class='text-gray-700 text-sm mb-1'>${n.Descripción || ''}</div>
+${n["Ventaja para comunidad"] ? `<div class='text-green-700 text-xs mb-1'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
+<div class='flex justify-end'>
+    <button class='mt-1 mb-1 text-[#786698] hover:text-[#5e507a] focus:outline-none' style='background:none;border:none;cursor:pointer;' title='Compartir' onclick='compartirNegocio(event, "${n.Id}", "${n.Nombre}")'><i class="fa-solid fa-share-nodes fa-lg"></i></button>
+</div>
+<div class='flex justify-between items-center border-t pt-3 mt-2 gap-2'>
+    <div class='flex flex-col flex-1 min-w-0'>
+        ${direccionHtml}
+    </div>
+    <div class='flex-shrink-0 flex flex-col items-end justify-end'>
+        ${telefonoHtml}
+        ${webHtml}
+    </div>
+</div>
                 </div>
             </div>
         `;
@@ -282,7 +288,7 @@ function mostrarTabla(negocios) {
             telefonoHtml = `<a href='tel:${n["Teléfono"]}' class='flex items-center font-medium' style='color:#786698;text-decoration:none;font-size:0.92rem;'><i class='fa-solid fa-phone mr-1' style='color:#786698;font-size:0.95em;'></i>${n["Teléfono"]}</a>`;
         }
         html += `<tr class='border-b last:border-b-0'>
-            <td class='px-4 py-2 font-semibold' style='color:#786698;'>${n.Nombre}</td>
+            <td class='px-4 py-2 font-semibold' style='color:#786698;'>${n.Id ? `<a href='#${n.Id}' style='color:#786698;text-decoration:none;'>${n.Nombre}</a>` : n.Nombre}</td>
             <td class='px-4 py-2'><span class='bg-[#ede7f6] text-[#786698] rounded px-2 py-0.5 text-xs flex items-center'>${getCategoriaIcon(n.Categoría)}${n.Categoría}</span></td>
             <td class='px-4 py-2'>${n.Descripción || ''}</td>
             <td class='px-4 py-2 text-green-700 text-xs'>${n["Ventaja para comunidad"] || ''}</td>
@@ -309,5 +315,28 @@ document.getElementById('listViewBtn').onclick = function() {
     document.getElementById('negocio-table-container').style.display = '';
 };
 
+// --- Navegación por hash para mostrar/enfocar negocio individual ---
+function handleNegocioHash() {
+    const hash = window.location.hash;
+    const match = hash.match(/^#(\d+)$/);
+    if (match) {
+        const id = match[1];
+        const negocio = negociosData.find(n => String(n.Id) === id);
+        if (negocio) {
+            mostrarMapa([negocio]);
+            mostrarTarjetas([negocio]);
+            mostrarTabla([negocio]);
+            return;
+        }
+    }
+    // Si no hay hash válido, muestra todo
+    mostrarMapa(negociosData);
+    mostrarTarjetas(negociosData);
+    mostrarTabla(negociosData);
+}
+window.addEventListener('hashchange', handleNegocioHash);
+
 // --- Inicialización principal ---
-cargarNegocios();
+cargarNegocios().then(() => {
+    handleNegocioHash();
+});

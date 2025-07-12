@@ -48,9 +48,9 @@ async function cargarNegocios() {
 function renderTipoDropdown(negocios) {
     const dropdown = document.getElementById('filterTypeDropdown');
     const tipos = Array.from(new Set(negocios.map(n => n.Categoría).filter(Boolean))).sort();
-    let html = `<button class='w-full text-left px-4 py-2 hover:bg-blue-50' data-tipo=''>Todos los tipos</button>`;
+    let html = `<button class='w-full text-left px-4 py-2 text-[#786698]' data-tipo=''>Todos los tipos</button>`;
     tipos.forEach(tipo => {
-        html += `<button class='w-full text-left px-4 py-2 hover:bg-blue-50' data-tipo="${tipo}">${tipo}</button>`;
+        html += `<button class='w-full text-left px-4 py-2 text-[#786698]' data-tipo="${tipo}">${tipo}</button>`;
     });
     dropdown.innerHTML = html;
     dropdown.querySelectorAll('button').forEach(btn => {
@@ -143,25 +143,31 @@ function mostrarMapa(negocios) {
         }
         let fotoHtml = '';
         if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.card_cover?.signedPath) {
-            fotoHtml = `<img src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.card_cover.signedPath}' alt='${n.Foto[0].title}' style='width:60px;height:60px;object-fit:cover;border-radius:0.5rem;border:2px solid #eee;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-left:12px;' loading='lazy' />`;
+            fotoHtml = `<a href='#${n.Id}'><img src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.card_cover.signedPath}' alt='${n.Foto[0].title}' style='width:60px;height:60px;object-fit:cover;border-radius:0.5rem;border:2px solid #eee;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-left:12px;' loading='lazy' /></a>`;
         }
         let popupHtml = `
-            <div style='min-width:220px;max-width:340px;font-family:Segoe UI,Roboto,sans-serif;position:relative;padding-bottom:36px;'>
-                <div style='display:flex;flex-direction:row;align-items:flex-start;'>
-                    <div style='flex:1 1 0%;min-width:0;'>
-                        <a href='#${n.Id}' style='color:#786698;font-weight:bold;text-decoration:none;'>${n.Nombre}</a>
-                        <div style='font-size:0.95rem;color:#786698;margin-bottom:6px;display:flex;align-items:center;gap:4px;'>${window.getCategoriaIcon(n.Categoría)} <span style='background:#ede7f6;color:#786698;border-radius:6px;padding:2px 8px;font-size:0.85rem;'>${n.Categoría}</span></div>
-                        <div style='font-size:0.95rem;color:#374151;margin-bottom:6px;'>${n.Descripción || ''}</div>
-                        ${n["Ventaja para comunidad"] ? `<div style='font-size:0.85rem;color:#059669;margin-bottom:6px;'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
-                        ${direccionHtml}
-                        ${telefonoHtml}
-                        ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<div style='margin-bottom:2px;'><a href='${n.Web}' target='_blank' style='color:#786698;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a></div>`; } catch { return ''; } })() : ''}
-                    </div>
-                    ${fotoHtml}
-                </div>
-                <button class='text-[#786698] hover:text-[#5e507a] focus:outline-none' style='background:none;border:none;cursor:pointer;position:absolute;right:10px;bottom:8px;z-index:10;' title='Compartir' onclick='compartirNegocio(event, "${n.Id}", "${n.Nombre}")'><i class="fa-solid fa-share-nodes fa-lg"></i></button>
+    <div class="min-w-[220px] max-w-[340px] font-sans relative pb-9">
+        <div class="flex flex-row items-start">
+            <div class="flex-1 min-w-0">
+                <a href="#${n.Id}" class="text-[#786698] font-bold no-underline hover:underline text-xl leading-tight mb-4 block">${n.Nombre}</a>
+<div class="text-[0.95rem] text-[#786698] mb-2 flex items-center gap-1">
+    <span class="text-[#786698]">${window.getCategoriaIcon(n.Categoría)}</span>
+    <span class="bg-[#ede7f6] text-[#786698] rounded-[6px] px-2 py-0.5 text-[0.85rem]">${n.Categoría}</span>
+</div>
+                <div class="text-[0.95rem] text-gray-700 mb-1.5">${n.Descripción || ''}</div>
+                ${n["Ventaja para comunidad"] ? `<div class="text-[0.85rem] text-emerald-600 mb-1.5 flex items-center"><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
+                ${direccionHtml}
+                <div class="absolute bottom-2 right-2 flex items-center gap-3 z-10 text-[#786698]">
+    ${n["Teléfono"] ? `<a href='tel:${n["Teléfono"]}' title='Llamar' class="no-underline inline-flex items-center justify-center w-8 h-8 hover:text-[#5e507a]" style="color:inherit;"><i class='fa-solid fa-phone fa-lg'></i></a>` : ''}
+    ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<a href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow' title='Web' class="no-underline inline-flex items-center justify-center w-8 h-8 hover:text-[#5e507a]" style="color:inherit;"><i class='fa fa-globe fa-lg'></i></a>`; } catch { return ''; } })() : ''}
+    <button class="hover:text-[#5e507a] focus:outline-none bg-none border-none cursor-pointer inline-flex items-center justify-center w-8 h-8" style="color:inherit;" title="Compartir" onclick='compartirNegocio(event, "${n.Id}", "${n.Nombre}")'><i class="fa-solid fa-share-nodes fa-lg"></i></button>
+</div>
             </div>
-        `;
+            ${fotoHtml}
+        </div>
+    </div>
+`;
+
         marker.bindPopup(popupHtml);
     });
     if (negociosConCoords.length) {
@@ -204,10 +210,10 @@ function mostrarTarjetas(negocios) {
         // Dirección con icono y enlace geo
         let direccionHtml = '';
         if (n.latitud && n.longitud) {
-            const direccionTxt = `${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})`;
+            const direccionTxt = `${n.Vía || ''} ${n["Número"] || ''} - ${n.Municipio || ''}`;
             direccionHtml = `<a href='geo:${n.latitud},${n.longitud}' style='color:#786698;text-decoration:none;display:flex;align-items:center;font-size:0.95rem;' target='_blank'><i class='fa-solid fa-location-dot mr-1' style='color:#786698;font-size:0.95em;'></i>${direccionTxt}</a>`;
         } else {
-            direccionHtml = `<span class='flex items-center text-gray-700' style='font-size:0.95rem;'><i class='fa-solid fa-location-dot mr-1' style='color:#786698;font-size:0.95em;'></i> ${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})</span>`;
+            direccionHtml = `<span class='flex items-center text-gray-700' style='font-size:0.95rem;'><i class='fa-solid fa-location-dot mr-1' style='color:#786698;font-size:0.95em;'></i> ${n.Vía || ''} ${n["Número"] || ''} - ${n.Municipio || ''}</span>`;
         }
         // Teléfono con icono y enlace tel: (color base #786698, tamaño pequeño, justo encima de la web)
         let telefonoHtml = '';
@@ -235,17 +241,13 @@ function mostrarTarjetas(negocios) {
 </div>
 <div class='text-gray-700 text-sm mb-1'>${n.Descripción || ''}</div>
 ${n["Ventaja para comunidad"] ? `<div class='text-green-700 text-xs mb-1'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
-<div class='flex justify-end'>
-    <button class='mt-1 mb-1 text-[#786698] hover:text-[#5e507a] focus:outline-none' style='background:none;border:none;cursor:pointer;' title='Compartir' onclick='compartirNegocio(event, "${n.Id}", "${n.Nombre}")'><i class="fa-solid fa-share-nodes fa-lg"></i></button>
-</div>
-<div class='flex justify-between items-center border-t pt-3 mt-2 gap-2'>
-    <div class='flex flex-col flex-1 min-w-0'>
-        ${direccionHtml}
+<div class="flex items-center gap-5 border-t pt-3 mt-2 w-full">
+    <div class='flex flex-1 items-center min-w-0'>
+        <span class='truncate text-[0.97rem] text-[#786698] flex items-center'>${direccionHtml}</span>
     </div>
-    <div class='flex-shrink-0 flex flex-col items-end justify-end'>
-        ${telefonoHtml}
-        ${webHtml}
-    </div>
+    ${n["Teléfono"] ? `<a href='tel:${n["Teléfono"]}' title='Llamar' class="no-underline inline-flex items-center justify-center w-8 h-8 hover:text-[#5e507a] text-[#786698]"><i class='fa-solid fa-phone fa-lg' style='color:inherit;'></i></a>` : ''}
+    ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<a href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow' title='Web' class="no-underline inline-flex items-center justify-center w-8 h-8 hover:text-[#5e507a] text-[#786698]"><i class='fa fa-globe fa-lg' style='color:inherit;'></i></a>`; } catch { return ''; } })() : ''}
+    <button class="hover:text-[#5e507a] focus:outline-none bg-none border-none cursor-pointer inline-flex items-center justify-center w-8 h-8 text-[#786698]" title="Compartir" onclick='compartirNegocio(event, "${n.Id}", "${n.Nombre}")'><i class="fa-solid fa-share-nodes fa-lg" style='color:inherit;'></i></button>
 </div>
                 </div>
             </div>

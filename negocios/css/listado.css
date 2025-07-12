@@ -10,7 +10,6 @@ h1 {
 #map { height: 300px; width: 100%; margin-bottom: 1.5em; border-radius: 10px; box-shadow: 0 2px 8px #ccc; }
 .switch-view { display: flex; justify-content: center; align-items: center; margin-bottom: 1em; gap: 1em; flex-wrap: wrap; }
 .switch-btn { background: #fff; border: 1px solid #ccc; border-radius: 20px; padding: 0.5em 1.2em; cursor: pointer; font-size: 1em; transition: background 0.2s; }
-.switch-btn.active { background: #007bff; color: #fff; border-color: #007bff; }
 .negocio-list { max-width: 900px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 1.5em; }
 .negocio-card {
     background: #fff;
@@ -78,7 +77,6 @@ h1 {
     margin: 0;
 }
 .negocio-web {
-    color: #007bff;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -89,7 +87,7 @@ h1 {
     color: #888;
 }
 .fa-globe {
-    color: #007bff;
+    color: inherit !important;
     margin-right: 0.3em;
 }
 #float-btn {
@@ -97,7 +95,6 @@ h1 {
     bottom: 24px;
     right: 24px;
     z-index: 1000;
-    background: #3b82f6;
     color: #fff;
     font-size: 2.2rem;
     width: 48px;
@@ -110,9 +107,20 @@ h1 {
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     transition: background 0.2s;
 }
-#float-btn:hover {
-    background: #2563eb;
+
+.leaflet-popup-content a {
+    color: #786698;
+    text-decoration: none;
 }
+
+.negocio-card .fa,
+.negocio-card .fa-solid,
+.negocio-card .fa-globe,
+.negocio-card .fa-phone,
+.negocio-card .fa-share-nodes {
+    color: #786698 !important;
+}
+
 /* Header principal fijo arriba */
 .header-principal {
     position: sticky;

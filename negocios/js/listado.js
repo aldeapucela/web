@@ -330,7 +330,11 @@ function handleNegocioHash() {
         if (negocio) {
             mostrarMapa([negocio]);
             mostrarTarjetas([negocio]);
-            mostrarTabla([negocio]);
+            // Forzar modo tarjeta visualmente
+            document.getElementById('cardViewBtn').classList.add('active');
+            document.getElementById('listViewBtn').classList.remove('active');
+            document.getElementById('negocio-list').style.display = '';
+            document.getElementById('negocio-table-container').style.display = 'none';
             return;
         }
     }
@@ -338,6 +342,8 @@ function handleNegocioHash() {
     mostrarMapa(negociosData);
     mostrarTarjetas(negociosData);
     mostrarTabla(negociosData);
+    // Restaurar visualización según el último botón
+    // (No se fuerza nada aquí, se mantiene el comportamiento actual)
 }
 window.addEventListener('hashchange', handleNegocioHash);
 

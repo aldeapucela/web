@@ -129,18 +129,18 @@ function mostrarMapa(negocios) {
         let direccionHtml = '';
         const direccionTxt = `${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})`;
         if (n.latitud && n.longitud) {
-            direccionHtml = `<a href='geo:${n.latitud},${n.longitud}' style='color:#786698;text-decoration:none;display:inline-flex;align-items:center;font-size:0.85rem;' target='_blank'><i class='fa-solid fa-location-dot mr-1'></i>${direccionTxt}</a>`;
+            direccionHtml = `<a href='geo:${n.latitud},${n.longitud}' style='color:#786698;text-decoration:none;display:inline-flex;align-items:center;font-size:0.95rem;margin-bottom:7px;' target='_blank'><i class='fa-solid fa-location-dot mr-1' style='color:#786698;font-size:0.95em;'></i>${direccionTxt}</a>`;
         } else {
-            direccionHtml = `<span class='flex items-center text-gray-700' style='font-size:0.85rem;'><i class='fa-solid fa-location-dot mr-1'></i>${direccionTxt}</span>`;
-        }
-        let fotoHtml = '';
-        if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.small?.signedPath) {
-            fotoHtml = `<img src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.small.signedPath}' alt='${n.Foto[0].title}' style='width:60px;height:60px;object-fit:cover;border-radius:0.5rem;border:2px solid #eee;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-left:12px;' />`;
+            direccionHtml = `<span class='flex items-center text-gray-700' style='font-size:0.95rem;margin-bottom:7px;'><i class='fa-solid fa-location-dot mr-1' style='color:#786698;font-size:0.95em;'></i>${direccionTxt}</span>`;
         }
         // Teléfono para el popup
         let telefonoHtml = '';
         if (n["Teléfono"]) {
-            telefonoHtml = `<div style='margin:2px 0;'><a href='tel:${n["Teléfono"]}' style='color:#786698;font-size:0.92rem;text-decoration:none;display:inline-flex;align-items:center;gap:4px;'><i class='fa-solid fa-phone' style='font-size:0.95em;color:#786698;'></i><span>${n["Teléfono"]}</span></a></div>`;
+            telefonoHtml = `<div style='margin-bottom:7px;'><a href='tel:${n["Teléfono"]}' style='color:#786698;font-size:0.92rem;text-decoration:none;display:inline-flex;align-items:center;gap:4px;'><i class='fa-solid fa-phone' style='font-size:0.95em;color:#786698;'></i><span>${n["Teléfono"]}</span></a></div>`;
+        }
+        let fotoHtml = '';
+        if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.small?.signedPath) {
+            fotoHtml = `<img src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.small.signedPath}' alt='${n.Foto[0].title}' style='width:60px;height:60px;object-fit:cover;border-radius:0.5rem;border:2px solid #eee;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-left:12px;' />`;
         }
         let popupHtml = `
             <div style='min-width:220px;max-width:340px;font-family:Segoe UI,Roboto,sans-serif;display:flex;flex-direction:row;align-items:flex-start;'>
@@ -149,9 +149,9 @@ function mostrarMapa(negocios) {
                     <div style='font-size:0.95rem;color:#786698;margin-bottom:6px;display:flex;align-items:center;gap:4px;'>${window.getCategoriaIcon(n.Categoría)} <span style='background:#ede7f6;color:#786698;border-radius:6px;padding:2px 8px;font-size:0.85rem;'>${n.Categoría}</span></div>
                     <div style='font-size:0.95rem;color:#374151;margin-bottom:6px;'>${n.Descripción || ''}</div>
                     ${n["Ventaja para comunidad"] ? `<div style='font-size:0.85rem;color:#059669;margin-bottom:6px;'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
-                    <div style='font-size:0.85rem;display:flex;align-items:center;margin-top:4px;'>${direccionHtml}</div>
+                    ${direccionHtml}
                     ${telefonoHtml}
-                    ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<div style='margin-top:4px;'><a href='${n.Web}' target='_blank' style='color:#786698;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a></div>`; } catch { return ''; } })() : ''}
+                    ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<div style='margin-bottom:2px;'><a href='${n.Web}' target='_blank' style='color:#786698;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a></div>`; } catch { return ''; } })() : ''}
                 </div>
                 ${fotoHtml}
             </div>

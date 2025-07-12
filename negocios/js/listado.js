@@ -1,0 +1,292 @@
+// listado.js - Lógica de la página de negocios locales de Valladolid
+// Aldea Pucela - https://aldeapucela.org
+// Última actualización: 2025-07-12
+
+// --- Variables globales ---
+let negociosData = []; // Array con todos los negocios cargados
+let tipoFiltro = null; // Categoría seleccionada para filtrar
+let mapInstance = null; // Instancia de Leaflet para el mapa
+
+/**
+ * Lee el parámetro 'categoria' de la URL y lo valida contra las categorías existentes.
+ * @returns {string|null} Nombre de la categoría válida o null si no hay filtro válido.
+ */
+function getCategoriaFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    let cat = params.get('categoria');
+    if (!cat) return null;
+    // Normaliza y valida contra las categorías existentes
+    cat = cat.trim().toLowerCase();
+    const match = window.categorias.find(c => c.nombre.toLowerCase() === cat);
+    return match ? match.nombre : null;
+}
+
+/**
+ * Carga los negocios desde la API, inicializa el filtro y renderiza todo.
+ */
+async function cargarNegocios() {
+    const url = 'https://tasks.nukeador.com/webhook/negocios-json';
+    const resp = await fetch(url);
+    const negocios = await resp.json();
+    negociosData = negocios;
+    renderTipoDropdown(negocios);
+    // Filtro automático por categoría desde la URL
+    const urlCategoria = getCategoriaFromUrl();
+    if (urlCategoria) {
+        tipoFiltro = urlCategoria;
+        document.getElementById('filterTypeLabel').textContent = tipoFiltro;
+    }
+    mostrarMapa(negociosData.filter(n => !tipoFiltro || n.Categoría === tipoFiltro));
+    mostrarTarjetas(negociosData.filter(n => !tipoFiltro || n.Categoría === tipoFiltro));
+    mostrarTabla(negociosData.filter(n => !tipoFiltro || n.Categoría === tipoFiltro));
+}
+
+/**
+ * Renderiza el desplegable de categorías y gestiona el filtro y la URL.
+ * @param {Array} negocios - Lista de negocios para extraer categorías.
+ */
+function renderTipoDropdown(negocios) {
+    const dropdown = document.getElementById('filterTypeDropdown');
+    const tipos = Array.from(new Set(negocios.map(n => n.Categoría).filter(Boolean))).sort();
+    let html = `<button class='w-full text-left px-4 py-2 hover:bg-blue-50' data-tipo=''>Todos los tipos</button>`;
+    tipos.forEach(tipo => {
+        html += `<button class='w-full text-left px-4 py-2 hover:bg-blue-50' data-tipo="${tipo}">${tipo}</button>`;
+    });
+    dropdown.innerHTML = html;
+    dropdown.querySelectorAll('button').forEach(btn => {
+        btn.onclick = function() {
+            tipoFiltro = this.getAttribute('data-tipo') || null;
+            document.getElementById('filterTypeLabel').textContent = tipoFiltro || 'Filtrar tipo';
+            dropdown.classList.add('hidden');
+            // --- Actualiza la URL para compartir el filtro ---
+            const url = new URL(window.location);
+            if (tipoFiltro) {
+                url.searchParams.set('categoria', tipoFiltro);
+            } else {
+                url.searchParams.delete('categoria');
+            }
+            window.history.replaceState({}, '', url);
+            filtrarYMostrar();
+        };
+    });
+}
+
+// --- Gestión de apertura/cierre del desplegable de filtro ---
+document.getElementById('filterTypeBtn').onclick = function(e) {
+    e.stopPropagation();
+    const dropdown = document.getElementById('filterTypeDropdown');
+    dropdown.classList.toggle('hidden');
+};
+document.addEventListener('click', function(e) {
+    document.getElementById('filterTypeDropdown').classList.add('hidden');
+});
+
+/**
+ * Aplica el filtro seleccionado y renderiza mapa, tarjetas y tabla.
+ */
+function filtrarYMostrar() {
+    let negocios = negociosData;
+    if (tipoFiltro) {
+        negocios = negocios.filter(n => n.Categoría === tipoFiltro);
+    }
+    mostrarMapa(negocios);
+    mostrarTarjetas(negocios);
+    mostrarTabla(negocios);
+}
+
+/**
+ * Muestra el mapa con los negocios (Leaflet), usando iconos personalizados y popups bonitos.
+ * @param {Array} negocios - Lista de negocios a mostrar en el mapa.
+ */
+function mostrarMapa(negocios) {
+    const negociosConCoords = negocios.filter(n => n.latitud && n.longitud);
+    if (mapInstance) {
+        mapInstance.remove();
+    }
+    mapInstance = L.map('map').setView([41.6526576, -4.728556], 13);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd'
+    }).addTo(mapInstance);
+    negociosConCoords.forEach(n => {
+        // Icono tipo pin con FontAwesome y fondo rgb(120,102,152), tamaño reducido
+        const iconHtml = `
+        <div style="position:relative;width:32px;height:40px;display:flex;align-items:center;justify-content:center;">
+            <div style="background:rgb(120,102,152);color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.15rem;box-shadow:0 2px 8px rgba(0,0,0,0.10);z-index:1;">
+                <span style='filter:drop-shadow(0 1px 1px rgba(0,0,0,0.10));'>${window.getCategoriaIcon(n.Categoría).replace("mr-1", "")}</span>
+            </div>
+            <div style="position:absolute;left:50%;top:32px;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid rgb(120,102,152);"></div>
+        </div>`;
+        const markerIcon = L.divIcon({
+            html: iconHtml,
+            className: '',
+            iconSize: [32, 40],
+            iconAnchor: [16, 40],
+            popupAnchor: [0, -40]
+        });
+        const marker = L.marker([parseFloat(n.latitud), parseFloat(n.longitud)], { icon: markerIcon }).addTo(mapInstance);
+        // Popup bonito y organizado
+        let direccionHtml = '';
+        const direccionTxt = `${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})`;
+        if (n.latitud && n.longitud) {
+            direccionHtml = `<a href='geo:${n.latitud},${n.longitud}' style='color:#786698;text-decoration:none;display:inline-flex;align-items:center;font-size:0.85rem;' target='_blank'><i class='fa-solid fa-location-dot mr-1'></i>${direccionTxt}</a>`;
+        } else {
+            direccionHtml = `<span class='flex items-center text-gray-700' style='font-size:0.85rem;'><i class='fa-solid fa-location-dot mr-1'></i>${direccionTxt}</span>`;
+        }
+        let fotoHtml = '';
+        if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.small?.signedPath) {
+            fotoHtml = `<img src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.small.signedPath}' alt='${n.Foto[0].title}' style='width:60px;height:60px;object-fit:cover;border-radius:0.5rem;border:2px solid #eee;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-left:12px;' />`;
+        }
+        let popupHtml = `
+            <div style='min-width:220px;max-width:340px;font-family:Segoe UI,Roboto,sans-serif;display:flex;flex-direction:row;align-items:flex-start;'>
+                <div style='flex:1 1 0%;min-width:0;'>
+                    <div style='font-size:1.1rem;font-weight:bold;color:#786698;margin-bottom:2px;'>${n.Nombre}</div>
+                    <div style='font-size:0.95rem;color:#786698;margin-bottom:6px;display:flex;align-items:center;gap:4px;'>${window.getCategoriaIcon(n.Categoría)} <span style='background:#ede7f6;color:#786698;border-radius:6px;padding:2px 8px;font-size:0.85rem;'>${n.Categoría}</span></div>
+                    <div style='font-size:0.95rem;color:#374151;margin-bottom:6px;'>${n.Descripción || ''}</div>
+                    ${n["Ventaja para comunidad"] ? `<div style='font-size:0.85rem;color:#059669;margin-bottom:6px;'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
+                    ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<div style='margin-bottom:6px;'><a href='${n.Web}' target='_blank' style='color:#786698;font-weight:500;text-decoration:none;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a></div>`; } catch { return ''; } })() : ''}
+                    <div style='font-size:0.85rem;display:flex;align-items:center;margin-top:4px;'>${direccionHtml}</div>
+                </div>
+                ${fotoHtml}
+            </div>
+        `;
+        marker.bindPopup(popupHtml);
+    });
+    if (negociosConCoords.length) {
+        const bounds = L.latLngBounds(negociosConCoords.map(n => [parseFloat(n.latitud), parseFloat(n.longitud)]));
+        mapInstance.fitBounds(bounds, { padding: [30, 30] });
+    }
+}
+
+/**
+ * Devuelve una copia ordenada de los negocios por fecha descendente (más reciente primero).
+ * Usa el campo 'Fecha' (formato: 'YYYY-MM-DD HH:mm:ss+00:00').
+ * @param {Array} arr - Array de negocios.
+ * @returns {Array} Array ordenado.
+ */
+function ordenarPorFechaDesc(arr) {
+    return arr.slice().sort((a, b) => {
+        // Si el campo Fecha no existe, lo ponemos al final
+        if (!a.Fecha && !b.Fecha) return 0;
+        if (!a.Fecha) return 1;
+        if (!b.Fecha) return -1;
+        // Convierte a Date para comparar correctamente
+        return new Date(b.Fecha) - new Date(a.Fecha);
+    });
+}
+
+/**
+ * Renderiza las tarjetas de negocios, ordenadas por fecha descendente.
+ * @param {Array} negocios - Lista de negocios a mostrar.
+ */
+function mostrarTarjetas(negocios) {
+    const cont = document.getElementById('negocio-list');
+    cont.innerHTML = '';
+    ordenarPorFechaDesc(negocios).forEach(n => {
+        let imgHtml = '';
+        if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.small?.signedPath) {
+            imgHtml = `<img class='w-full h-56 object-contain bg-gray-200' src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.small.signedPath}' alt='${n.Foto[0].title}' />`;
+        } else {
+            // Icono de la categoría centrado y grande si no hay foto
+            imgHtml = `<div class='w-full h-56 bg-gray-200 flex items-center justify-center text-gray-400'>${getCategoriaIcon(n.Categoría).replace('mr-1', 'text-5xl')}</div>`;
+        }
+        // Dirección con icono y enlace geo
+        let direccionHtml = '';
+        if (n.latitud && n.longitud) {
+            const direccionTxt = `${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})`;
+            direccionHtml = `<a href='geo:${n.latitud},${n.longitud}' style='color:#786698;text-decoration:none;display:flex;align-items:center;font-size:0.85rem;' target='_blank'><i class='fa-solid fa-location-dot mr-1'></i>${direccionTxt}</a>`;
+        } else {
+            direccionHtml = `<span class='flex items-center text-gray-700' style='font-size:0.85rem;'><i class='fa-solid fa-location-dot mr-1'></i> ${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})</span>`;
+        }
+        // Web solo dominio
+        let webHtml = '';
+        if (n.Web) {
+            try {
+                const urlObj = new URL(n.Web);
+                webHtml = `<a class='flex items-center font-medium' style='color:#786698;text-decoration:none;' href='${n.Web}' target='_blank'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`;
+            } catch { /* fallback */ }
+        }
+        cont.innerHTML += `
+            <div class='rounded-xl shadow bg-white flex flex-col overflow-hidden mb-4 w-full sm:w-[340px]'>
+                ${imgHtml}
+                <div class='flex-1 flex flex-col gap-1 p-4'>
+                    <div class='flex items-center gap-2 mb-1'>
+                        <span class='text-lg font-bold' style='color:#786698;'>${n.Nombre}</span>
+                        <span class='flex items-center gap-1 bg-[#ede7f6] text-[#786698] rounded px-2 py-0.5' style='font-size:0.85rem;'>
+                            ${getCategoriaIcon(n.Categoría)}
+                            <span style='font-size:0.85rem;'>${n.Categoría}</span>
+                        </span>
+                    </div>
+                    <div class='text-gray-700 text-sm mb-1'>${n.Descripción || ''}</div>
+                    ${n["Ventaja para comunidad"] ? `<div class='text-green-700 text-xs mb-1'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
+                    <div class='flex justify-between items-center border-t pt-3 mt-2 gap-2'>
+                        ${direccionHtml}
+                        ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<a class='flex items-center font-medium' style='color:#786698;text-decoration:none;' href='${n.Web}' target='_blank'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`; } catch { return ''; } })() : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+}
+
+/**
+ * Renderiza la tabla de negocios (modo listado), ordenada por fecha descendente.
+ * @param {Array} negocios - Lista de negocios a mostrar.
+ */
+function mostrarTabla(negocios) {
+    const cont = document.getElementById('negocio-table-container');
+    let html = `<div class='overflow-x-auto'><table class='min-w-full bg-white rounded-xl shadow text-sm'>
+        <thead class='bg-gray-100'>
+            <tr>
+                <th class='px-4 py-3 text-left font-semibold text-gray-700'>Nombre</th>
+                <th class='px-4 py-3 text-left font-semibold text-gray-700'>Categoría</th>
+                <th class='px-4 py-3 text-left font-semibold text-gray-700'>Descripción</th>
+                <th class='px-4 py-3 text-left font-semibold text-gray-700'>Ventaja</th>
+                <th class='px-4 py-3 text-left font-semibold text-gray-700'>Web</th>
+                <th class='px-4 py-3 text-left font-semibold text-gray-700'>Dirección</th>
+            </tr>
+        </thead><tbody>`;
+    ordenarPorFechaDesc(negocios).forEach(n => {
+        const direccionTxt = `${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})`;
+        let direccionHtml = '';
+        if (n.latitud && n.longitud) {
+            direccionHtml = `<a href='geo:${n.latitud},${n.longitud}' style='color:#786698;text-decoration:none;display:flex;align-items:center;font-size:0.85rem;' target='_blank'><i class='fa-solid fa-location-dot mr-1'></i>${direccionTxt}</a>`;
+        } else {
+            direccionHtml = `<span class='flex items-center text-gray-700' style='font-size:0.85rem;'><i class='fa-solid fa-location-dot mr-1'></i>${direccionTxt}</span>`;
+        }
+        let webHtml = '';
+        if (n.Web) {
+            try {
+                const urlObj = new URL(n.Web);
+                webHtml = `<a href='${n.Web}' target='_blank' class='flex items-center font-medium' style='color:#786698;text-decoration:none;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`;
+            } catch {}
+        }
+        html += `<tr class='border-b last:border-b-0'>
+            <td class='px-4 py-2 font-semibold' style='color:#786698;'>${n.Nombre}</td>
+            <td class='px-4 py-2'><span class='bg-[#ede7f6] text-[#786698] rounded px-2 py-0.5 text-xs flex items-center'>${getCategoriaIcon(n.Categoría)}${n.Categoría}</span></td>
+            <td class='px-4 py-2'>${n.Descripción || ''}</td>
+            <td class='px-4 py-2 text-green-700 text-xs'>${n["Ventaja para comunidad"] || ''}</td>
+            <td class='px-4 py-2'>${webHtml}</td>
+            <td class='px-4 py-2'>${direccionHtml}</td>
+        </tr>`;
+    });
+    html += '</tbody></table></div>';
+    cont.innerHTML = html;
+}
+
+// --- Botones de cambio de vista (tarjetas/listado) ---
+document.getElementById('cardViewBtn').onclick = function() {
+    this.classList.add('active');
+    document.getElementById('listViewBtn').classList.remove('active');
+    document.getElementById('negocio-list').style.display = '';
+    document.getElementById('negocio-table-container').style.display = 'none';
+};
+document.getElementById('listViewBtn').onclick = function() {
+    this.classList.add('active');
+    document.getElementById('cardViewBtn').classList.remove('active');
+    document.getElementById('negocio-list').style.display = 'none';
+    document.getElementById('negocio-table-container').style.display = '';
+};
+
+// --- Inicialización principal ---
+cargarNegocios();

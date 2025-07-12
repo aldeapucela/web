@@ -17,63 +17,63 @@
     <meta name="twitter:description" content="Descubre los negocios de proximidad de Valladolid">
     <meta name="twitter:image" content="https://aldeapucela.org/img/logo.jpg">
     <!-- Fin Social Media Meta Tags -->
-
-    <!-- Matomo -->
-    <script>
-        var _paq = window._paq = window._paq || [];
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function() {
-            var u="https://stats.aldeapucela.org/";
-            _paq.push(['setTrackerUrl', u+'matomo.php']);
-            _paq.push(['setSiteId', '13']);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-        })();
-    </script>
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-        }
-        body {
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-        }
-        iframe {
-            border: none;
-            width: 100vw;
-            height: 100vh;
-            display: block;
-        }
-        #float-btn {
-            position: fixed;
-            bottom: 32px;
-            right: 32px;
-            z-index: 1000;
-            background: #3b82f6;
-            color: #fff;
-            font-size: 2.5rem;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            transition: background 0.2s;
-        }
-        #float-btn:hover {
-            background: #2563eb;
-        }
-    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/listado.css" /><!-- (opcional, para overrides) -->
 </head>
-<body>
-    <a href="https://aldeapucela.org/negocios/publica" target="_blank" id="float-btn" title="Publica tu negocio local">+</a>
-    <iframe src="https://proyectos.aldeapucela.org/dashboard/#/nc/gallery/99686ca9-514e-4f25-bbc1-a2ad88561ecc" allowfullscreen></iframe>
+<body class="bg-gray-100 min-h-screen">
+  <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+    <div class="container mx-auto px-4 py-3 grid grid-cols-[auto_1fr_auto] items-center">
+      <div class="flex justify-start">
+        <a href="https://aldeapucela.org/negocios/" class="text-purple-500 hover:text-purple-700" title="Comercios locales">
+          <i class="fa-solid fa-store text-3xl" style="color:rgb(179,157,219);"></i>
+        </a>
+      </div>
+      <div class="flex justify-center">
+        <h1 class="font-light tracking-wide px-2 py-0.5 rounded text-center text-gray-600 whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer text-xl md:text-2xl" style="font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Negocios locales de Valladolid</h1>
+      </div>
+      <div class="flex justify-end">
+        <a href="https://aldeapucela.org/negocios/publica" target="_blank" id="float-btn" title="Publica tu negocio local"
+           class="text-white text-2xl w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition-colors duration-200 border-2 focus:outline-none"
+           style="background:#786698;border-color:#786698;"
+           onmouseover="this.style.background='#5e507a'" onmouseout="this.style.background='#786698'" onfocus="this.style.background='#5e507a'" onblur="this.style.background='#786698'">+</a>
+      </div>
+    </div>
+    <div class="w-full bg-gray-50 border-t border-b border-gray-200 py-2 px-4 flex items-center gap-3">
+      <span class="flex items-center">
+        <img src="https://aldeapucela.org/img/logo.jpg" alt="Aldea Pucela Logo" class="w-14 h-8 rounded-full border-2 border-[#786698] shadow" />
+      </span>
+      <span class="text-gray-700 text-sm">
+        La lista de comercios locales está mantenida por 
+        <a href="https://aldeapucela.org/" class="underline text-[#786698] hover:text-[#5e507a]" target="_blank">Aldea Pucela</a> · 
+        Licencia del contenido: <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="underline text-[#786698] hover:text-[#5e507a]" target="_blank">CC BY-SA 4.0</a>
+      </span>
+    </div>
+  </header>
+  <main class="w-full px-0 py-4">
+    <div id="map" class="w-full rounded-none shadow-none mb-6 mt-0" style="height:50vh;"></div>
+    <div class="flex justify-center items-center mb-4 gap-3 flex-wrap">
+        <button id="cardViewBtn" title="Vista tarjetas" class="px-4 py-2 rounded-full border border-gray-300 bg-white text-base font-medium shadow-sm hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors active:bg-blue-500 active:text-white active:border-blue-500 flex items-center justify-center">
+            <i class="fa-solid fa-th text-lg"></i>
+        </button>
+        <button id="listViewBtn" title="Vista listado" class="px-4 py-2 rounded-full border border-gray-300 bg-white text-base font-medium shadow-sm hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors active:bg-blue-500 active:text-white active:border-blue-500 flex items-center justify-center">
+            <i class="fa-solid fa-list text-lg"></i>
+        </button>
+        <div class="relative">
+            <button id="filterTypeBtn" class="px-4 py-2 rounded-full border border-gray-300 bg-white text-base font-medium shadow-sm flex items-center gap-2 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors">
+                <i class="fa-solid fa-filter"></i>
+                <span id="filterTypeLabel">Filtrar tipo</span>
+                <i class="fa-solid fa-chevron-down text-xs"></i>
+            </button>
+            <div id="filterTypeDropdown" class="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-10 hidden max-h-60 overflow-y-auto"></div>
+        </div>
+    </div>
+    <div class="negocio-list flex flex-wrap gap-6 max-w-5xl mx-auto" id="negocio-list"></div>
+    <div id="negocio-table-container" class="max-w-5xl mx-auto" style="display:none;"></div>
+  </main>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/categorias.js"></script>
+    <script src="js/listado.js"></script>
 </body>
 </html>

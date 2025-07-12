@@ -3,14 +3,12 @@
 function compartirNegocio(event, id, nombre) {
     event.preventDefault();
     const url = `${window.location.origin}${window.location.pathname}#${id}`;
-    const shareData = {
-        title: nombre,
-        text: `${nombre}\n${url}`,
-        url
-    };
     if (navigator.share) {
-        navigator.share(shareData)
-            .catch(() => {});
+        navigator.share({
+            title: nombre,
+            text: nombre,
+            url: url
+        }).catch(() => {});
     } else {
         // Fallback: copiar al portapapeles
         copiarAlPortapapeles(`${nombre}\n${url}`);

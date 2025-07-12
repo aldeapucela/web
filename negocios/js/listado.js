@@ -103,11 +103,14 @@ function mostrarMapa(negocios) {
     if (mapInstance) {
         mapInstance.remove();
     }
-    mapInstance = L.map('map').setView([41.6526576, -4.728556], 13);
+    mapInstance = L.map('map', {
+        zoomControl: false
+    }).setView([41.6526576, -4.728556], 13);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd'
     }).addTo(mapInstance);
+    L.control.zoom({ position: 'bottomleft' }).addTo(mapInstance);
     negociosConCoords.forEach(n => {
         // Icono tipo pin con FontAwesome y fondo rgb(120,102,152), tamaño reducido
         const iconHtml = `

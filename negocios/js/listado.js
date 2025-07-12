@@ -185,6 +185,7 @@ function mostrarMapa(negocios) {
                 <div class="text-[0.95rem] text-gray-700 mb-1.5">${n.Descripción || ''}</div>
                 ${n["Ventaja para comunidad"] ? `<div class="text-[0.85rem] text-emerald-600 mb-1.5 flex items-center"><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
                 ${direccionHtml}
+                ${n["Horarios"] ? `<div class='negocio-horarios'><i class='fa-regular fa-clock'></i><span>${n["Horarios"]}</span></div>` : ''}
                 <div class="absolute bottom-2 right-2 flex items-center gap-3 z-10 text-[#786698]">
     ${n["Teléfono"] ? `<a href='tel:${n["Teléfono"]}' title='Llamar' class="no-underline inline-flex items-center justify-center w-8 h-8 hover:text-[#5e507a]" style="color:inherit;"><i class='fa-solid fa-phone fa-lg'></i></a>` : ''}
     ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<a href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow' title='Web' class="no-underline inline-flex items-center justify-center w-8 h-8 hover:text-[#5e507a]" style="color:inherit;"><i class='fa fa-globe fa-lg'></i></a>`; } catch { return ''; } })() : ''}
@@ -269,14 +270,23 @@ function mostrarTarjetas(negocios) {
     </span>
 </div>
 <div class='text-gray-700 text-sm mb-1'>${n.Descripción || ''}</div>
+${n["Horarios"] ? `<div class='text-xs text-gray-500 flex items-center gap-1 mb-1'><i class='fa-regular fa-clock' style='font-size:0.93em;'></i><span>${n["Horarios"]}</span></div>` : ''}
 ${n["Ventaja para comunidad"] ? `<div class='text-green-700 text-xs mb-1'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
-<div class="flex items-center gap-5 border-t pt-3 mt-2 w-full">
-    <div class='flex flex-1 items-center min-w-0'>
-        <span class='truncate text-[0.97rem] text-[#786698] flex items-center'>${direccionHtml}</span>
-    </div>
+<div class="mt-2">
+  <div class="flex items-center gap-2 mb-2">
+    <span class='truncate text-[0.97rem] text-[#786698] flex items-center'>${direccionHtml}</span>
+  </div>
+  <div class="border-t flex items-center w-full justify-between gap-2 pt-3 mt-2">
+  <div class="flex gap-2">
+    ${n.bluesky_post ? `<button class="bluesky-comments-btn hover:text-[#5e507a] bg-none border-none cursor-pointer inline-flex items-center justify-center w-8 h-8 text-[#786698]" title="Ver comentarios de Bluesky" data-bluesky-post="${n.bluesky_post}" data-negocio-nombre="${n.Nombre}"><i class="fa-regular fa-comment-dots fa-lg"></i><span class="bluesky-comments-count ml-1 text-s"></span></button>` : ''}
+    ${n.bluesky_post ? `<a class="hover:text-[#5e507a] inline-flex items-center justify-center w-8 h-8 text-[#786698] bluesky-likes-btn" title="Ver post en Bluesky" target="_blank" href="https://bsky.app/profile/negocios.aldeapucela.org/post/${n.bluesky_post}"><i class="fa-regular fa-heart fa-lg"></i><span class="bluesky-likes-count ml-1 text-s"></span></a>` : ''}
+  </div>
+  <div class="flex gap-2">
     ${n["Teléfono"] ? `<a href='tel:${n["Teléfono"]}' title='Llamar' class="no-underline inline-flex items-center justify-center w-8 h-8 hover:text-[#5e507a] text-[#786698]"><i class='fa-solid fa-phone fa-lg' style='color:inherit;'></i></a>` : ''}
     ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<a href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow' title='Web' class="no-underline inline-flex items-center justify-center w-8 h-8 hover:text-[#5e507a] text-[#786698]"><i class='fa fa-globe fa-lg' style='color:inherit;'></i></a>`; } catch { return ''; } })() : ''}
     <button class="hover:text-[#5e507a] focus:outline-none bg-none border-none cursor-pointer inline-flex items-center justify-center w-8 h-8 text-[#786698]" title="Compartir" onclick='compartirNegocio(event, "${n.Id}", "${n.Nombre}")'><i class="fa-solid fa-share-nodes fa-lg" style='color:inherit;'></i></button>
+  </div>
+</div>
 </div>
                 </div>
             </div>
@@ -300,6 +310,7 @@ function mostrarTabla(negocios) {
                 <th class='px-4 py-3 text-left font-semibold text-gray-700'>Web</th>
                 <th class='px-4 py-3 text-left font-semibold text-gray-700'>Teléfono</th>
                 <th class='px-4 py-3 text-left font-semibold text-gray-700'>Dirección</th>
+                <th class='px-4 py-3 text-left font-semibold text-gray-700'>Horarios</th>
             </tr>
         </thead><tbody>`;
     ordenarPorFechaDesc(negocios).forEach(n => {
@@ -329,6 +340,7 @@ function mostrarTabla(negocios) {
             <td class='px-4 py-2'>${webHtml}</td>
             <td class='px-4 py-2'>${telefonoHtml}</td>
             <td class='px-4 py-2'>${direccionHtml}</td>
+            <td class='px-4 py-2'>${n["Horarios"] ? `<div class='negocio-horarios'><i class='fa-regular fa-clock'></i><span>${n["Horarios"]}</span></div>` : ''}</td>
         </tr>`;
     });
     html += '</tbody></table></div>';

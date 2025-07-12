@@ -203,7 +203,7 @@ function mostrarTarjetas(negocios) {
         if (n.Web) {
             try {
                 const urlObj = new URL(n.Web);
-                webHtml = `<a class='flex items-center font-medium' style='color:#786698;text-decoration:none;' href='${n.Web}' target='_blank'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`;
+                webHtml = `<a class='flex items-center font-medium' style='color:#786698;text-decoration:none;' href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`;
             } catch { /* fallback */ }
         }
         cont.innerHTML += `
@@ -221,7 +221,7 @@ function mostrarTarjetas(negocios) {
                     ${n["Ventaja para comunidad"] ? `<div class='text-green-700 text-xs mb-1'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
                     <div class='flex justify-between items-center border-t pt-3 mt-2 gap-2'>
                         ${direccionHtml}
-                        ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<a class='flex items-center font-medium' style='color:#786698;text-decoration:none;' href='${n.Web}' target='_blank'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`; } catch { return ''; } })() : ''}
+                        ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<a class='flex items-center font-medium' style='color:#786698;text-decoration:none;' href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`; } catch { return ''; } })() : ''}
                     </div>
                 </div>
             </div>
@@ -258,7 +258,7 @@ function mostrarTabla(negocios) {
         if (n.Web) {
             try {
                 const urlObj = new URL(n.Web);
-                webHtml = `<a href='${n.Web}' target='_blank' class='flex items-center font-medium' style='color:#786698;text-decoration:none;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`;
+                webHtml = `<a href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow' class='flex items-center font-medium' style='color:#786698;text-decoration:none;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`;
             } catch {}
         }
         html += `<tr class='border-b last:border-b-0'>

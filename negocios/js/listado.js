@@ -137,6 +137,11 @@ function mostrarMapa(negocios) {
         if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.small?.signedPath) {
             fotoHtml = `<img src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.small.signedPath}' alt='${n.Foto[0].title}' style='width:60px;height:60px;object-fit:cover;border-radius:0.5rem;border:2px solid #eee;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-left:12px;' />`;
         }
+        // Teléfono para el popup
+        let telefonoHtml = '';
+        if (n["Teléfono"]) {
+            telefonoHtml = `<div style='margin:2px 0;'><a href='tel:${n["Teléfono"]}' style='color:#786698;font-size:0.92rem;text-decoration:none;display:inline-flex;align-items:center;gap:4px;'><i class='fa-solid fa-phone' style='font-size:0.95em;color:#786698;'></i><span>${n["Teléfono"]}</span></a></div>`;
+        }
         let popupHtml = `
             <div style='min-width:220px;max-width:340px;font-family:Segoe UI,Roboto,sans-serif;display:flex;flex-direction:row;align-items:flex-start;'>
                 <div style='flex:1 1 0%;min-width:0;'>
@@ -144,8 +149,9 @@ function mostrarMapa(negocios) {
                     <div style='font-size:0.95rem;color:#786698;margin-bottom:6px;display:flex;align-items:center;gap:4px;'>${window.getCategoriaIcon(n.Categoría)} <span style='background:#ede7f6;color:#786698;border-radius:6px;padding:2px 8px;font-size:0.85rem;'>${n.Categoría}</span></div>
                     <div style='font-size:0.95rem;color:#374151;margin-bottom:6px;'>${n.Descripción || ''}</div>
                     ${n["Ventaja para comunidad"] ? `<div style='font-size:0.85rem;color:#059669;margin-bottom:6px;'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
-                    ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<div style='margin-bottom:6px;'><a href='${n.Web}' target='_blank' style='color:#786698;font-weight:500;text-decoration:none;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a></div>`; } catch { return ''; } })() : ''}
                     <div style='font-size:0.85rem;display:flex;align-items:center;margin-top:4px;'>${direccionHtml}</div>
+                    ${telefonoHtml}
+                    ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<div style='margin-top:4px;'><a href='${n.Web}' target='_blank' style='color:#786698;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a></div>`; } catch { return ''; } })() : ''}
                 </div>
                 ${fotoHtml}
             </div>
@@ -187,23 +193,27 @@ function mostrarTarjetas(negocios) {
         if (n.Foto && Array.isArray(n.Foto) && n.Foto[0]?.thumbnails?.small?.signedPath) {
             imgHtml = `<img class='w-full h-56 object-contain bg-gray-200' src='https://proyectos.aldeapucela.org/${n.Foto[0].thumbnails.small.signedPath}' alt='${n.Foto[0].title}' />`;
         } else {
-            // Icono de la categoría centrado y grande si no hay foto
             imgHtml = `<div class='w-full h-56 bg-gray-200 flex items-center justify-center text-gray-400'>${getCategoriaIcon(n.Categoría).replace('mr-1', 'text-5xl')}</div>`;
         }
         // Dirección con icono y enlace geo
         let direccionHtml = '';
         if (n.latitud && n.longitud) {
             const direccionTxt = `${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})`;
-            direccionHtml = `<a href='geo:${n.latitud},${n.longitud}' style='color:#786698;text-decoration:none;display:flex;align-items:center;font-size:0.85rem;' target='_blank'><i class='fa-solid fa-location-dot mr-1'></i>${direccionTxt}</a>`;
+            direccionHtml = `<a href='geo:${n.latitud},${n.longitud}' style='color:#786698;text-decoration:none;display:flex;align-items:center;font-size:0.95rem;' target='_blank'><i class='fa-solid fa-location-dot mr-1' style='color:#786698;font-size:0.95em;'></i>${direccionTxt}</a>`;
         } else {
-            direccionHtml = `<span class='flex items-center text-gray-700' style='font-size:0.85rem;'><i class='fa-solid fa-location-dot mr-1'></i> ${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})</span>`;
+            direccionHtml = `<span class='flex items-center text-gray-700' style='font-size:0.95rem;'><i class='fa-solid fa-location-dot mr-1' style='color:#786698;font-size:0.95em;'></i> ${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})</span>`;
+        }
+        // Teléfono con icono y enlace tel: (color base #786698, tamaño pequeño, justo encima de la web)
+        let telefonoHtml = '';
+        if (n["Teléfono"]) {
+            telefonoHtml = `<div style='margin-top:2px;margin-bottom:2px;'><a href='tel:${n["Teléfono"]}' class='flex items-center' style='color:#786698;font-size:0.92rem;text-decoration:none;gap:4px;'><i class='fa-solid fa-phone' style='font-size:0.95em;color:#786698;'></i><span>${n["Teléfono"]}</span></a></div>`;
         }
         // Web solo dominio
         let webHtml = '';
         if (n.Web) {
             try {
                 const urlObj = new URL(n.Web);
-                webHtml = `<a class='flex items-center font-medium' style='color:#786698;text-decoration:none;' href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`;
+                webHtml = `<a class='flex items-center font-medium' style='color:#786698;text-decoration:none;font-size:1rem;' href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`;
             } catch { /* fallback */ }
         }
         cont.innerHTML += `
@@ -220,8 +230,13 @@ function mostrarTarjetas(negocios) {
                     <div class='text-gray-700 text-sm mb-1'>${n.Descripción || ''}</div>
                     ${n["Ventaja para comunidad"] ? `<div class='text-green-700 text-xs mb-1'><i class='fa-solid fa-gift mr-1'></i>${n["Ventaja para comunidad"]}</div>` : ''}
                     <div class='flex justify-between items-center border-t pt-3 mt-2 gap-2'>
-                        ${direccionHtml}
-                        ${n.Web ? (() => { try { const urlObj = new URL(n.Web); return `<a class='flex items-center font-medium' style='color:#786698;text-decoration:none;' href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`; } catch { return ''; } })() : ''}
+                        <div class='flex flex-col flex-1 min-w-0'>
+                            ${direccionHtml}
+                        </div>
+                        <div class='flex-shrink-0 flex flex-col items-end justify-end'>
+                            ${telefonoHtml}
+                            ${webHtml}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -243,6 +258,7 @@ function mostrarTabla(negocios) {
                 <th class='px-4 py-3 text-left font-semibold text-gray-700'>Descripción</th>
                 <th class='px-4 py-3 text-left font-semibold text-gray-700'>Ventaja</th>
                 <th class='px-4 py-3 text-left font-semibold text-gray-700'>Web</th>
+                <th class='px-4 py-3 text-left font-semibold text-gray-700'>Teléfono</th>
                 <th class='px-4 py-3 text-left font-semibold text-gray-700'>Dirección</th>
             </tr>
         </thead><tbody>`;
@@ -261,12 +277,17 @@ function mostrarTabla(negocios) {
                 webHtml = `<a href='${n.Web}' target='_blank' rel='noopener noreferrer nofollow' class='flex items-center font-medium' style='color:#786698;text-decoration:none;'><i class='fa fa-globe mr-1' style='color:#786698;'></i>${urlObj.hostname.replace('www.', '')}</a>`;
             } catch {}
         }
+        let telefonoHtml = '';
+        if (n["Teléfono"]) {
+            telefonoHtml = `<a href='tel:${n["Teléfono"]}' class='flex items-center font-medium' style='color:#786698;text-decoration:none;font-size:0.92rem;'><i class='fa-solid fa-phone mr-1' style='color:#786698;font-size:0.95em;'></i>${n["Teléfono"]}</a>`;
+        }
         html += `<tr class='border-b last:border-b-0'>
             <td class='px-4 py-2 font-semibold' style='color:#786698;'>${n.Nombre}</td>
             <td class='px-4 py-2'><span class='bg-[#ede7f6] text-[#786698] rounded px-2 py-0.5 text-xs flex items-center'>${getCategoriaIcon(n.Categoría)}${n.Categoría}</span></td>
             <td class='px-4 py-2'>${n.Descripción || ''}</td>
             <td class='px-4 py-2 text-green-700 text-xs'>${n["Ventaja para comunidad"] || ''}</td>
             <td class='px-4 py-2'>${webHtml}</td>
+            <td class='px-4 py-2'>${telefonoHtml}</td>
             <td class='px-4 py-2'>${direccionHtml}</td>
         </tr>`;
     });

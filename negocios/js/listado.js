@@ -111,6 +111,33 @@ function mostrarMapa(negocios) {
         subdomains: 'abcd'
     }).addTo(mapInstance);
     L.control.zoom({ position: 'bottomleft' }).addTo(mapInstance);
+
+    // --- Agrupación de marcadores con clusters personalizados ---
+    const markerClusterGroup = L.markerClusterGroup({
+        disableClusteringAtZoom: 15,
+        maxClusterRadius: 20,
+        spiderfyOnMaxZoom: false,
+        chunkedLoading: true,
+        zoomToBoundsOnClick: true,
+        removeOutsideVisibleBounds: false,
+        iconCreateFunction: function(cluster) {
+            const childCount = cluster.getChildCount();
+            let c = ' marker-cluster-';
+            if (childCount < 5) {
+              c += 'small';
+            } else if (childCount < 20) {
+              c += 'medium';
+            } else {
+              c += 'large';
+            }
+            return L.divIcon({ 
+              html: '<div><span>' + childCount + '</span></div>', 
+              className: 'marker-cluster' + c, 
+              iconSize: new L.Point(40, 40) 
+            });
+        }
+    });
+
     negociosConCoords.forEach(n => {
         // Icono tipo pin con FontAwesome y fondo rgb(120,102,152), tamaño reducido
         const iconHtml = `
@@ -127,7 +154,8 @@ function mostrarMapa(negocios) {
             iconAnchor: [16, 40],
             popupAnchor: [0, -40]
         });
-        const marker = L.marker([parseFloat(n.latitud), parseFloat(n.longitud)], { icon: markerIcon }).addTo(mapInstance);
+        const marker = L.marker([parseFloat(n.latitud), parseFloat(n.longitud)], { icon: markerIcon });
+        markerClusterGroup.addLayer(marker);
         // Popup bonito y organizado
         let direccionHtml = '';
         const direccionTxt = `${n.Vía || ''} ${n["Número"] || ''} ${n["Código postal"] || ''} (${n.Municipio || ''})`;
@@ -170,6 +198,7 @@ function mostrarMapa(negocios) {
 
         marker.bindPopup(popupHtml);
     });
+    mapInstance.addLayer(markerClusterGroup);
     if (negociosConCoords.length) {
         const bounds = L.latLngBounds(negociosConCoords.map(n => [parseFloat(n.latitud), parseFloat(n.longitud)]));
         mapInstance.fitBounds(bounds, { padding: [30, 30] });

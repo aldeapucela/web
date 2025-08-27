@@ -11,7 +11,7 @@ slug: normas
 
 [Grupo de Telegram](https://t.me/AldeaPucela) y [Foro](https://foro.aldeapucela.org/)
 
-**[Versión 1.1.2](https://aldeapucela.org/normas/) - Actualizada el 3 de mayo de 2025** 
+**[Versión 1.2](https://aldeapucela.org/normas/) - Actualizada el 19 de julio de 2025** 
 
 * Indice
 {:toc .toc-level-3}
@@ -159,6 +159,8 @@ No está permitido utilizar los espacios de Aldea Pucela para la promoción de p
 * Participar en la comunidad únicamente para compartir enlaces, redes sociales o cualquier otra iniciativa de autopromoción sin contribuir de manera significativa a las conversaciones o actividades de Aldea Pucela.
 
 Los mensajes que infrinjan esta norma podrán ser eliminados sin previo aviso. La reincidencia en este comportamiento será considerada una falta grave y podrá dar lugar a restricciones en la participación o la expulsión de la comunidad.
+
+**Nota:** Si eres el dueño/a de un negocio local, hemos habilitado [una sección](https://t.me/AldeaPucela/54544/54545) y [una web](https://negocios.aldeapucela.org/) para poder solicitar su publicación.
 
 ## Consecuencias del comportamiento inaceptable 
 

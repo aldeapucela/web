@@ -367,6 +367,20 @@
     line-height: 1.2;
 }
 
+/* Nueva fila para la fecha después del contenido */
+.message-date-row {
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.message-date-row .message-date {
+    color: #9ca3af;
+    font-size: 11px;
+    font-weight: 500;
+    padding-left: 0;
+    display: inline-block;
+}
+
 .save-counter {
     margin-left: auto;
 }
@@ -414,7 +428,6 @@
     color: #1f2937;
     font-size: 14px;
     line-height: 1.5;
-    margin-bottom: 12px;
     text-align: left;
     word-wrap: break-word;
 }
@@ -592,22 +605,80 @@
     margin: 0;
 }
 
-.saved-by-details li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #e5e7eb;
+/* Nuevo diseño en grid para los detalles de guardado */
+.saves-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
 }
 
-.saved-by-details li:last-child {
-    border-bottom: none;
+.save-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 12px;
+    transition: all 0.2s ease;
+}
+
+.save-card:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.save-user {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 8px;
+}
+
+.user-name {
+    color: #1f2937;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .save-date {
     color: #9ca3af;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: normal;
+}
+
+/* Estilos para temas por usuario */
+.user-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.user-topic {
+    display: inline-block;
+    background: #e0e7ff;
+    color: #4338ca;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 500;
+    border: 1px solid #c7d2fe;
+}
+
+.no-topics {
+    color: #9ca3af;
+    font-style: italic;
+    font-size: 10px;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .saves-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .save-card {
+        padding: 10px;
+    }
 }
 
 /* Mensaje cuando no hay resultados */
@@ -813,12 +884,15 @@
     .message-header {
         padding: 10px 12px;
         flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 8px;
     }
     
     .message-author {
         flex: 1;
+        text-align: left;
+        min-width: 0;
     }
     
     .message-author strong {
@@ -831,7 +905,7 @@
     
     .save-counter {
         flex-shrink: 0;
-        margin-left: 8px;
+        margin-left: auto;
     }
     
     .message-content {
@@ -1026,6 +1100,8 @@ h1 i {
 .topic-tag:active {
     transform: translateY(0);
 }
+
+/* Los temas ya no necesitan contador, solo ordenación por frecuencia */
 
 /* Botón de enlace externo sutil */
 .telegram-link {

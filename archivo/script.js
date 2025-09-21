@@ -94,9 +94,71 @@ const Utils = {
         };
     },
     
+    // Normalizar tema para comparación (sin acentos, minúsculas)
+    normalizeTopicForComparison(topic) {
+        return topic
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '') // Quitar acentos
+            .trim();
+    },
+    
+    // Elegir la versión "canónica" de un tema (la más común o la primera)
+    chooseCanonicalTopic(topicVariations) {
+        // Contar frecuencias de cada variación exacta
+        const frequencies = {};
+        topicVariations.forEach(variation => {
+            frequencies[variation] = (frequencies[variation] || 0) + 1;
+        });
+        
+        // Devolver la más frecuente, o la primera si hay empate
+        return Object.entries(frequencies)
+            .sort((a, b) => b[1] - a[1])
+            .map(entry => entry[0])[0];
+    },
+    
     extractTopics(topicString) {
         if (!topicString) return [];
         return topicString.split(/\s+/).map(topic => topic.trim()).filter(Boolean);
+    },
+    
+    // Nueva función para combinar y unificar temas de múltiples guardados
+    combineAndUnifyTopics(savedByArray) {
+        const topicMap = new Map(); // clave normalizada -> { canonical: string, users: [user, topic_original][] }
+        
+        savedByArray.forEach(save => {
+            const topics = this.extractTopics(save.topics || '');
+            topics.forEach(originalTopic => {
+                const normalized = this.normalizeTopicForComparison(originalTopic);
+                
+                if (!topicMap.has(normalized)) {
+                    topicMap.set(normalized, {
+                        canonical: originalTopic,
+                        users: [],
+                        variations: []
+                    });
+                }
+                
+                const topicEntry = topicMap.get(normalized);
+                topicEntry.users.push({ user: save.user, originalTopic });
+                topicEntry.variations.push(originalTopic);
+            });
+        });
+        
+        // Elegir versión canónica para cada tema y crear resultado final
+        const unifiedTopics = [];
+        for (const [normalized, data] of topicMap) {
+            const canonical = this.chooseCanonicalTopic(data.variations);
+            unifiedTopics.push({
+                topic: canonical,
+                normalized: normalized,
+                count: data.users.length,
+                users: data.users
+            });
+        }
+        
+        // Ordenar por frecuencia (más usados primero)
+        return unifiedTopics.sort((a, b) => b.count - a.count);
     },
     
     generateAvatarColor(name) {
@@ -147,7 +209,8 @@ const DataProcessor = {
                 existing.savedBy.push({
                     user: item.User,
                     userId: item['User ID'],
-                    createdAt: item.CreatedAt
+                    createdAt: item.CreatedAt,
+                    topics: item.Topic || '' // Almacenar temas de este guardado específico
                 });
             } else {
                 messageMap.set(messageId, {
@@ -156,21 +219,29 @@ const DataProcessor = {
                     authorName: item['Author name'],
                     content: item.Content,
                     created: item.Created,
-                    topic: item.Topic || '',
-                    topicArray: Utils.extractTopics(item.Topic || ''),
                     telegramLink: item['Telegram link'],
                     saveCount: 1,
                     savedBy: [{
                         user: item.User,
                         userId: item['User ID'],
-                        createdAt: item.CreatedAt
+                        createdAt: item.CreatedAt,
+                        topics: item.Topic || '' // Almacenar temas de este guardado específico
                     }],
                     createdTimestamp: new Date(item.Created).getTime()
                 });
             }
         });
         
-        return Array.from(messageMap.values());
+        // Procesar temas unificados para cada mensaje
+        const processedMessages = Array.from(messageMap.values());
+        processedMessages.forEach(message => {
+            const unifiedTopics = Utils.combineAndUnifyTopics(message.savedBy);
+            message.unifiedTopics = unifiedTopics;
+            message.topicArray = unifiedTopics.map(t => t.topic); // Para compatibilidad con filtros
+            message.topic = unifiedTopics.map(t => t.topic).join(' '); // Para compatibilidad con búsqueda
+        });
+        
+        return processedMessages;
     },
     
     extractUniqueAuthors(messages) {
@@ -180,11 +251,20 @@ const DataProcessor = {
     },
     
     extractUniqueTopics(messages) {
-        const topics = new Set();
+        const topicMap = new Map(); // normalizado -> canónico
+        
         messages.forEach(msg => {
-            msg.topicArray.forEach(topic => topics.add(topic));
+            if (msg.unifiedTopics) {
+                msg.unifiedTopics.forEach(topicData => {
+                    const normalized = Utils.normalizeTopicForComparison(topicData.topic);
+                    if (!topicMap.has(normalized)) {
+                        topicMap.set(normalized, topicData.topic);
+                    }
+                });
+            }
         });
-        return Array.from(topics).sort();
+        
+        return Array.from(topicMap.values()).sort();
     }
 };
 
@@ -215,9 +295,15 @@ const FilterSystem = {
         
         // Filtro por tema
         if (filters.topic) {
-            filtered = filtered.filter(msg => 
-                msg.topicArray.some(topic => topic === filters.topic)
-            );
+            const normalizedFilter = Utils.normalizeTopicForComparison(filters.topic);
+            filtered = filtered.filter(msg => {
+                if (msg.unifiedTopics) {
+                    return msg.unifiedTopics.some(topicData => 
+                        Utils.normalizeTopicForComparison(topicData.topic) === normalizedFilter
+                    );
+                }
+                return false;
+            });
         }
         
         // Ordenación
@@ -309,7 +395,6 @@ const RenderSystem = {
                 <div class="message-content-wrapper">
                     <div class="message-header">
                         <span class="message-author">${message.authorName}</span>
-                        <span class="message-date">${Utils.formatDate(message.created)}</span>
                         <div class="save-counter ${isMultipleSaves ? 'multiple' : 'single'}">
                             <i class="fas fa-bookmark"></i>
                             <span>${message.saveCount}</span>
@@ -321,12 +406,17 @@ const RenderSystem = {
                     </div>
                     
                     <div class="message-footer">
+                        <div class="message-date-row">
+                            <span class="message-date">${Utils.formatDate(message.created)}</span>
+                        </div>
                         <div class="message-bottom">
                             <div class="tags-container">
-                                ${message.topicArray.length > 0 ? 
-                                    message.topicArray.map(topic => 
-                                        `<button class="topic-tag" data-topic="${topic}">#${topic}</button>`
-                                    ).join('') : ''}
+                                ${message.unifiedTopics && message.unifiedTopics.length > 0 ? 
+                                    message.unifiedTopics.map(topicData => {
+                                        return `<button class="topic-tag" data-topic="${topicData.topic}" title="Usado por ${topicData.count} persona${topicData.count > 1 ? 's' : ''}">
+                                            #${topicData.topic}
+                                        </button>`;
+                                    }).join('') : ''}
                             </div>
                             <a href="${message.telegramLink}" target="_blank" class="telegram-link">
                                 <i class="fas fa-external-link-alt"></i>
@@ -337,16 +427,27 @@ const RenderSystem = {
                     ${isMultipleSaves ? `
                         <div class="saved-by-details" style="display: none;">
                             <div class="saved-by-header">
-                                <i class="fas fa-users"></i> Guardado por
+                                <i class="fas fa-users"></i> Guardado por ${message.saveCount} persona${message.saveCount > 1 ? 's' : ''}
                             </div>
-                            <ul>
-                                ${message.savedBy.map(save => `
-                                    <li>
-                                        <strong>${save.user}</strong> 
-                                        <span class="save-date">${Utils.formatDate(save.createdAt)}</span>
-                                    </li>
-                                `).join('')}
-                            </ul>
+                            <div class="saves-grid">
+                                ${message.savedBy.map(save => {
+                                    const userTopics = save.topics ? Utils.extractTopics(save.topics) : [];
+                                    const topicsHtml = userTopics.length > 0 
+                                        ? userTopics.map(t => `<span class="user-topic">#${t}</span>`).join(' ')
+                                        : '<span class="no-topics">sin temas</span>';
+                                    return `
+                                        <div class="save-card">
+                                            <div class="save-user">
+                                                <strong class="user-name">${save.user}</strong>
+                                                <span class="save-date">${Utils.formatDate(save.createdAt)}</span>
+                                            </div>
+                                            <div class="user-topics">
+                                                ${topicsHtml}
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
                         </div>
                     ` : ''}
                 </div>

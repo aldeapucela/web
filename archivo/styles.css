@@ -758,8 +758,9 @@
 @media (max-width: 768px) {
     .page-guardados .container {
         padding: 15px;
-        margin: 10px;
+        margin: 8px;
         max-width: none;
+        width: calc(100% - 16px);
     }
     
     .stats-container {
@@ -827,8 +828,10 @@
 /* Responsive - Móvil */
 @media (max-width: 480px) {
     .page-guardados .container {
-        padding: 12px;
-        margin: 5px;
+        padding: 10px;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
     }
     
     .stats-container {

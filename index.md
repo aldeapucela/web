@@ -21,6 +21,8 @@ title: Aldea Pucela - La mayor comunidad vecinal online sobre Valladolid
 
 [<i data-lucide="store"></i> Guía negocios locales](https://negocios.aldeapucela.org){: .btn .negocios }
 
+[<i data-lucide="archive"></i> Lo mejor del chat](/archivo/){: .btn .archivo }
+
 [<i data-lucide="train-track"></i> Plataforma por la Integración](https://aldeapucela.org/integracion/){: .btn .integracion }
 
 [<i data-lucide="info"></i> Normas de participación](/normas/){: .btn .normas }

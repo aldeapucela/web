@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../img/favicon.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Forzar el color del botón para evitar problemas de cache */
+    .telegram {
+      background: #8B5CF6 !important;
+      color: #f8fafc !important;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <title>El Archivo de la Comunidad - Aldea Pucela</title>
+
+  <!-- Metadatos para preview en redes sociales -->
+  <meta property="og:title" content="El Archivo de la Comunidad - Aldea Pucela">
+  <meta property="og:description" content="Los mensajes más valiosos del chat de Aldea Pucela, cuidadosamente archivados">
+  <meta property="og:image" content="https://aldeapucela.org/img/logo.jpg">
+  <meta property="og:url" content="https://aldeapucela.org/archivo/">
+  <meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body class="page-guardados">
+  <!-- Contenedor principal -->
+  <div class="container">
+    <img src="../img/logo.jpg" alt="Logo Aldea Pucela" class="logo">
+    <h1><i class="fas fa-archive"></i> El Archivo de la Comunidad</h1>
+    
+    <!-- Explicación sutil unificada -->
+    <div class="info-banner">
+      <p>Los mensajes más valiosos de <a href="https://t.me/aldeapucela" target="_blank">nuestro chat</a></p>
+      <p>Guardados usando <code>/guardar tema1 tema2</code></p>
+    </div>
+    
+    <!-- Estadísticas -->
+    <div class="stats-container">
+      <div class="stat-item">
+        <span id="total-messages" class="stat-number">0</span>
+        <span class="stat-label">mensajes únicos</span>
+      </div>
+      <div class="stat-item">
+        <span id="total-saves" class="stat-number">0</span>
+        <span class="stat-label">veces guardados</span>
+      </div>
+      <div class="stat-item">
+        <span id="showing-count" class="stat-number">0</span>
+        <span class="stat-label">mostrando</span>
+      </div>
+    </div>
+
+    <!-- Controles de filtrado y búsqueda -->
+    <div id="controls" class="controls" style="display: none;">
+      <!-- Barra de acción compacta -->
+      <div class="action-bar">
+        <button id="search-toggle" class="action-btn">
+          <i class="fas fa-search"></i>
+        </button>
+        <button id="filter-toggle" class="action-btn">
+          <i class="fas fa-filter"></i>
+        </button>
+        <button id="time-toggle" class="action-btn">
+          <i class="fas fa-clock"></i>
+        </button>
+        <button id="sort-toggle" class="action-btn">
+          <i class="fas fa-sort"></i>
+        </button>
+        <button id="reset-all" class="action-btn reset">
+          <i class="fas fa-times-circle"></i>
+        </button>
+      </div>
+
+      <!-- Búsqueda colapsable -->
+      <div id="search-panel" class="collapsible-panel" style="display: none;">
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="Buscar en el archivo..." autocomplete="off">
+          <button id="clear-search" style="display: none;">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Filtros colapsables -->
+      <div id="filters-panel" class="collapsible-panel" style="display: none;">
+        <div class="filter-row">
+          <select id="author-filter" class="filter-select">
+            <option value="">Todos los autores</option>
+          </select>
+          <select id="topic-filter" class="filter-select">
+            <option value="">Todos los temas</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Filtro de tiempo -->
+      <div id="time-panel" class="collapsible-panel" style="display: none;">
+        <div class="time-filters">
+          <button class="time-btn active" data-time="all">Todo el tiempo</button>
+          <button class="time-btn" data-time="week">Esta semana</button>
+          <button class="time-btn" data-time="month">Este mes</button>
+        </div>
+      </div>
+      
+      <!-- Ordenación -->
+      <div id="sort-panel" class="collapsible-panel" style="display: none;">
+        <div class="sort-options">
+          <button class="sort-btn active" data-sort="saves-desc">
+            <i class="fas fa-fire"></i> Más guardados
+          </button>
+          <button class="sort-btn" data-sort="date-desc">
+            <i class="fas fa-clock"></i> Más recientes
+          </button>
+          <button class="sort-btn" data-sort="saves-asc">
+            <i class="fas fa-sort-numeric-up"></i> Menos guardados
+          </button>
+          <button class="sort-btn" data-sort="date-asc">
+            <i class="fas fa-history"></i> Más antiguos
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Cargando archivo de la comunidad...</p>
+    </div>
+
+    <!-- Error -->
+    <div id="error" class="error" style="display: none;">
+      <p>⚠️ Error al cargar el archivo. Inténtalo de nuevo más tarde.</p>
+    </div>
+
+    <!-- Contenedor de mensajes -->
+    <div id="messages-container" class="messages-container" style="display: none;">
+    </div>
+    
+    <!-- Paginación -->
+    <div id="pagination" class="pagination" style="display: none;">
+      <button id="prev-page" class="page-btn" disabled>
+        <i data-lucide="chevron-left"></i>
+        Anterior
+      </button>
+      
+      <div class="page-info">
+        <span id="current-page">1</span>
+        <span>de</span>
+        <span id="total-pages">1</span>
+      </div>
+      
+      <button id="next-page" class="page-btn">
+        Siguiente
+        <i data-lucide="chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- Volver al inicio -->
+    <div class="back-container">
+      <a href="../" class="btn telegram">
+        <i data-lucide="arrow-left"></i>
+        Volver a Aldea Pucela
+      </a>
+    </div>
+  </div>
+
+  <!-- Carga de Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.482.0/dist/umd/lucide.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

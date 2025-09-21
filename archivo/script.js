@@ -64,6 +64,9 @@ const DOM = {
 
 // Utilidades
 const Utils = {
+    // Cache para normalización de temas
+    normalizationCache: new Map(),
+    
     formatDate(dateString) {
         const date = new Date(dateString);
         return date.toLocaleDateString('es-ES', {
@@ -96,11 +99,19 @@ const Utils = {
     
     // Normalizar tema para comparación (sin acentos, minúsculas)
     normalizeTopicForComparison(topic) {
-        return topic
+        // Usar cache para evitar recalcular
+        if (this.normalizationCache.has(topic)) {
+            return this.normalizationCache.get(topic);
+        }
+        
+        const normalized = topic
             .toLowerCase()
             .normalize('NFD')
             .replace(/[\u0300-\u036f]/g, '') // Quitar acentos
             .trim();
+            
+        this.normalizationCache.set(topic, normalized);
+        return normalized;
     },
     
     // Elegir la versión "canónica" de un tema (la más común o la primera)
@@ -237,6 +248,12 @@ const DataProcessor = {
         processedMessages.forEach(message => {
             const unifiedTopics = Utils.combineAndUnifyTopics(message.savedBy);
             message.unifiedTopics = unifiedTopics;
+            
+            // PRE-COMPUTAR normalizaciones para evitar hacerlo repetidamente en filtros
+            message.unifiedTopics.forEach(topicData => {
+                topicData.normalized = Utils.normalizeTopicForComparison(topicData.topic);
+            });
+            
             message.topicArray = unifiedTopics.map(t => t.topic); // Para compatibilidad con filtros
             message.topic = unifiedTopics.map(t => t.topic).join(' '); // Para compatibilidad con búsqueda
         });
@@ -298,8 +315,9 @@ const FilterSystem = {
             const normalizedFilter = Utils.normalizeTopicForComparison(filters.topic);
             filtered = filtered.filter(msg => {
                 if (msg.unifiedTopics) {
+                    // Usar las normalizaciones pre-computadas
                     return msg.unifiedTopics.some(topicData => 
-                        Utils.normalizeTopicForComparison(topicData.topic) === normalizedFilter
+                        topicData.normalized === normalizedFilter
                     );
                 }
                 return false;
@@ -478,6 +496,12 @@ const App = {
         }
         
         const rawMessages = await response.json();
+        
+        // Limpiar cache de normalización si crece demasiado (más de 1000 entradas)
+        if (Utils.normalizationCache.size > 1000) {
+            Utils.normalizationCache.clear();
+        }
+        
         AppState.allMessages = DataProcessor.processMessages(rawMessages);
         
         this.hideLoading();
@@ -544,35 +568,20 @@ const App = {
             return;
         }
         
+        // Limpiar contenedor - esto elimina automáticamente todos los event listeners anteriores
         DOM.messagesContainer.innerHTML = '';
+        
+        // Usar DocumentFragment para mejor rendimiento con muchos mensajes
+        const fragment = document.createDocumentFragment();
         
         messages.forEach(message => {
             const messageElement = document.createElement('div');
             messageElement.innerHTML = RenderSystem.createMessageHTML(message);
-            DOM.messagesContainer.appendChild(messageElement.firstElementChild);
+            fragment.appendChild(messageElement.firstElementChild);
         });
         
-        // Añadir event listeners para contadores múltiples
-        document.querySelectorAll('.save-counter.multiple').forEach(counter => {
-            counter.addEventListener('click', (e) => {
-                const message = e.target.closest('.message');
-                const details = message.querySelector('.saved-by-details');
-                if (details) {
-                    details.style.display = details.style.display === 'none' ? 'block' : 'none';
-                }
-            });
-        });
-        
-        // Añadir event listeners para temas clicables
-        document.querySelectorAll('.topic-tag').forEach(tag => {
-            tag.addEventListener('click', (e) => {
-                const topic = e.target.dataset.topic;
-                this.filterByTopic(topic);
-            });
-        });
-        
-        // Re-inicializar iconos (no es necesario lucide ya que usamos FontAwesome)
-        // lucide.createIcons();
+        // Añadir todos los mensajes de una vez
+        DOM.messagesContainer.appendChild(fragment);
     },
     
     updateStatistics() {
@@ -584,6 +593,28 @@ const App = {
     },
     
     setupEventListeners() {
+        // Delegación de eventos para el contenedor de mensajes (más eficiente)
+        DOM.messagesContainer.addEventListener('click', (e) => {
+            // Manejar clicks en contadores múltiples
+            const counter = e.target.closest('.save-counter.multiple');
+            if (counter) {
+                const message = counter.closest('.message');
+                const details = message.querySelector('.saved-by-details');
+                if (details) {
+                    details.style.display = details.style.display === 'none' ? 'block' : 'none';
+                }
+                return;
+            }
+            
+            // Manejar clicks en tags de temas
+            const tag = e.target.closest('.topic-tag');
+            if (tag) {
+                const topic = tag.dataset.topic;
+                this.filterByTopic(topic);
+                return;
+            }
+        });
+        
         // Toggles de paneles
         DOM.searchToggle.addEventListener('click', () => this.togglePanel('search'));
         DOM.filterToggle.addEventListener('click', () => this.togglePanel('filters'));

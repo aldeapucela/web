@@ -827,11 +827,43 @@
 
 /* Responsive - Móvil */
 @media (max-width: 480px) {
+    /* Eliminar padding del body que desperdicia espacio */
+    .page-guardados {
+        padding: 0;
+    }
+    
     .page-guardados .container {
-        padding: 10px;
+        padding: 0;
         margin: 0;
         width: 100%;
         max-width: 100%;
+    }
+    
+    /* Reducir avatar en móviles pequeños */
+    .message-avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+    
+    /* Ajustar gap entre avatar y contenido */
+    .message.telegram-style {
+        gap: 8px;
+        padding: 12px 8px;
+    }
+    
+    /* Reducir padding del contenedor de mensajes */
+    .messages-container {
+        padding: 0 8px;
+        gap: 32px;
+    }
+    
+    /* Añadir separación lateral para que no pegue a bordes */
+    .stats-container,
+    .controls,
+    .back-container {
+        margin-left: 8px;
+        margin-right: 8px;
     }
     
     .stats-container {
@@ -884,12 +916,18 @@
         margin: 0 -2px;
     }
     
+    /* Reducir padding interno del globo */
+    .message-content-wrapper {
+        padding: 8px 10px;
+    }
+    
     .message-header {
-        padding: 10px 12px;
+        padding: 0;
+        margin-bottom: 6px;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
     }
     
     .message-author {
@@ -912,13 +950,14 @@
     }
     
     .message-content {
-        padding: 10px 12px;
+        padding: 0;
         font-size: 13px;
         line-height: 1.4;
     }
     
     .message-footer {
-        padding: 8px 12px 10px;
+        padding: 0;
+        margin-top: 8px;
     }
     
     .message-meta {

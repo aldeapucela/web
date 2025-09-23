@@ -211,7 +211,12 @@ const DataProcessor = {
     processMessages(rawMessages) {
         const messageMap = new Map();
         
-        rawMessages.forEach(item => {
+        // Filter out messages with null or empty content
+        const validMessages = rawMessages.filter(item => 
+            item.Content && item.Content.trim() !== ''
+        );
+        
+        validMessages.forEach(item => {
             const messageId = item['Message ID'];
             
             if (messageMap.has(messageId)) {

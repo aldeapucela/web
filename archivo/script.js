@@ -16,7 +16,7 @@ const AppState = {
     filters: {
         author: '',
         topic: '',
-        sort: 'saves-desc',
+        sort: 'relevance',
         time: 'all'
     },
     isLoading: false,
@@ -628,6 +628,13 @@ const FilterSystem = {
     
     sortMessages(messages, sortType) {
         switch (sortType) {
+            case 'relevance':
+                messages.sort((a, b) => {
+                    const scoreA = this.calculateRelevanceScore(a);
+                    const scoreB = this.calculateRelevanceScore(b);
+                    return scoreB - scoreA;
+                });
+                break;
             case 'saves-desc':
                 messages.sort((a, b) => b.saveCount - a.saveCount);
                 break;
@@ -641,6 +648,27 @@ const FilterSystem = {
                 messages.sort((a, b) => a.createdTimestamp - b.createdTimestamp);
                 break;
         }
+    },
+    
+    calculateRelevanceScore(message) {
+        const now = Date.now();
+        const messageAge = now - message.createdTimestamp;
+        const hoursAge = messageAge / (1000 * 60 * 60); // Convertir a horas
+        
+        // Penalización extra para mensajes de más de un mes (720 horas)
+        const monthInHours = 24 * 30; // 720 horas
+        let agePenalty = 1;
+        if (hoursAge > monthInHours) {
+            // Penalización exponencial para mensajes viejos
+            agePenalty = Math.pow(0.5, (hoursAge - monthInHours) / monthInHours);
+        }
+        
+        // Fórmula estilo Hacker News con penalización por edad
+        // (saves - 1) / (horas + 2)^1.5 * penalización_edad
+        const votes = Math.max(1, message.saveCount); // Mínimo 1 para evitar división por 0
+        const score = (votes - 1) / Math.pow(hoursAge + 2, 1.5) * agePenalty;
+        
+        return score;
     }
 };
 
@@ -1068,7 +1096,7 @@ const App = {
         document.querySelector('.time-btn[data-time="all"]').classList.add('active');
         
         document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector('.sort-btn[data-sort="saves-desc"]').classList.add('active');
+        document.querySelector('.sort-btn[data-sort="relevance"]').classList.add('active');
         
         // Cerrar todos los paneles
         AppState.activePanels.forEach(panelName => {
@@ -1077,7 +1105,7 @@ const App = {
         
         // Reset state
         AppState.searchTerm = '';
-        AppState.filters = { sort: 'saves-desc', author: '', topic: '', time: 'all' };
+        AppState.filters = { sort: 'relevance', author: '', topic: '', time: 'all' };
         AppState.currentPage = 1;
         
         this.updateClearSearchButton();

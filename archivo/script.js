@@ -31,6 +31,10 @@ const DOM = {
     messagesContainer: document.getElementById('messages-container'),
     pagination: document.getElementById('pagination'),
     
+    // Panel de temas populares
+    popularTopicsPanel: document.getElementById('popular-topics-panel'),
+    popularTopicsList: document.getElementById('popular-topics-list'),
+    
     // Estadísticas
     totalMessages: document.getElementById('total-messages'),
     totalSaves: document.getElementById('total-saves'),
@@ -139,9 +143,34 @@ const Utils = {
             .map(entry => entry[0])[0];
     },
     
+    // Lista de palabras vacías en español que no deben usarse como temas
+    spanishStopwords: new Set([
+        // Artículos
+        'el', 'la', 'los', 'las', 'un', 'una', 'unos', 'unas',
+        // Preposiciones
+        'a', 'ante', 'bajo', 'con', 'contra', 'de', 'desde', 'en', 'entre', 'hacia', 'hasta', 'para', 'por', 'según', 'sin', 'sobre', 'tras',
+        // Conjunciones
+        'y', 'e', 'ni', 'o', 'u', 'pero', 'sino', 'que', 'si', 'como', 'cuando', 'donde', 'mientras', 'aunque',
+        // Pronombres
+        'yo', 'tú', 'él', 'ella', 'nosotros', 'vosotros', 'ellos', 'ellas', 'me', 'te', 'se', 'nos', 'os', 'le', 'les', 'lo', 'la', 'los', 'las',
+        // Adverbios comunes
+        'no', 'sí', 'también', 'tampoco', 'muy', 'más', 'menos', 'tanto', 'tan', 'bien', 'mal', 'aquí', 'ahí', 'allí', 'hoy', 'ayer', 'mañana',
+        // Verbos auxiliares comunes
+        'es', 'son', 'está', 'están', 'ser', 'estar', 'tener', 'haber', 'hay',
+        // Otras palabras comunes
+        'del', 'al', 'todo', 'todos', 'toda', 'todas', 'este', 'esta', 'estos', 'estas', 'ese', 'esa', 'esos', 'esas', 'aquel', 'aquella', 'aquellos', 'aquellas'
+    ]),
+    
     extractTopics(topicString) {
         if (!topicString) return [];
-        return topicString.split(/\s+/).map(topic => topic.trim()).filter(Boolean);
+        return topicString.split(/\s+/)
+            .map(topic => topic.trim())
+            .filter(topic => {
+                if (!topic) return false;
+                const normalized = topic.toLowerCase();
+                // Filtrar palabras vacías y palabras muy cortas (menos de 3 caracteres)
+                return !this.spanishStopwords.has(normalized) && normalized.length >= 3;
+            });
     },
     
     // Nueva función para combinar y unificar temas de múltiples guardados
@@ -499,21 +528,36 @@ const DataProcessor = {
         return Array.from(authors).sort();
     },
     
-    extractUniqueTopics(messages) {
-        const topicMap = new Map(); // normalizado -> canónico
+    extractUniqueTopicsWithCounts(messages) {
+        const topicMap = new Map(); // normalizado -> { canonical: string, count: number }
         
         messages.forEach(msg => {
             if (msg.unifiedTopics) {
                 msg.unifiedTopics.forEach(topicData => {
                     const normalized = Utils.normalizeTopicForComparison(topicData.topic);
                     if (!topicMap.has(normalized)) {
-                        topicMap.set(normalized, topicData.topic);
+                        topicMap.set(normalized, { topic: topicData.topic, count: 0 });
                     }
+                    // Contar cuántas veces aparece este tema (considerando la frecuencia por mensaje)
+                    topicMap.get(normalized).count += topicData.count;
                 });
             }
         });
         
-        return Array.from(topicMap.values()).sort();
+        // Ordenar por popularidad (más usados primero) y luego alfabéticamente
+        return Array.from(topicMap.values())
+            .sort((a, b) => {
+                // Primer criterio: por frecuencia (descendente)
+                if (b.count !== a.count) {
+                    return b.count - a.count;
+                }
+                // Segundo criterio: alfabéticamente (ascendente)
+                return a.topic.localeCompare(b.topic, 'es', { sensitivity: 'base' });
+            });
+    },
+    
+    extractUniqueTopics(messages) {
+        return this.extractUniqueTopicsWithCounts(messages).map(item => item.topic);
     }
 };
 
@@ -766,12 +810,16 @@ const App = {
             DOM.authorFilter.innerHTML += `<option value="${author}">${author}</option>`;
         });
         
-        // Poblar filtro de temas
-        const topics = DataProcessor.extractUniqueTopics(AppState.allMessages);
+        // Poblar filtro de temas con contadores
+        const topicsData = DataProcessor.extractUniqueTopicsWithCounts(AppState.allMessages);
         DOM.topicFilter.innerHTML = '<option value="">Todos los temas</option>';
-        topics.forEach(topic => {
-            DOM.topicFilter.innerHTML += `<option value="${topic}">${topic}</option>`;
+        topicsData.forEach(topicData => {
+            const countText = topicData.count > 1 ? ` (${topicData.count})` : '';
+            DOM.topicFilter.innerHTML += `<option value="${topicData.topic}">${topicData.topic}${countText}</option>`;
         });
+        
+        // Guardar datos de temas para el panel de populares
+        AppState.topicsData = topicsData;
     },
     
     applyFiltersAndRender() {
@@ -810,6 +858,7 @@ const App = {
         if (AppState.allMessages.length > 0) {
             DOM.controls.style.display = 'block';
             DOM.messagesContainer.style.display = 'block';
+            this.renderPopularTopics();
         }
     },
     
@@ -1004,6 +1053,9 @@ const App = {
         // Resetear página y aplicar filtros
         AppState.currentPage = 1;
         this.applyFiltersAndRender();
+        
+        // Actualizar estado visual del panel de temas populares
+        this.renderPopularTopics();
     },
     
     resetAllFilters() {
@@ -1030,6 +1082,9 @@ const App = {
         
         this.updateClearSearchButton();
         this.applyFiltersAndRender();
+        
+        // Actualizar estado visual del panel de temas populares
+        this.renderPopularTopics();
     },
     
     updateClearSearchButton() {
@@ -1138,12 +1193,44 @@ const App = {
         DOM.loading.style.display = 'none';
     },
     
+    renderPopularTopics() {
+        // Solo mostrar si hay temas
+        if (!AppState.topicsData || AppState.topicsData.length === 0) {
+            DOM.popularTopicsPanel.style.display = 'none';
+            return;
+        }
+        
+        // Mostrar solo los 6 temas más populares
+        const topTopics = AppState.topicsData.slice(0, 6);
+        
+        DOM.popularTopicsList.innerHTML = topTopics
+            .map(topicData => {
+                const isActive = AppState.filters.topic === topicData.topic ? 'active' : '';
+                return `<button class="popular-topic-tag ${isActive}" data-topic="${topicData.topic}">
+                    #${topicData.topic}
+                </button>`;
+            })
+            .join('');
+            
+        DOM.popularTopicsPanel.style.display = 'block';
+        
+        // Event listeners para los tags populares
+        DOM.popularTopicsList.addEventListener('click', (e) => {
+            const tag = e.target.closest('.popular-topic-tag');
+            if (tag) {
+                const topic = tag.dataset.topic;
+                this.filterByTopic(topic);
+            }
+        });
+    },
+    
     showError() {
         DOM.loading.style.display = 'none';
         DOM.error.style.display = 'block';
         DOM.controls.style.display = 'none';
         DOM.messagesContainer.style.display = 'none';
         DOM.pagination.style.display = 'none';
+        DOM.popularTopicsPanel.style.display = 'none';
     }
 };
 

@@ -629,6 +629,74 @@
     font-weight: 500;
 }
 
+/* Panel de temas populares */
+.popular-topics-panel {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    padding: 16px;
+    animation: fadeIn 0.3s ease;
+}
+
+.popular-topics-header {
+    margin-bottom: 12px;
+}
+
+.popular-topics-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.popular-topics-title i {
+    font-size: 14px;
+    margin-right: 6px;
+    color: #8B5CF6;
+}
+
+.popular-topics-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.popular-topic-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.popular-topic-tag:hover {
+    background: #8B5CF6;
+    border-color: #8B5CF6;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
+}
+
+.popular-topic-tag.active {
+    background: #8B5CF6;
+    border-color: #8B5CF6;
+    color: white;
+    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
+}
+
 /* Footer del mensaje */
 .message-footer {
     margin-top: 0;
@@ -1285,15 +1353,15 @@ h1 i {
     border: 1px solid #e5e7eb;
 }
 
-/* Temas clicables */
+/* Temas clicables - estilo sutil */
 .topic-tag {
     display: inline-flex;
     align-items: center;
-    padding: 4px 8px;
-    background: #f3e8ff;
+    padding: 4px 2px;
+    background: none;
     color: #7c3aed;
-    border: 1px solid #c4b5fd;
-    border-radius: 12px;
+    border: none;
+    border-radius: 0;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
@@ -1304,15 +1372,14 @@ h1 i {
 }
 
 .topic-tag:hover {
-    background: #8B5CF6;
-    color: white;
-    border-color: #8B5CF6;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
+    color: #8B5CF6;
+    text-decoration: underline;
+    transform: none;
+    box-shadow: none;
 }
 
 .topic-tag:active {
-    transform: translateY(0);
+    transform: none;
 }
 
 /* Los temas ya no necesitan contador, solo ordenación por frecuencia */

@@ -448,40 +448,185 @@
     border-bottom-color: #8B5CF6;
 }
 
-/* Truncar contenido muy largo */
-.message-content.truncated {
-    max-height: 150px;
-    overflow: hidden;
-    position: relative;
+/* Contenido expandible */
+.message-content {
+    transition: all 0.3s ease;
 }
 
-.message-content.truncated::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 30px;
-    background: linear-gradient(transparent, white);
-    pointer-events: none;
+.content-preview,
+.content-full {
+    transition: opacity 0.2s ease;
 }
 
 .expand-btn {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     width: 100%;
-    padding: 8px;
-    background: none;
-    border: none;
-    color: #8B5CF6;
+    padding: 8px 12px;
+    margin-top: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #64748b;
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
     text-align: center;
 }
 
 .expand-btn:hover {
-    color: #6D28D9;
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #d1d5db;
+    transform: translateY(-1px);
+}
+
+.expand-btn:active {
+    transform: translateY(0);
+}
+
+.expand-btn i {
+    font-size: 11px;
+    transition: transform 0.2s ease;
+}
+
+/* Estilos para imágenes de mensajes */
+.message-image-container {
+    margin-top: 12px;
+    margin-bottom: 8px;
+}
+
+.image-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    background: #f8fafc;
+    border: 1px dashed #d1d5db;
+    border-radius: 8px;
+    color: #9ca3af;
+    font-size: 14px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.image-loading i {
+    font-size: 16px;
+}
+
+/* Estados de lazy loading */
+.message-image-container.lazy-loading .image-loading {
+    opacity: 0.8;
+    background: #f1f5f9;
+}
+
+.message-image-container.lazy-loading .image-loading i {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Loading activo cuando se está cargando */
+.message-image-container.loading .image-loading {
+    background: #eff6ff;
+    border-color: #93c5fd;
+    color: #2563eb;
+}
+
+.message-image-container.loading .image-loading i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.message-image {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    max-height: 300px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message-image:hover {
+    transform: scale(1.02);
+}
+
+.message-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    max-height: 300px;
+    object-fit: contain;
+    background: #f8fafc;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.message-image:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 24px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #94a3b8;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 100px;
+}
+
+.image-placeholder:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #64748b;
+    transform: translateY(-1px);
+}
+
+.image-placeholder i {
+    font-size: 28px;
+    margin-bottom: 2px;
+    opacity: 0.7;
+}
+
+.image-placeholder span {
+    font-size: 13px;
+    font-weight: 500;
 }
 
 /* Footer del mensaje */
@@ -981,6 +1126,33 @@
     .expand-btn {
         font-size: 12px;
         padding: 6px;
+    }
+    
+    /* Imágenes en móviles */
+    .message-image {
+        max-height: 200px;
+    }
+    
+    .message-image img {
+        max-height: 200px;
+    }
+    
+    .image-loading {
+        padding: 16px;
+        font-size: 13px;
+    }
+    
+    .image-placeholder {
+        padding: 20px;
+        min-height: 80px;
+    }
+    
+    .image-placeholder i {
+        font-size: 24px;
+    }
+    
+    .image-placeholder span {
+        font-size: 12px;
     }
     
     .saved-by-details {

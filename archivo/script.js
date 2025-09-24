@@ -2,7 +2,7 @@
 const CONFIG = {
     API_URL: 'https://proyectos.aldeapucela.org/exports/guardados/data.json',
     MESSAGES_PER_PAGE: 20,
-    MAX_CONTENT_LENGTH: 400,
+    MAX_CONTENT_LENGTH: 600,
     SEARCH_DEBOUNCE: 300
 };
 
@@ -77,11 +77,22 @@ const Utils = {
     },
     
     truncateText(text, maxLength = CONFIG.MAX_CONTENT_LENGTH) {
-        if (text.length <= maxLength) return { text, truncated: false };
+        if (text.length <= maxLength) return { text, truncated: false, original: text };
+        
+        // Find a good breaking point near the max length (prefer word boundaries)
+        let breakPoint = maxLength;
+        const nearBreakPoint = text.substring(maxLength - 50, maxLength + 50);
+        const spaceIndex = nearBreakPoint.lastIndexOf(' ');
+        
+        if (spaceIndex !== -1 && spaceIndex > 25) {
+            breakPoint = maxLength - 50 + spaceIndex;
+        }
+        
         return {
-            text: text.substring(0, maxLength) + '...',
+            text: text.substring(0, breakPoint).trim() + '...',
             truncated: true,
-            original: text
+            original: text,
+            previewLength: breakPoint
         };
     },
     
@@ -203,6 +214,221 @@ const Utils = {
         // Convertir URLs en enlaces clicables
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return text.replace(urlRegex, '<a href="$1" target="_blank" class="message-link">$1</a>');
+    },
+    
+    // Cache para imágenes de Telegram para evitar múltiples solicitudes
+    telegramImageCache: new Map(),
+    
+    // Sistema de cola para controlar peticiones
+    imageQueue: [],
+    isProcessingQueue: false,
+    
+    // Intersection Observer para detectar imágenes visibles
+    imageObserver: null,
+    
+    // Procesar cola de imágenes con delay entre peticiones
+    async processImageQueue() {
+        if (this.isProcessingQueue || this.imageQueue.length === 0) {
+            return;
+        }
+        
+        this.isProcessingQueue = true;
+        
+        while (this.imageQueue.length > 0) {
+            const { container, telegramUrl, callback } = this.imageQueue.shift();
+            
+            // Cambiar a estado de loading activo
+            if (container) {
+                container.classList.remove('lazy-loading');
+                container.classList.add('loading');
+                const loadingText = container.querySelector('.image-loading span');
+                if (loadingText) {
+                    loadingText.textContent = 'Cargando imagen...';
+                }
+            }
+            
+            try {
+                const imageUrl = await this.getTelegramImageWithRetry(telegramUrl);
+                callback(container, imageUrl, telegramUrl);
+            } catch (error) {
+                console.warn('Failed to load image after retries:', error.message);
+                callback(container, null, telegramUrl);
+            }
+            
+            // Delay entre peticiones para evitar rate limiting
+            if (this.imageQueue.length > 0) {
+                await this.delay(500); // 500ms entre peticiones
+            }
+        }
+        
+        this.isProcessingQueue = false;
+    },
+    
+    // Añadir imagen a la cola
+    queueImageLoad(container, telegramUrl, callback) {
+        this.imageQueue.push({ container, telegramUrl, callback });
+        this.processImageQueue();
+    },
+    
+    // Delay utility
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    },
+    
+    async getTelegramImageWithRetry(telegramUrl, maxRetries = 2) {
+        // Verificar cache primero
+        if (this.telegramImageCache.has(telegramUrl)) {
+            return this.telegramImageCache.get(telegramUrl);
+        }
+        
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                const imageUrl = await this.tryExtractWithProxy(telegramUrl);
+                
+                // Guardar en cache
+                this.telegramImageCache.set(telegramUrl, imageUrl);
+                return imageUrl;
+            } catch (error) {
+                console.warn(`Attempt ${attempt}/${maxRetries} failed for ${telegramUrl}:`, error.message);
+                
+                if (attempt < maxRetries) {
+                    // Esperar más tiempo antes del retry
+                    await this.delay(1000 * attempt);
+                } else {
+                    // Último intento fallido, guardar null en cache
+                    this.telegramImageCache.set(telegramUrl, null);
+                    throw error;
+                }
+            }
+        }
+    },
+    
+    async getTelegramImage(telegramUrl) {
+        // Esta función ahora es un wrapper que usa la cola
+        return new Promise((resolve) => {
+            this.queueImageLoad(null, telegramUrl, (container, imageUrl) => {
+                resolve(imageUrl);
+            });
+        });
+    },
+    
+    async tryExtractWithProxy(telegramUrl) {
+        try {
+            // Si es una URL de t.me, intentar diferentes formatos que contengan metadatos
+            const telegramMatch = telegramUrl.match(/t\.me\/([^/]+)\/([0-9]+)/);
+            if (telegramMatch) {
+                const channel = telegramMatch[1];
+                const messageId = telegramMatch[2];
+                
+                // Probar diferentes formatos de URL que pueden tener metadatos
+                const urlsToTry = [
+                    `${telegramUrl}?embed=1&mode=tme`,
+                    `https://t.me/${channel}/${messageId}?embed=1`,
+                    `https://t.me/s/${channel}/${messageId}`,  // Formato "s/" a veces tiene más metadatos
+                    telegramUrl  // Original como fallback
+                ];
+                
+                for (const testUrl of urlsToTry) {
+                    const result = await this.tryUrlForMetadata(testUrl);
+                    if (result) {
+                        return result;
+                    }
+                }
+                
+                return null;
+            }
+            
+            // Si no es URL de Telegram, usar directamente
+            return await this.tryUrlForMetadata(telegramUrl);
+        } catch (error) {
+            console.warn('Error extracting image:', error.message);
+            return null;
+        }
+    },
+    
+    async tryUrlForMetadata(url) {
+        try {
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+            const response = await fetch(proxyUrl);
+            
+            if (!response.ok) {
+                return null;
+            }
+            
+            const data = await response.json();
+            const htmlContent = data.contents;
+            
+            if (!htmlContent) {
+                return null;
+            }
+            
+            // Buscar metadatos Open Graph en el HTML con múltiples patrones
+            const metaPatterns = [
+                /<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i,
+                /<meta\s+name=["']twitter:image["']\s+content=["']([^"']+)["']/i,
+                /<meta\s+property=["']twitter:image["']\s+content=["']([^"']+)["']/i,
+                // Patrones adicionales que Telegram puede usar
+                /<meta\s+property=["']og:image:url["']\s+content=["']([^"']+)["']/i,
+                /<meta\s+name=["']image["']\s+content=["']([^"']+)["']/i,
+                /<meta\s+property=["']image["']\s+content=["']([^"']+)["']/i
+            ];
+            
+            for (const pattern of metaPatterns) {
+                const match = htmlContent.match(pattern);
+                if (match && match[1]) {
+                    return match[1];
+                }
+            }
+            
+            return null;
+        } catch (error) {
+            console.warn('Error extracting metadata:', error.message);
+            return null;
+        }
+    },
+    
+    
+    // Inicializar Intersection Observer para detectar imágenes visibles
+    initImageObserver() {
+        if (!this.imageObserver) {
+            this.imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const container = entry.target;
+                        const telegramUrl = container.dataset.telegramUrl;
+                        
+                        // Desconectar observer para este elemento
+                        this.imageObserver.unobserve(container);
+                        
+                        // Añadir a la cola de carga
+                        this.queueImageLoad(container, telegramUrl, (container, imageUrl, telegramUrl) => {
+                            if (imageUrl) {
+                                App.displayTelegramImage(container, imageUrl, telegramUrl);
+                            } else {
+                                App.displayImageError(container);
+                            }
+                        });
+                    }
+                });
+            }, {
+                rootMargin: '100px' // Empezar a cargar 100px antes de que sea visible
+            });
+        }
+        return this.imageObserver;
+    },
+    
+    // Observar contenedor de imagen para carga lazy
+    observeImageContainer(container) {
+        const observer = this.initImageObserver();
+        observer.observe(container);
+    },
+    
+    // El fallback no puede generar URLs de imagen válidas, solo mostrar error
+    getTelegramImageFallback(telegramUrl) {
+        // Telegram no expone URLs de imagen públicas de forma predecible
+        // El único recurso real es usar los metadatos, si fallan, no hay imagen
+        console.warn('No fallback available for Telegram images - showing error state');
+        return null;
     }
 };
 
@@ -236,6 +462,7 @@ const DataProcessor = {
                     content: item.Content,
                     created: item.Created,
                     telegramLink: item['Telegram link'],
+                    hasImage: item.Image === true || item.Image === 'true',
                     saveCount: 1,
                     savedBy: [{
                         user: item.User,
@@ -408,6 +635,7 @@ const RenderSystem = {
         const avatarColor = Utils.generateAvatarColor(message.authorName);
         const initials = Utils.getInitials(message.authorName);
         const processedContent = Utils.processLinks(contentData.text);
+        const fullProcessedContent = contentData.truncated ? Utils.processLinks(contentData.original) : processedContent;
         
         return `
             <div class="message telegram-style" data-message-id="${message.messageId}">
@@ -424,8 +652,26 @@ const RenderSystem = {
                         </div>
                     </div>
                     
-                    <div class="message-content">
-                        ${processedContent.replace(/\n/g, '<br>')}
+                    <div class="message-content ${contentData.truncated ? 'truncated' : ''}" data-expanded="false">
+                        <div class="content-preview">
+                            ${processedContent.replace(/\n/g, '<br>')}
+                        </div>
+                        ${contentData.truncated ? `
+                            <div class="content-full" style="display: none;">
+                                ${fullProcessedContent.replace(/\n/g, '<br>')}
+                            </div>
+                            <button class="expand-btn" data-action="expand">
+                                <i class="fas fa-chevron-down"></i> Mostrar más
+                            </button>
+                        ` : ''}
+                        ${message.hasImage ? `
+                            <div class="message-image-container" data-telegram-url="${message.telegramLink}">
+                                <div class="image-loading">
+                                    <i class="fas fa-image"></i>
+                                    <span>Imagen disponible - se cargará al entrar en vista</span>
+                                </div>
+                            </div>
+                        ` : ''}
                     </div>
                     
                     <div class="message-footer">
@@ -587,6 +833,9 @@ const App = {
         
         // Añadir todos los mensajes de una vez
         DOM.messagesContainer.appendChild(fragment);
+        
+        // Configurar lazy loading para imágenes de Telegram
+        this.setupLazyImageLoading();
     },
     
     updateStatistics() {
@@ -608,6 +857,13 @@ const App = {
                 if (details) {
                     details.style.display = details.style.display === 'none' ? 'block' : 'none';
                 }
+                return;
+            }
+            
+            // Manejar clicks en botones de expandir/contraer contenido
+            const expandBtn = e.target.closest('.expand-btn');
+            if (expandBtn) {
+                this.toggleMessageContent(expandBtn);
                 return;
             }
             
@@ -778,6 +1034,96 @@ const App = {
     
     updateClearSearchButton() {
         DOM.clearSearch.style.display = AppState.searchTerm ? 'block' : 'none';
+    },
+    
+    toggleMessageContent(expandBtn) {
+        const messageContent = expandBtn.closest('.message-content');
+        const contentPreview = messageContent.querySelector('.content-preview');
+        const contentFull = messageContent.querySelector('.content-full');
+        const isExpanded = messageContent.dataset.expanded === 'true';
+        
+        if (isExpanded) {
+            // Contraer
+            contentPreview.style.display = 'block';
+            contentFull.style.display = 'none';
+            messageContent.dataset.expanded = 'false';
+            expandBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Mostrar más';
+            expandBtn.dataset.action = 'expand';
+        } else {
+            // Expandir
+            contentPreview.style.display = 'none';
+            contentFull.style.display = 'block';
+            messageContent.dataset.expanded = 'true';
+            expandBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Mostrar menos';
+            expandBtn.dataset.action = 'collapse';
+        }
+    },
+    
+    setupLazyImageLoading() {
+        // Configurar lazy loading para todas las imágenes
+        const imageContainers = document.querySelectorAll('.message-image-container');
+        
+        imageContainers.forEach(container => {
+            const telegramUrl = container.dataset.telegramUrl;
+            
+            if (!telegramUrl) {
+                console.warn('No telegram URL found in container');
+                this.displayImageError(container);
+                return;
+            }
+            
+            // Añadir clase para indicar que está pendiente de carga
+            container.classList.add('lazy-loading');
+            
+            // Configurar observer para este contenedor
+            Utils.observeImageContainer(container);
+        });
+    },
+    
+    displayTelegramImage(container, imageUrl, telegramUrl) {
+        // Limpiar estados de carga
+        container.classList.remove('lazy-loading', 'loading');
+        
+        // Limpiar el contenedor completamente
+        container.innerHTML = '';
+        
+        // Crear elementos del DOM de forma segura
+        const imageDiv = document.createElement('div');
+        imageDiv.className = 'message-image';
+        
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.alt = 'Imagen del mensaje';
+        img.loading = 'lazy';
+        img.style.cursor = 'pointer';
+        
+        // Agregar eventos de forma segura
+        img.onclick = () => window.open(telegramUrl, '_blank');
+        img.onerror = () => {
+            console.warn('Image failed to load, showing placeholder');
+            this.displayImageError(container);
+        };
+        
+        const overlay = document.createElement('div');
+        overlay.className = 'image-overlay';
+        overlay.innerHTML = '<i class="fas fa-external-link-alt"></i>';
+        
+        imageDiv.appendChild(img);
+        imageDiv.appendChild(overlay);
+        container.appendChild(imageDiv);
+    },
+    
+    displayImageError(container) {
+        // Limpiar estados de carga
+        container.classList.remove('lazy-loading', 'loading');
+        
+        const telegramUrl = container.dataset.telegramUrl;
+        container.innerHTML = `
+            <div class="image-placeholder" onclick="window.open('${telegramUrl}', '_blank')">
+                <i class="fas fa-image"></i>
+                <span>Clic para ver imagen</span>
+            </div>
+        `;
     },
     
     showLoading() {

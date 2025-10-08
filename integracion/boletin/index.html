@@ -33,6 +33,50 @@
     </script>
 
     <!-- START - We recommend to place the below code in head tag of your website html  -->
+  <style>
+    @font-face {
+      font-display: block;
+      font-family: Roboto;
+      src: url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/7529907e9eaf8ebb5220c5f9850e3811.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/normal/normal/25c678feafdc175a70922a116c9be3e7.woff) format("woff")
+    }
+
+    @font-face {
+      font-display: fallback;
+      font-family: Roboto;
+      font-weight: 600;
+      src: url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/6e9caeeafb1f3491be3e32744bc30440.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/medium/normal/71501f0d8d5aa95960f6475d5487d4c2.woff) format("woff")
+    }
+
+    @font-face {
+      font-display: fallback;
+      font-family: Roboto;
+      font-weight: 700;
+      src: url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/3ef7cf158f310cf752d5ad08cd0e7e60.woff2) format("woff2"), url(https://assets.brevo.com/font/Roboto/Latin/bold/normal/ece3a1d82f18b60bcce0211725c476aa.woff) format("woff")
+    }
+
+    #sib-container input:-ms-input-placeholder {
+      text-align: left;
+      font-family: Helvetica, sans-serif;
+      color: #c0ccda;
+    }
+
+    #sib-container input::placeholder {
+      text-align: left;
+      font-family: Helvetica, sans-serif;
+      color: #c0ccda;
+    }
+
+    #sib-container textarea::placeholder {
+      text-align: left;
+      font-family: Helvetica, sans-serif;
+      color: #c0ccda;
+    }
+
+    #sib-container a {
+      text-decoration: underline;
+      color: #2BB2FC;
+    }
+  </style>
   <link rel="stylesheet" href="./boletin.css">
   <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
   <!--  END - We recommend to place the above code in head tag of your website html -->
@@ -65,7 +109,7 @@ background-color: #EFF2F7;                                 ">
 </div>
 <div></div>
 <div id="sib-container" class="sib-container--large sib-container--vertical" style="text-align:center; background-color:rgba(255,255,255,1); max-width:540px; border-radius:3px; border-width:1px; border-color:#C0CCD9; border-style:solid; direction:ltr">
-<form id="sib-form" method="POST" action="https://sibforms.com/serve/MUIFANn1QHV3ZBz5MkM1OqgJWIuftGFpQyGR1rNh1vT0XerSPx5a_OuFjP-QRU4VhcRWHnBGcQ_WyrjqEHCO4GcOu-6ZA16e34ZvJYkglUanHXh52JFAyZ_98ymcA239ijnjo2qo3woN6PjaeUtYe6KIMotBOR-hKhmAxQqkcz52DlGigC-aZ0rSrnNFVE0auCyadw4vk-UEteBM" data-type="subscription">
+<form id="sib-form" method="POST" action="https://a62a2e37.sibforms.com/serve/MUIFAA0SD84h8rW_2kvhL6In3dD3HnAADd8NIYA49k6jLONvNvlr1_4JGIzLG6pV-0dEmegiQEzGupf0oC9QNEKEfbhWyNv8as3M6sdww-XqmQKzzok5hWQKgQmi3qDz0Ip_UPDJA_x2PdQF9MXhmnkraHjGMsgFCQBlG2nhBvQxWH2aUIFUSHdqybQOYpDlSin3jLB_mHbk-6Zd" data-type="subscription">
 <div style="padding: 8px 0;">
  <div class="sib-form-block sib-image-form-block" style="text-align: center">
    <img src="https://img.mailinblue.com/8704089/images/content_library/original/681c8a2248232c60367276bf.png" style="width: 250px;height: 250px;" alt="Logo boletín" title="Logo boletín" />
@@ -106,13 +150,180 @@ background-color: #EFF2F7;                                 ">
  <div class="sib-input sib-form-block">
    <div class="form__entry entry_block">
      <div class="form__label-row ">
-       <label class="entry__label" style="font-weight: 700; text-align:left; font-size:16px; text-align:left; font-weight:700; font-family:Helvetica, sans-serif; color:#3c4858;" for="FIRSTNAME">Tu nombre (opcional)</label>
+       <label class="entry__label" style="font-weight: 700; text-align:left; font-size:16px; text-align:left; font-weight:700; font-family:Helvetica, sans-serif; color:#3c4858;" for="FIRSTNAME" data-required="*">Tu nombre</label>
 
        <div class="entry__field">
-         <input class="input " maxlength="200" type="text" id="FIRSTNAME" name="FIRSTNAME" autocomplete="off" placeholder="Nombre" />
+         <input class="input " maxlength="200" type="text" id="FIRSTNAME" name="FIRSTNAME" autocomplete="off" placeholder="Nombre" data-required="true" required />
        </div>
      </div>
 
+     <label class="entry__error entry__error--primary" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
+     </label>
+   </div>
+ </div>
+</div>
+<div style="padding: 8px 0;">
+ <div class="sib-select sib-form-block">
+   <div class="form__entry entry_block">
+     <div class="form__label-row ">
+       <label class="entry__label" style="font-weight: 700; text-align:left; font-size:16px; text-align:left; font-weight:700; font-family:Helvetica, sans-serif; color:#3c4858;" for="BARRIO">Tu barrio (opcional)</label>
+       <div class="entry__field">
+         <select class="input" id="BARRIO" name="BARRIO">
+           <option value="" disabled selected hidden>Elija 1 valor</option>
+
+           <option class="sib-menu__item" value="1">
+             Arturo Eyries
+           </option>
+           <option class="sib-menu__item" value="2">
+             Barrio España
+           </option>
+           <option class="sib-menu__item" value="3">
+             Batallas
+           </option>
+           <option class="sib-menu__item" value="4">
+             Belén - Pilarica
+           </option>
+           <option class="sib-menu__item" value="5">
+             Campo Grande
+           </option>
+           <option class="sib-menu__item" value="6">
+             Caño Argales
+           </option>
+           <option class="sib-menu__item" value="7">
+             Circular
+           </option>
+           <option class="sib-menu__item" value="8">
+             Coto de Simancas
+           </option>
+           <option class="sib-menu__item" value="9">
+             Covaresa
+           </option>
+           <option class="sib-menu__item" value="10">
+             Cuatro de Marzo
+           </option>
+           <option class="sib-menu__item" value="11">
+             Delicias - Arco de Ladrillo
+           </option>
+           <option class="sib-menu__item" value="12">
+             Delicias - Canterac
+           </option>
+           <option class="sib-menu__item" value="13">
+             El Berrocal
+           </option>
+           <option class="sib-menu__item" value="14">
+             El Peral
+           </option>
+           <option class="sib-menu__item" value="15">
+             El Pinar
+           </option>
+           <option class="sib-menu__item" value="16">
+             Girón
+           </option>
+           <option class="sib-menu__item" value="17">
+             Hospital
+           </option>
+           <option class="sib-menu__item" value="18">
+             Huerta del Rey
+           </option>
+           <option class="sib-menu__item" value="19">
+             La Antigua - Santa Cruz
+           </option>
+           <option class="sib-menu__item" value="20">
+             La Farola
+           </option>
+           <option class="sib-menu__item" value="21">
+             La Overuela
+           </option>
+           <option class="sib-menu__item" value="22">
+             La Rubia
+           </option>
+           <option class="sib-menu__item" value="23">
+             La Victoria
+           </option>
+           <option class="sib-menu__item" value="24">
+             Las Flores
+           </option>
+           <option class="sib-menu__item" value="25">
+             Las Villas - Valparaíso
+           </option>
+           <option class="sib-menu__item" value="26">
+             Pajarillos Altos
+           </option>
+           <option class="sib-menu__item" value="27">
+             Pajarillos Bajos
+           </option>
+           <option class="sib-menu__item" value="28">
+             Parque Alameda - Paula López
+           </option>
+           <option class="sib-menu__item" value="29">
+             Parquesol
+           </option>
+           <option class="sib-menu__item" value="30">
+             Pilarica - Los Santos
+           </option>
+           <option class="sib-menu__item" value="31">
+             Pinar de Jalón
+           </option>
+           <option class="sib-menu__item" value="32">
+             Plaza de Toros
+           </option>
+           <option class="sib-menu__item" value="33">
+             Plaza España
+           </option>
+           <option class="sib-menu__item" value="34">
+             Plaza Mayor
+           </option>
+           <option class="sib-menu__item" value="35">
+             Polígono Argales
+           </option>
+           <option class="sib-menu__item" value="36">
+             Polígono Industrial la Mora
+           </option>
+           <option class="sib-menu__item" value="37">
+             Polígono San Cristóbal
+           </option>
+           <option class="sib-menu__item" value="38">
+             Puente Duero
+           </option>
+           <option class="sib-menu__item" value="39">
+             Puente Jardín
+           </option>
+           <option class="sib-menu__item" value="40">
+             Rondilla
+           </option>
+           <option class="sib-menu__item" value="41">
+             San Isidro
+           </option>
+           <option class="sib-menu__item" value="42">
+             San Pablo - San Nicolás
+           </option>
+           <option class="sib-menu__item" value="43">
+             San Pedro Regalado
+           </option>
+           <option class="sib-menu__item" value="44">
+             Soto de Medinilla
+           </option>
+           <option class="sib-menu__item" value="45">
+             Urbanización El Pichón
+           </option>
+           <option class="sib-menu__item" value="46">
+             Urbanización El Plantío
+           </option>
+           <option class="sib-menu__item" value="47">
+             Urbanización Entrepinos
+           </option>
+           <option class="sib-menu__item" value="48">
+             Urbanización Las Aceñas
+           </option>
+           <option class="sib-menu__item" value="49">
+             Vadillos
+           </option>
+           <option class="sib-menu__item" value="50">
+             Villa del Prado
+           </option>
+         </select>
+       </div>
+     </div>
      <label class="entry__error entry__error--primary" style="font-size:16px; text-align:left; font-family:Helvetica, sans-serif; color:#661d1d; background-color:#ffeded; border-radius:3px; border-color:#ff4949;">
      </label>
    </div>

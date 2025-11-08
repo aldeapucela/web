@@ -20,6 +20,20 @@
 
     <link rel="icon" href="/integracion/logo-integracion.png" type="image/png">
 
+    <!-- Matomo -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="https://stats.aldeapucela.org/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '13']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
 
@@ -124,7 +138,7 @@
             </div>
         </section>
 
-        <section class="mx-auto mt-12 max-w-4xl">
+        <section class="mx-auto mt-12 max-w-5xl">
             <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Últimos debates en el foro</h2>
             <div id="forum-topics" class="mt-6 space-y-6">
                 <article class="rounded-3xl border border-slate-200 bg-white p-6 text-sm text-slate-600 shadow-sm">

@@ -1,107 +1,551 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma por la Integración ferroviaria en Valladolid</title>
-    <link rel="icon" type="image/png" href="https://aldeapucela.org/integracion/logo-integracion.png">
-    <!-- Social Media Meta Tags -->
-    <meta property="og:title" content="Plataforma por la Integración ferroviaria en Valladolid">
-    <meta property="og:description" content="La plataforma por la integración es una agrupación vecinal independiente de cualquier partido que sirve como paraguas para todas las organizaciones y vecinos/as individuales que quieran apoyar el avance de una integración ferroviaria de calidad en Valladolid.">
-    <meta property="og:image" content="https://aldeapucela.org/integracion/logo-integracion.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plataforma por la Integración Ferroviaria de Valladolid</title>
+    <meta name="description" content="Movimiento vecinal independiente que impulsa mejoras de movilidad y urbanización de nuestros barrios a través de una integración ferroviaria de calidad.">
+
     <meta property="og:type" content="website">
-    <meta property="og:locale" content="es_ES">
+    <meta property="og:title" content="Plataforma por la Integración Ferroviaria de Valladolid">
+    <meta property="og:description" content="Movimiento vecinal independiente que impulsa mejoras de movilidad y urbanización de nuestros barrios a través de una integración ferroviaria de calidad.">
     <meta property="og:url" content="https://aldeapucela.org/integracion/">
-    <meta name="twitter:card" content="summary_small_image">
-    <meta name="twitter:title" content="Plataforma por la Integración ferroviaria en Valladolid">
-    <meta name="twitter:description" content="La plataforma por la integración es una agrupación vecinal independiente de cualquier partido que sirve como paraguas para todas las organizaciones y vecinos/as individuales que quieran apoyar el avance de una integración ferroviaria de calidad en Valladolid.">
+    <meta property="og:image" content="https://aldeapucela.org/integracion/logo-integracion.png">
+    <meta property="og:locale" content="es_ES">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Plataforma por la Integración Ferroviaria de Valladolid">
+    <meta name="twitter:description" content="Movimiento vecinal independiente que impulsa mejoras de movilidad y urbanización de nuestros barrios a través de una integración ferroviaria de calidad.">
     <meta name="twitter:image" content="https://aldeapucela.org/integracion/logo-integracion.png">
-    <!-- Fin Social Media Meta Tags -->
 
-    <!-- Matomo -->
-    <script>
-        var _paq = window._paq = window._paq || [];
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function() {
-            var u="https://stats.aldeapucela.org/";
-            _paq.push(['setTrackerUrl', u+'matomo.php']);
-            _paq.push(['setSiteId', '13']);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-        })();
-    </script>
+    <link rel="icon" href="/integracion/logo-integracion.png" type="image/png">
 
-    <script>
-        // Lista de bots de redes sociales más comunes
-        var botUserAgents = [
-            /facebookexternalhit/i,
-            /Twitterbot/i,
-            /Slackbot-LinkExpanding/i,
-            /WhatsApp/i,
-            /TelegramBot/i,
-            /LinkedInBot/i,
-            /Discordbot/i,
-            /Googlebot/i,
-            /bingbot/i,
-            /Pinterest/i
-        ];
-        var isSocialBot = botUserAgents.some(function(rx) {
-            return rx.test(navigator.userAgent);
-        });
-        // Solo redirigir si NO es bot
-        if (!isSocialBot) {
-            setTimeout(function() {
-                window.location.href = 'https://foro.aldeapucela.org/t/plataforma-por-la-integracion-ferroviaria-de-valladolid/512';
-            }, 500);
-        }
-    </script>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+    <!-- Font Awesome con hash corregido -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    >
 
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+        :where(.prose) :where(img.emoji) {
+            display: inline-block;
+            margin: 0 0.15em;
+            height: 1em;
+            width: 1em;
+            vertical-align: -0.2em;
         }
-        .loading {
-            text-align: center;
-            color: #3b82f6;
+
+        :where(.prose) :where(span.emoji-inline) {
+            display: inline;
         }
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3b82f6;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        :where(.prose) :where(img):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+            display: inline !important;
+            margin-top: 0.5rem !important;
+            margin-bottom: 0.5rem !important;
         }
     </style>
 </head>
-<body>
-    <div class="loading">
-        <div class="spinner" id="spinner"></div>
-        <p id="redirect-msg">Redirigiendo...</p>
-        <noscript>
-            <p><a href="https://foro.aldeapucela.org/t/plataforma-por-la-integracion-ferroviaria-de-valladolid/512">Ir al post del foro</a></p>
-        </noscript>
-        <p id="bot-forum-link" style="display:none;"><a href="https://foro.aldeapucela.org/t/plataforma-por-la-integracion-ferroviaria-de-valladolid/512">Ir al post del foro</a></p>
+
+<body class="bg-slate-50 text-slate-800">
+    <main class="px-4 pb-16">
+        <section class="relative isolate mx-auto mt-6 max-w-5xl overflow-hidden rounded-3xl bg-slate-900 text-white shadow-sm">
+            <img src="/integracion/img/hero.jpg" alt="Valladolid" class="absolute inset-0 h-full w-full object-cover">
+            <div class="absolute inset-0 bg-slate-900/70"></div>
+            <div class="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 py-16 text-center sm:px-10">
+                <img src="/integracion/logo-integracion.png" alt="Plataforma por la Integración Ferroviaria de Valladolid" class="h-28 w-auto rounded-3xl sm:h-36">
+                <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Plataforma por la Integración Ferroviaria de Valladolid</h1>
+                <p class="max-w-2xl text-base text-slate-200">Movimiento vecinal independiente que impulsa mejoras de movilidad y urbanización de nuestros barrios a través de una integración ferroviaria de calidad.</p>
+                <div class="flex flex-col gap-3 sm:flex-row">
+                    <a
+                        href="https://aldeapucela.org/integracion/boletin/"
+                        class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-center text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+                    >
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                        Recibir actualizaciones
+                    </a>
+                    <button
+                        type="button"
+                        data-share-button
+                        data-hero-button
+                        class="inline-flex items-center justify-center gap-2 rounded-full border border-white/70 px-6 py-3 text-center text-sm font-semibold text-white transition hover:bg-white/10 hover:border-white"
+                    >
+                        <i class="fa-solid fa-share-nodes"></i>
+                        Compartir
+                    </button>
+                </div>
+                <p class="mt-4 text-sm font-medium text-white/90">
+                    <i class="fa-solid fa-users"></i>
+                    Únete a los cientos de vecinos que ya reciben novedades y próximas acciones en los barrios
+                </p>
+            </div>
+        </section>
+
+        <section class="mx-auto mt-8 max-w-5xl">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Contenido principal -->
+                <div class="w-full lg:w-[75%] order-2 lg:order-1">
+                    <article id="main-topic" class="prose prose-slate prose-headings:text-slate-900 prose-p:text-slate-700 max-w-none">
+                        <p class="text-slate-500">Cargando contenido…</p>
+                    </article>
+                </div>
+                
+                <!-- Sidebar -->
+                <aside class="w-full lg:w-[25%] order-1 lg:order-2">
+                    <div class="lg:sticky lg:top-8 space-y-6">
+                        <!-- Vídeo -->
+                        <div class="overflow-hidden rounded-2xl shadow-lg relative group">
+                            <div class="relative w-full pb-[56.25%]">
+                                <iframe title="Valladolid - Historia de una deuda que paraliza tu barrio" src="https://video.aldeapucela.org/videos/embed/oywL9vxQWHEj7Zp6ieahvz" class="absolute inset-0 h-full w-full" style="border:0" allow="fullscreen" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+                            </div>
+                            <!-- Botón expandir (solo desktop) -->
+                            <button id="expand-video-btn" class="hidden lg:flex absolute bottom-3 right-3 bg-slate-900/80 hover:bg-slate-900 text-white rounded-lg px-3 py-2 items-center gap-2 text-sm font-medium transition-all z-10 shadow-lg">
+                                <i class="fa-solid fa-expand"></i>
+                                <span>Ver en grande</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Espacio para futuros widgets -->
+                        <!-- <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                            <h3 class="text-sm font-semibold text-slate-900">Próximos eventos</h3>
+                        </div> -->
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="mx-auto mt-12 max-w-4xl">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Últimos debates en el foro</h2>
+            <div id="forum-topics" class="mt-6 space-y-6">
+                <article class="rounded-3xl border border-slate-200 bg-white p-6 text-sm text-slate-600 shadow-sm">
+                    Cargando debates…
+                </article>
+            </div>
+            <div class="mt-8 text-center">
+                <a
+                    href="https://foro.aldeapucela.org/c/integracion-ferroviaria/8"
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:text-slate-900"
+                >
+                    <i class="fa-solid fa-arrow-right"></i>
+                    Ver más debates
+                </a>
+            </div>
+        </section>
+
+        <section id="participa" class="mx-auto mt-16 max-w-5xl">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 text-center">Participa</h2>
+            <div class="mt-6 grid gap-6 sm:grid-cols-3">
+                <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h3 class="text-base font-semibold text-slate-900">Chat vecinal</h3>
+                    <p class="mt-3 text-sm text-slate-600">Coordina acciones y comparte novedades en el grupo.</p>
+                    <a
+                        href="https://t.me/aldeapucela/18111"
+                        target="_blank"
+                        rel="noopener"
+                        class="mt-5 inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:text-slate-900 w-full"
+                    >
+                        <i class="fa-solid fa-comments"></i>
+                        Unirse al chat
+                    </a>
+                </article>
+                <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h3 class="text-base font-semibold text-slate-900">Síguenos en BlueSky</h3>
+                    <p class="mt-3 text-sm text-slate-600">Consulta todas las novedades en nuestra cuenta.</p>
+                    <a
+                        href="https://bsky.app/profile/pucelobot.aldeapucela.org"
+                        target="_blank"
+                        rel="noopener"
+                        class="mt-5 inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:text-slate-900 w-full"
+                    >
+                        <i class="fa-solid fa-feather"></i>
+                        Seguir en BlueSky
+                    </a>
+                </article>
+                <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h3 class="text-base font-semibold text-slate-900">Debates en el foro</h3>
+                    <p class="mt-3 text-sm text-slate-600">Lee el boletín y participa en las discusiones.</p>
+                    <a
+                        href="https://foro.aldeapucela.org/c/integracion-ferroviaria/8"
+                        target="_blank"
+                        rel="noopener"
+                        class="mt-5 inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:text-slate-900 w-full"
+                    >
+                        <i class="fa-solid fa-newspaper"></i>
+                        Ir al foro
+                    </a>
+                </article>
+            </div>
+            <div class="mt-6 text-center">
+                <button
+                    type="button"
+                    data-share-button
+                    class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:text-slate-900"
+                >
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Compartir esta página</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="mx-auto mt-16 max-w-3xl">
+            <article class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm text-center">
+                <h2 class="text-xl font-bold text-slate-900">¿Quieres estar al día?</h2>
+                <p class="mt-3 text-sm text-slate-600">Suscríbete al boletín y recibe las novedades y próximas acciones que realizaremos en los barrios.</p>
+                <a
+                    href="https://aldeapucela.org/integracion/boletin/"
+                    class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-8 py-4 text-center text-base font-semibold text-white transition hover:bg-slate-700"
+                >
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                    Recibir actualizaciones
+                </a>
+                <p class="mt-4 text-xs text-slate-500">
+                    <i class="fa-solid fa-users"></i>
+                    Únete a los cientos de vecinos suscritos
+                </p>
+            </article>
+        </section>
+    </main>
+
+    <!-- Modal para vídeo expandido (solo desktop) -->
+    <div id="video-modal" class="hidden fixed inset-0 z-50 bg-slate-900/95 items-center justify-center p-4" style="display: none;">
+        <button id="close-modal" class="absolute top-4 right-4 text-white hover:text-slate-300 transition-colors z-10">
+            <i class="fa-solid fa-xmark text-3xl"></i>
+        </button>
+        <div class="w-full max-w-5xl">
+            <div class="relative w-full pb-[56.25%] bg-black rounded-lg overflow-hidden">
+                <iframe id="modal-video" title="Valladolid - Historia de una deuda que paraliza tu barrio" src="" class="absolute inset-0 h-full w-full" style="border:0" allow="fullscreen" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+            </div>
+        </div>
     </div>
+
+    <footer class="mt-20 border-t border-slate-200 bg-white">
+        <div class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+            <p>&copy; <span id="current-year"></span> Plataforma por la Integración Ferroviaria</p>
+            <a
+                href="https://creativecommons.org/licenses/by-sa/4.0/deed.es"
+                target="_blank"
+                rel="noopener"
+                class="hover:text-slate-800"
+            >
+                Contenido bajo licencia CC-BY-SA 4.0
+            </a>
+        </div>
+    </footer>
+
     <script>
-    // Mostrar enlace si es bot de red social
-    if (typeof isSocialBot !== 'undefined' && isSocialBot) {
-        document.getElementById('spinner').style.display = 'none';
-        document.getElementById('redirect-msg').style.display = 'none';
-        document.getElementById('bot-forum-link').style.display = 'block';
-    }
+        const MAIN_TOPIC_URL = 'https://foro.aldeapucela.org/t/plataforma-por-la-integracion-ferroviaria-de-valladolid/512.json';
+        const CATEGORY_TOPICS_URL = 'https://foro.aldeapucela.org/c/integracion-ferroviaria.json';
+
+        function cleanTopicHtml(html) {
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            const disallowed = temp.querySelectorAll('.lightbox-wrapper, .quote-controls, .title, .post-menu-area');
+            disallowed.forEach((el) => el.remove());
+            temp.querySelectorAll('img').forEach((img) => {
+                if (!img.classList.contains('emoji')) {
+                    img.remove();
+                }
+            });
+            temp.querySelectorAll('p').forEach((p) => {
+                const children = Array.from(p.childNodes);
+                const onlyEmoji = children.length && children.every((node) => {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        return !node.textContent?.trim();
+                    }
+                    return node.nodeType === Node.ELEMENT_NODE && node.tagName === 'IMG' && node.classList.contains('emoji');
+                });
+
+                if (onlyEmoji) {
+                    const span = document.createElement('span');
+                    span.className = 'emoji-inline';
+                    span.innerHTML = p.innerHTML;
+                    p.replaceWith(span);
+                } else {
+                    p.className = '';
+                }
+            });
+            return temp.innerHTML.trim();
+        }
+
+        function formatDate(isoDate) {
+            const date = new Date(isoDate);
+            return date.toLocaleDateString('es-ES', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function createExcerptFromHtml(html, limit = 220) {
+            const temp = document.createElement('div');
+            temp.innerHTML = html || '';
+            const paragraph = Array.from(temp.querySelectorAll('p')).find((p) => p.textContent.trim());
+            let text = paragraph ? paragraph.textContent.trim() : temp.textContent?.trim() ?? '';
+            if (text.length <= limit) return text;
+            return `${text.slice(0, limit).trim()}…`;
+        }
+
+        async function fetchTopicExcerpt(topicId, slug) {
+            const url = `https://foro.aldeapucela.org/t/${slug}/${topicId}.json`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('No se pudo obtener el tema');
+            const data = await response.json();
+            const firstPost = data.post_stream?.posts?.[0];
+            if (!firstPost) return '';
+            return createExcerptFromHtml(firstPost.cooked);
+        }
+
+        async function loadMainTopic() {
+            const mainTopic = document.getElementById('main-topic');
+            try {
+                const response = await fetch(MAIN_TOPIC_URL);
+                if (!response.ok) throw new Error('Respuesta no válida');
+                const data = await response.json();
+                const firstPost = data.post_stream?.posts?.[0];
+                if (!firstPost) throw new Error('Sin contenido');
+                mainTopic.innerHTML = cleanTopicHtml(firstPost.cooked) || '<p class="text-slate-500">No hay contenido disponible.</p>';
+            } catch (error) {
+                mainTopic.innerHTML = '<p class="text-slate-500">No se pudo cargar el manifiesto. <a class="font-medium text-slate-700" href="https://foro.aldeapucela.org/t/plataforma-por-la-integracion-ferroviaria-de-valladolid/512" target="_blank" rel="noopener">Abrir hilo en el foro</a>.</p>';
+            }
+        }
+
+        function renderTopics(topics) {
+            const container = document.getElementById('forum-topics');
+            if (!topics.length) {
+                container.innerHTML = '<article class="rounded-3xl border border-slate-200 bg-white p-6 text-sm text-slate-500 shadow-sm">Sin debates recientes en la categoría.</article>';
+                return;
+            }
+
+            container.innerHTML = topics.slice(0, 5).map((topic) => {
+                const createdAt = formatDate(topic.created_at);
+                const excerpt = topic._excerpt || '';
+                const image = topic.image_url
+                    ? `<div class="relative flex-shrink-0 overflow-hidden rounded-2xl bg-slate-100 sm:w-48 sm:aspect-[4/3]"><img src="${topic.image_url}" alt="" class="h-full w-full object-cover" loading="lazy"></div>`
+                    : '';
+                
+                // Usar datos pre-cargados
+                const authorAvatar = topic._authorAvatar || '';
+                const authorName = topic._authorName || 'Anónimo';
+                
+                return `
+                <article class="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:flex-row">
+                    ${image}
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-3">
+                            ${authorAvatar ? `<img src="${authorAvatar}" alt="${authorName}" class="w-6 h-6 rounded-full" loading="lazy">` : '<div class="w-6 h-6 rounded-full bg-slate-200"></div>'}
+                            <span class="text-xs font-medium text-slate-600">${authorName}</span>
+                            <span class="text-xs text-slate-400">•</span>
+                            <span class="text-xs text-slate-500">${createdAt}</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-slate-900">
+                            <a href="https://foro.aldeapucela.org/t/${topic.slug}/${topic.id}" target="_blank" rel="noopener" class="hover:text-slate-700">
+                                ${topic.fancy_title || topic.title}
+                            </a>
+                        </h3>
+                        <p class="mt-3 text-sm text-slate-600">${excerpt || 'Sin extracto disponible.'}</p>
+                        <a
+                            href="https://foro.aldeapucela.org/t/${topic.slug}/${topic.id}"
+                            target="_blank"
+                            rel="noopener"
+                            class="mt-4 inline-flex items-center text-sm font-medium text-slate-800 transition hover:text-slate-600"
+                        >
+                            Leer más
+                        </a>
+                    </div>
+                </article>`;
+            }).join('');
+        }
+
+        async function loadCategoryTopics() {
+            try {
+                const response = await fetch(CATEGORY_TOPICS_URL);
+                if (!response.ok) throw new Error('Respuesta no válida');
+                const data = await response.json();
+                const topics = (data.topic_list?.topics || []).filter((topic) => !topic.pinned).slice(0, 5);
+                const users = data.users || [];
+
+                const enriched = await Promise.all(topics.map(async (topic) => {
+                    let excerpt = topic.excerpt?.trim() || '';
+                    if (!excerpt) {
+                        try {
+                            excerpt = await fetchTopicExcerpt(topic.id, topic.slug);
+                        } catch (error) {
+                            console.error('No se pudo generar extracto para', topic.id, error);
+                        }
+                    }
+                    
+                    // Encontrar información del autor
+                    const authorPoster = topic.posters?.find(p => p.description?.includes('Original Poster')) || topic.posters?.[0];
+                    const authorUser = users.find(u => u.id === authorPoster?.user_id);
+                    
+                    return { 
+                        ...topic, 
+                        _excerpt: excerpt || '',
+                        _authorName: authorUser?.username || topic.last_poster_username || 'Anónimo',
+                        _authorAvatar: authorUser?.avatar_template ? `https://foro.aldeapucela.org${authorUser.avatar_template.replace('{size}', '48')}` : ''
+                    };
+                }));
+
+                renderTopics(enriched);
+            } catch (error) {
+                document.getElementById('forum-topics').innerHTML = '<article class="rounded-3xl border border-slate-200 bg-white p-6 text-sm text-slate-500 shadow-sm">No se pudieron cargar los debates. <a class="font-medium text-slate-700" href="https://foro.aldeapucela.org/c/integracion-ferroviaria/8" target="_blank" rel="noopener">Abrir categoría</a>.</article>';
+            }
+        }
+
+        function setupShareButtons() {
+            const buttons = document.querySelectorAll('[data-share-button]');
+            if (!buttons.length) return;
+            
+            const title = 'Plataforma por la Integración Ferroviaria de Valladolid';
+            const description = 'Movimiento vecinal independiente que impulsa mejoras de movilidad y urbanización de nuestros barrios a través de una integración ferroviaria de calidad.';
+            const url = window.location.href;
+            
+            const shareData = {
+                title: title,
+                text: `${title}\n\n${description}`,
+                url: url
+            };
+            
+            const shareText = `${title}\n\n${description}\n\n${url}`;
+
+            buttons.forEach((button) => {
+                button.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    
+                    // Intentar API nativa de compartir primero
+                    if (navigator.share) {
+                        try {
+                            await navigator.share(shareData);
+                            return;
+                        } catch (error) {
+                            if (error?.name !== 'AbortError') {
+                                console.error('Share failed', error);
+                            }
+                            // Si falla, continuar con clipboard
+                        }
+                    }
+                    
+                    // Fallback: copiar al portapapeles
+                    const originalHTML = button.innerHTML;
+                    const isHeroButton = button.hasAttribute('data-hero-button');
+                    
+                    // Método 1: Clipboard API (moderno)
+                    if (navigator.clipboard && window.isSecureContext) {
+                        try {
+                            await navigator.clipboard.writeText(shareText);
+                            showCopiedState(button, originalHTML, isHeroButton);
+                            return;
+                        } catch (error) {
+                            console.error('Clipboard API failed', error);
+                        }
+                    }
+                    
+                    // Método 2: Fallback con textarea (compatible con Firefox)
+                    try {
+                        const textarea = document.createElement('textarea');
+                        textarea.value = shareText;
+                        textarea.style.position = 'fixed';
+                        textarea.style.opacity = '0';
+                        textarea.style.pointerEvents = 'none';
+                        document.body.appendChild(textarea);
+                        textarea.focus();
+                        textarea.select();
+                        
+                        const success = document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        
+                        if (success) {
+                            showCopiedState(button, originalHTML, isHeroButton);
+                        } else {
+                            throw new Error('execCommand failed');
+                        }
+                    } catch (error) {
+                        console.error('Fallback copy failed', error);
+                        alert('No se pudo copiar el enlace. Copia la URL manualmente.');
+                    }
+                });
+            });
+            
+            function showCopiedState(button, originalHTML, isHeroButton) {
+                if (isHeroButton) {
+                    button.classList.add('bg-white\/20');
+                    button.innerHTML = '<i class="fa-solid fa-check"></i> Enlace copiado';
+                } else {
+                    button.classList.add('bg-slate-900', 'text-white', 'border-slate-900');
+                    button.innerHTML = '<i class="fa-solid fa-check"></i> Enlace copiado';
+                }
+                
+                setTimeout(() => {
+                    if (isHeroButton) {
+                        button.classList.remove('bg-white\/20');
+                    } else {
+                        button.classList.remove('bg-slate-900', 'text-white', 'border-slate-900');
+                    }
+                    button.innerHTML = originalHTML;
+                }, 2000);
+            }
+        }
+
+        function setupVideoModal() {
+            // Solo en desktop (pantallas grandes)
+            if (window.innerWidth < 1024) return;
+            
+            const expandBtn = document.getElementById('expand-video-btn');
+            const modal = document.getElementById('video-modal');
+            const modalVideo = document.getElementById('modal-video');
+            const closeBtn = document.getElementById('close-modal');
+            const videoUrl = 'https://video.aldeapucela.org/videos/embed/oywL9vxQWHEj7Zp6ieahvz';
+            
+            if (!expandBtn || !modal) return;
+            
+            // Abrir modal
+            expandBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                modalVideo.src = videoUrl + '?autoplay=1';
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Cerrar modal
+            const closeModal = () => {
+                modal.style.display = 'none';
+                modalVideo.src = '';
+                document.body.style.overflow = '';
+            };
+            
+            closeBtn.addEventListener('click', closeModal);
+            
+            // Cerrar al hacer clic fuera del vídeo
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Cerrar con tecla ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.style.display === 'flex') {
+                    closeModal();
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            loadMainTopic();
+            loadCategoryTopics();
+            setupShareButtons();
+            setupVideoModal();
+        });
     </script>
 </body>
 </html>

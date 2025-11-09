@@ -111,8 +111,8 @@
                 </div>
                 
                 <!-- Sidebar -->
-                <aside class="w-full lg:w-[33%] order-1 lg:order-2">
-                    <div class="lg:sticky lg:top-8 space-y-6">
+                <aside class="w-full lg:w-[33%] order-1 lg:order-2 lg:sticky lg:top-8">
+                    <div class="space-y-6">
                         <!-- Vídeo -->
                         <div class="overflow-hidden rounded-2xl shadow-lg relative group">
                             <div class="relative w-full pb-[56.25%]">
@@ -132,6 +132,25 @@
                                 <span>Próximas actividades</span>
                             </h3>
                             <div id="events-list" class="space-y-2 text-xs"></div>
+                        </div>
+                        
+                        <!-- Últimos debates (solo desktop) -->
+                        <div id="sidebar-topics" class="hidden lg:block rounded-2xl border border-slate-200 bg-white p-4 shadow-sm" style="display: none;">
+                            <h3 class="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-comments text-slate-700"></i>
+                                <span>Últimos debates</span>
+                            </h3>
+                            <div id="sidebar-topics-list" class="space-y-2.5 text-xs"></div>
+                            <div class="mt-3 pt-3 border-t border-slate-100 text-center">
+                                <a
+                                    href="https://foro.aldeapucela.org/c/integracion-ferroviaria/8"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="text-xs font-medium text-slate-600 hover:text-slate-900 transition-colors"
+                                >
+                                    Ver todos →
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </aside>
@@ -479,6 +498,56 @@
                 widget.style.display = 'none';
             }
         }
+        
+        async function loadSidebarTopics() {
+            const container = document.getElementById('sidebar-topics-list');
+            const widget = document.getElementById('sidebar-topics');
+            if (!container || !widget) return;
+            
+            // Solo cargar en desktop
+            if (window.innerWidth < 1024) return;
+            
+            try {
+                const response = await fetch(CATEGORY_TOPICS_URL);
+                if (!response.ok) throw new Error('No se pudieron cargar los debates');
+                const data = await response.json();
+                const topics = (data.topic_list?.topics || []).filter((topic) => !topic.pinned).slice(0, 5);
+                const users = data.users || [];
+                
+                if (!topics.length) {
+                    widget.style.display = 'none';
+                    return;
+                }
+                
+                // Mostrar el widget
+                widget.style.display = 'block';
+                
+                container.innerHTML = topics.map(topic => {
+                    const title = topic.fancy_title || topic.title;
+                    const url = `https://foro.aldeapucela.org/t/${topic.slug}/${topic.id}`;
+                    
+                    // Encontrar información del autor
+                    const authorPoster = topic.posters?.find(p => p.description?.includes('Original Poster')) || topic.posters?.[0];
+                    const authorUser = users.find(u => u.id === authorPoster?.user_id);
+                    const authorName = authorUser?.username || topic.last_poster_username || 'Anónimo';
+                    const authorAvatar = authorUser?.avatar_template ? `https://foro.aldeapucela.org${authorUser.avatar_template.replace('{size}', '32')}` : '';
+                    
+                    return `
+                    <a href="${url}" target="_blank" rel="noopener" class="block p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors">
+                        <div class="flex gap-2 items-start">
+                            ${authorAvatar ? `<img src="${authorAvatar}" alt="${authorName}" class="w-7 h-7 rounded-full flex-shrink-0 mt-0.5" loading="lazy">` : '<div class="w-7 h-7 rounded-full bg-slate-200 flex-shrink-0 mt-0.5"></div>'}
+                            <div class="flex-1 min-w-0">
+                                <div class="font-medium text-slate-900 text-xs leading-snug line-clamp-2">${title}</div>
+                                <div class="text-[10px] text-slate-500 mt-1">${authorName}</div>
+                            </div>
+                        </div>
+                    </a>`;
+                }).join('');
+            } catch (error) {
+                console.error('Error cargando debates del sidebar:', error);
+                widget.style.display = 'none';
+            }
+        }
 
         function setupShareButtons() {
             const buttons = document.querySelectorAll('[data-share-button]');
@@ -624,6 +693,7 @@
             loadMainTopic();
             loadCategoryTopics();
             loadUpcomingEvents();
+            loadSidebarTopics();
             setupShareButtons();
             setupVideoModal();
         });

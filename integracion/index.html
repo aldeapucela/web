@@ -104,14 +104,14 @@
         <section class="mx-auto mt-8 max-w-5xl">
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Contenido principal -->
-                <div class="w-full lg:w-[75%] order-2 lg:order-1">
-                    <article id="main-topic" class="prose prose-slate prose-headings:text-slate-900 prose-p:text-slate-700 max-w-none">
+                <div class="w-full lg:w-[66%] order-2 lg:order-1">
+                    <article id="main-topic" class="prose prose-slate prose-headings:text-slate-900 prose-p:text-slate-700 max-w-none" style="max-width: 750px;">
                         <p class="text-slate-500">Cargando contenido…</p>
                     </article>
                 </div>
                 
                 <!-- Sidebar -->
-                <aside class="w-full lg:w-[25%] order-1 lg:order-2">
+                <aside class="w-full lg:w-[33%] order-1 lg:order-2">
                     <div class="lg:sticky lg:top-8 space-y-6">
                         <!-- Vídeo -->
                         <div class="overflow-hidden rounded-2xl shadow-lg relative group">
@@ -140,7 +140,7 @@
 
         <section class="mx-auto mt-12 max-w-5xl">
             <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Últimos debates en el foro</h2>
-            <div id="forum-topics" class="mt-6 space-y-6">
+            <div id="forum-topics" class="mt-6 grid gap-6 sm:grid-cols-2">
                 <article class="rounded-3xl border border-slate-200 bg-white p-6 text-sm text-slate-600 shadow-sm">
                     Cargando debates…
                 </article>
@@ -158,77 +158,67 @@
             </div>
         </section>
 
-        <section id="participa" class="mx-auto mt-16 max-w-5xl">
-            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500 text-center">Participa</h2>
-            <div class="mt-6 grid gap-6 sm:grid-cols-3">
-                <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <h3 class="text-base font-semibold text-slate-900">Chat vecinal</h3>
-                    <p class="mt-3 text-sm text-slate-600">Coordina acciones y comparte novedades en el grupo.</p>
+        <section class="mx-auto mt-16 max-w-5xl">
+            <div class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+                <!-- CTA principal: Boletín -->
+                <div class="text-center pb-8 border-b border-slate-200">
+                    <h2 class="text-2xl font-bold text-slate-900">¿Quieres estar al día?</h2>
+                    <p class="mt-3 text-sm text-slate-600 max-w-2xl mx-auto">Suscríbete al boletín y recibe las novedades y próximas acciones que realizaremos en los barrios.</p>
                     <a
-                        href="https://t.me/aldeapucela/18111"
-                        target="_blank"
-                        rel="noopener"
-                        class="mt-5 inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:text-slate-900 w-full"
+                        href="https://aldeapucela.org/integracion/boletin/"
+                        class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-8 py-4 text-center text-base font-semibold text-white transition hover:bg-slate-700"
                     >
-                        <i class="fa-solid fa-comments"></i>
-                        Unirse al chat
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                        Recibir actualizaciones
                     </a>
-                </article>
-                <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <h3 class="text-base font-semibold text-slate-900">Síguenos en BlueSky</h3>
-                    <p class="mt-3 text-sm text-slate-600">Consulta todas las novedades en nuestra cuenta.</p>
-                    <a
-                        href="https://bsky.app/profile/pucelobot.aldeapucela.org"
-                        target="_blank"
-                        rel="noopener"
-                        class="mt-5 inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:text-slate-900 w-full"
-                    >
-                        <i class="fa-solid fa-feather"></i>
-                        Seguir en BlueSky
-                    </a>
-                </article>
-                <article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <h3 class="text-base font-semibold text-slate-900">Debates en el foro</h3>
-                    <p class="mt-3 text-sm text-slate-600">Lee el boletín y participa en las discusiones.</p>
-                    <a
-                        href="https://foro.aldeapucela.org/c/integracion-ferroviaria/8"
-                        target="_blank"
-                        rel="noopener"
-                        class="mt-5 inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:text-slate-900 w-full"
-                    >
-                        <i class="fa-solid fa-newspaper"></i>
-                        Ir al foro
-                    </a>
-                </article>
+                    <p class="mt-4 text-xs text-slate-500">
+                        <i class="fa-solid fa-users"></i>
+                        Únete a los cientos de vecinos suscritos
+                    </p>
+                </div>
+                
+                <!-- Canales complementarios -->
+                <div class="pt-8">
+                    <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500 text-center mb-6">Únete a la conversación</h3>
+                    <div class="flex flex-col sm:flex-row gap-3 sm:justify-center">
+                        <a
+                            href="https://t.me/aldeapucela/18111"
+                            target="_blank"
+                            rel="noopener"
+                            class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50"
+                        >
+                            <i class="fa-solid fa-comments"></i>
+                            Chat
+                        </a>
+                        <a
+                            href="https://bsky.app/profile/pucelobot.aldeapucela.org"
+                            target="_blank"
+                            rel="noopener"
+                            class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50"
+                        >
+                            <i class="fa-solid fa-feather"></i>
+                            BlueSky
+                        </a>
+                        <a
+                            href="https://foro.aldeapucela.org/c/integracion-ferroviaria/8"
+                            target="_blank"
+                            rel="noopener"
+                            class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50"
+                        >
+                            <i class="fa-solid fa-newspaper"></i>
+                            Foro
+                        </a>
+                        <button
+                            type="button"
+                            data-share-button
+                            class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50"
+                        >
+                            <i class="fa-solid fa-share-nodes"></i>
+                            Compartir
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="mt-6 text-center">
-                <button
-                    type="button"
-                    data-share-button
-                    class="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:text-slate-900"
-                >
-                    <i class="fa-solid fa-share-nodes"></i>
-                    <span>Compartir esta página</span>
-                </button>
-            </div>
-        </section>
-
-        <section class="mx-auto mt-16 max-w-3xl">
-            <article class="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm text-center">
-                <h2 class="text-xl font-bold text-slate-900">¿Quieres estar al día?</h2>
-                <p class="mt-3 text-sm text-slate-600">Suscríbete al boletín y recibe las novedades y próximas acciones que realizaremos en los barrios.</p>
-                <a
-                    href="https://aldeapucela.org/integracion/boletin/"
-                    class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-8 py-4 text-center text-base font-semibold text-white transition hover:bg-slate-700"
-                >
-                    <i class="fa-solid fa-envelope-open-text"></i>
-                    Recibir actualizaciones
-                </a>
-                <p class="mt-4 text-xs text-slate-500">
-                    <i class="fa-solid fa-users"></i>
-                    Únete a los cientos de vecinos suscritos
-                </p>
-            </article>
         </section>
     </main>
 
@@ -359,42 +349,42 @@
                 return;
             }
 
-            container.innerHTML = topics.slice(0, 5).map((topic) => {
+            container.innerHTML = topics.slice(0, 6).map((topic) => {
                 const createdAt = formatDate(topic.created_at);
                 const excerpt = topic._excerpt || '';
-                const image = topic.image_url
-                    ? `<div class="relative flex-shrink-0 overflow-hidden rounded-2xl bg-slate-100 sm:w-48 sm:aspect-[4/3]"><img src="${topic.image_url}" alt="" class="h-full w-full object-cover" loading="lazy"></div>`
-                    : '';
                 
                 // Usar datos pre-cargados
                 const authorAvatar = topic._authorAvatar || '';
                 const authorName = topic._authorName || 'Anónimo';
                 
+                // Imagen en tamaño compacto
+                const image = topic.image_url
+                    ? `<div class="relative w-full aspect-[16/9] overflow-hidden rounded-2xl bg-slate-100 mb-4"><img src="${topic.image_url}" alt="" class="h-full w-full object-cover" loading="lazy"></div>`
+                    : '';
+                
                 return `
-                <article class="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:flex-row">
+                <article class="flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
                     ${image}
-                    <div class="flex-1">
-                        <div class="flex items-center gap-2 mb-3">
-                            ${authorAvatar ? `<img src="${authorAvatar}" alt="${authorName}" class="w-6 h-6 rounded-full" loading="lazy">` : '<div class="w-6 h-6 rounded-full bg-slate-200"></div>'}
-                            <span class="text-xs font-medium text-slate-600">${authorName}</span>
-                            <span class="text-xs text-slate-400">•</span>
-                            <span class="text-xs text-slate-500">${createdAt}</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-slate-900">
-                            <a href="https://foro.aldeapucela.org/t/${topic.slug}/${topic.id}" target="_blank" rel="noopener" class="hover:text-slate-700">
-                                ${topic.fancy_title || topic.title}
-                            </a>
-                        </h3>
-                        <p class="mt-3 text-sm text-slate-600">${excerpt || 'Sin extracto disponible.'}</p>
-                        <a
-                            href="https://foro.aldeapucela.org/t/${topic.slug}/${topic.id}"
-                            target="_blank"
-                            rel="noopener"
-                            class="mt-4 inline-flex items-center text-sm font-medium text-slate-800 transition hover:text-slate-600"
-                        >
-                            Leer más
-                        </a>
+                    <div class="flex items-center gap-2 mb-3">
+                        ${authorAvatar ? `<img src="${authorAvatar}" alt="${authorName}" class="w-6 h-6 rounded-full" loading="lazy">` : '<div class="w-6 h-6 rounded-full bg-slate-200"></div>'}
+                        <span class="text-xs font-medium text-slate-600">${authorName}</span>
+                        <span class="text-xs text-slate-400">•</span>
+                        <span class="text-xs text-slate-500">${createdAt}</span>
                     </div>
+                    <h3 class="text-base font-semibold text-slate-900 leading-snug">
+                        <a href="https://foro.aldeapucela.org/t/${topic.slug}/${topic.id}" target="_blank" rel="noopener" class="hover:text-slate-700">
+                            ${topic.fancy_title || topic.title}
+                        </a>
+                    </h3>
+                    <p class="mt-2 text-sm text-slate-600 line-clamp-3">${excerpt || 'Sin extracto disponible.'}</p>
+                    <a
+                        href="https://foro.aldeapucela.org/t/${topic.slug}/${topic.id}"
+                        target="_blank"
+                        rel="noopener"
+                        class="mt-4 inline-flex items-center text-sm font-medium text-slate-800 transition hover:text-slate-600"
+                    >
+                        Leer más →
+                    </a>
                 </article>`;
             }).join('');
         }
@@ -404,7 +394,7 @@
                 const response = await fetch(CATEGORY_TOPICS_URL);
                 if (!response.ok) throw new Error('Respuesta no válida');
                 const data = await response.json();
-                const topics = (data.topic_list?.topics || []).filter((topic) => !topic.pinned).slice(0, 5);
+                const topics = (data.topic_list?.topics || []).filter((topic) => !topic.pinned).slice(0, 6);
                 const users = data.users || [];
 
                 const enriched = await Promise.all(topics.map(async (topic) => {

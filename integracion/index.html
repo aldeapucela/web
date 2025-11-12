@@ -84,7 +84,8 @@
                 <div class="flex flex-col gap-3 sm:flex-row">
                     <a
                         href="https://aldeapucela.org/integracion/boletin/"
-                        class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-center text-sm font-semibold text-slate-900 transition hover:bg-slate-100"
+                        class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-center text-sm font-semibold text-slate-900 transition hover:bg-slate-100 track-newsletter"
+                        data-track-label="Boletín Plataforma"
                     >
                         <i class="fa-solid fa-envelope-open-text"></i>
                         Recibir actualizaciones
@@ -190,7 +191,8 @@
                     <p class="mt-3 text-sm text-slate-600 max-w-2xl mx-auto">Suscríbete al boletín y recibe las novedades y próximas acciones que realizaremos en los barrios.</p>
                     <a
                         href="https://aldeapucela.org/integracion/boletin/"
-                        class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-8 py-4 text-center text-base font-semibold text-white transition hover:bg-slate-700"
+                        class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-8 py-4 text-center text-base font-semibold text-white transition hover:bg-slate-700 track-newsletter"
+                        data-track-label="Boletín Plataforma"
                     >
                         <i class="fa-solid fa-envelope-open-text"></i>
                         Recibir actualizaciones
@@ -701,6 +703,16 @@
             loadSidebarTopics();
             setupShareButtons();
             setupVideoModal();
+            
+            // Configurar seguimiento de clics en enlaces del boletín
+            document.querySelectorAll('.track-newsletter').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (window._paq) {
+                        const label = this.getAttribute('data-track-label') || 'Boletín Plataforma';
+                        _paq.push(['trackEvent', 'Suscripción', 'Click', label]);
+                    }
+                });
+            });
         });
     </script>
 </body>

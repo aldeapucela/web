@@ -7,17 +7,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const shareBtn = document.getElementById(buttonId);
     if (shareBtn) {
       const shareText = '🚆 Defiende un Valladolid mejor conectado. Me he unido a la Plataforma por la Integración Ferroviaria para estar bien informado/a y apoyar mejoras reales de movilidad en nuestros barrios. Si tú también quieres que nuestra ciudad avance, ¡súmate!\n\nSuscríbete al boletín aquí para no perderte nada:';
+      
+      // Añadir parámetro de seguimiento de Matomo
+      const url = new URL(window.location.href);
+      url.searchParams.set('mtm_campaign', 'share');
+      
       const shareData = {
         title: document.title,
         text: shareText,
-        url: window.location.href
+        url: url.toString()
       };
       shareBtn.addEventListener('click', function() {
         if (navigator.share) {
           navigator.share(shareData).catch(()=>{});
         } else {
           // Fallback: copiar al portapapeles y alert
-          const textoCompleto = shareText + '\n' + window.location.href;
+          const textoCompleto = shareText + '\n' + url.toString();
           if (navigator.clipboard) {
             navigator.clipboard.writeText(textoCompleto).then(function() {
               alert('Enlace copiado al portapapeles');

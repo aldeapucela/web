@@ -119,18 +119,29 @@
                 <!-- Sidebar -->
                 <aside class="w-full lg:w-[33%] order-1 lg:order-2 lg:sticky lg:top-8">
                     <div class="space-y-6">
-                        <!-- Vídeo -->
-                        <div class="overflow-hidden rounded-2xl shadow-lg relative group">
-                            <div class="relative w-full pb-[56.25%]">
-                                <iframe title="Valladolid - Historia de una deuda que paraliza tu barrio" src="https://video.aldeapucela.org/videos/embed/oywL9vxQWHEj7Zp6ieahvz" class="absolute inset-0 h-full w-full" style="border:0" allow="fullscreen" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+                        <div class="space-y-2">
+                            <!-- Vídeo -->
+                            <div class="overflow-hidden rounded-2xl shadow-lg relative group">
+                                <div class="relative w-full pb-[56.25%]">
+                                    <iframe title="Valladolid - Historia de una deuda que paraliza tu barrio" src="https://video.aldeapucela.org/videos/embed/oywL9vxQWHEj7Zp6ieahvz" class="absolute inset-0 h-full w-full" style="border:0" allow="fullscreen" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+                                </div>
+                                <!-- Botón expandir (solo desktop) -->
+                                <button id="expand-video-btn" class="hidden lg:flex absolute bottom-3 right-3 bg-slate-900/80 hover:bg-slate-900 text-white rounded-lg px-3 py-2 items-center gap-2 text-sm font-medium transition-all z-10 shadow-lg">
+                                    <i class="fa-solid fa-expand"></i>
+                                </button>
                             </div>
-                            <!-- Botón expandir (solo desktop) -->
-                            <button id="expand-video-btn" class="hidden lg:flex absolute bottom-3 right-3 bg-slate-900/80 hover:bg-slate-900 text-white rounded-lg px-3 py-2 items-center gap-2 text-sm font-medium transition-all z-10 shadow-lg">
-                                <i class="fa-solid fa-expand"></i>
-                                <span>Ver en grande</span>
-                            </button>
+                            <div class="text-center">
+                                <a
+                                    href="https://video.aldeapucela.org/c/plataformaintegracion/videos"
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="text-xs font-medium text-slate-600 hover:text-slate-900 transition-colors"
+                                >
+                                    Ver más vídeos
+                                </a>
+                            </div>
                         </div>
-                        
+
                         <!-- Próximas actividades -->
                         <div id="upcoming-events" class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm" style="display: none;">
                             <h3 class="text-sm font-semibold text-slate-900 mb-3 flex items-center gap-2">

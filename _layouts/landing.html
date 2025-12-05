@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,27 +19,98 @@
   <script src="https://foro.aldeapucela.org/javascripts/embed-topics.js"></script>
 
 </head>
+
 <body class="{% if page.slug %}page-{{ page.slug }}{% else %}default-page{% endif %}">
-  <!-- Contenedor que envuelve el contenido Markdown -->
-  <div class="container">
+  <!-- Main content wrapper with flex ordering -->
+  <div class="page-wrapper">
+    <!-- Contenedor que envuelve el contenido Markdown -->
     {{ content }}
+
+    <!-- Popular Topics (should appear before feature grid) -->
+    <div id="foro" class="container">
+      <h2><i data-lucide="message-square"></i> Temas populares esta semana</h2>
+      <d-topics-list discourse-url="https://foro.aldeapucela.org" template="basic" top_period="weekly"
+        per-page="5"></d-topics-list>
+
+      <p><a href="https://foro.aldeapucela.org/top?period=weekly">Ver más</a></p>
+    </div>
+
+    <!-- Feature Grid Dashboard (appears after Popular Topics) -->
+    <div class="container">
+      <div class="features-grid">
+
+        <a href="https://creators.spotify.com/pod/show/aldea-pucela" class="feature-card">
+          <div class="card-icon card-icon-podcast">
+            <i data-lucide="podcast"></i>
+          </div>
+          <span>Podcasts</span>
+        </a>
+
+        <a href="https://foro.aldeapucela.org/c/eventos/6" class="feature-card">
+          <div class="card-icon card-icon-eventos">
+            <i data-lucide="calendar"></i>
+          </div>
+          <span>Eventos culturales</span>
+        </a>
+
+        <a href="https://fotos.aldeapucela.org" class="feature-card">
+          <div class="card-icon card-icon-fotos">
+            <i data-lucide="camera"></i>
+          </div>
+          <span>Fotos de Valladolid</span>
+        </a>
+
+        <a href="https://participa.aldeapucela.org" class="feature-card">
+          <div class="card-icon card-icon-participa">
+            <i data-lucide="megaphone"></i>
+          </div>
+          <span>Campañas vecinales</span>
+        </a>
+
+        <a href="https://negocios.aldeapucela.org" class="feature-card">
+          <div class="card-icon card-icon-negocios">
+            <i data-lucide="store"></i>
+          </div>
+          <span>Negocios locales</span>
+        </a>
+
+        <a href="/archivo/" class="feature-card">
+          <div class="card-icon card-icon-archivo">
+            <i data-lucide="archive"></i>
+          </div>
+          <span>Archivo Chat</span>
+        </a>
+
+        <a href="https://aldeapucela.org/integracion/" class="feature-card">
+          <div class="card-icon card-icon-integracion">
+            <i data-lucide="train-track"></i>
+          </div>
+          <span>Plataforma Integración Ferroviaria</span>
+        </a>
+
+        <a href="/normas/" class="feature-card">
+          <div class="card-icon card-icon-normas">
+            <i data-lucide="info"></i>
+          </div>
+          <span>Normas</span>
+        </a>
+
+        <a href="https://bsky.app/profile/pucelobot.aldeapucela.org" class="feature-card">
+          <div class="card-icon card-icon-bluesky">
+            <i data-lucide="bot"></i>
+          </div>
+          <span>PuceloBot en BlueSky</span>
+        </a>
+
+      </div>
+    </div>
   </div>
 
-  <div id="foro" class="container">
-    <h2><i data-lucide="message-square"></i> Popular esta semana</h2>
-    <d-topics-list
-      discourse-url="https://foro.aldeapucela.org"
-      template="basic"
-      top_period="weekly"
-      per-page="5"
-    ></d-topics-list>
-
-    <p><a href="https://foro.aldeapucela.org/top?period=weekly">Ver más</a></p>
-  </div>
-
+  {% include telegram_modal.html %}
 
   <!-- Carga de Lucide Icons -->
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.482.0/dist/umd/lucide.min.js"></script>
+  <script src="/js/main.js"></script>
   <script>
     lucide.createIcons();
 
@@ -46,13 +118,14 @@
     var _paq = window._paq = window._paq || [];
     _paq.push(['trackPageView']);
     _paq.push(['enableLinkTracking']);
-    (function() {
-        var u="https://stats.aldeapucela.org/";
-        _paq.push(['setTrackerUrl', u+'matomo.php']);
-        _paq.push(['setSiteId', '13']);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    (function () {
+      var u = "https://stats.aldeapucela.org/";
+      _paq.push(['setTrackerUrl', u + 'matomo.php']);
+      _paq.push(['setSiteId', '13']);
+      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+      g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
     })();
   </script>
 </body>
+
 </html>

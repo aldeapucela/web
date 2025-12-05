@@ -1,18 +1,28 @@
 /* Global: que el padding se incluya en el width */
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }
+
 /* Estilos generales para el body */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: #f4f4f4;
   text-align: center;
-  padding: 40px 20px;
+  padding: 20px 15px;
   margin: 0;
 }
+
+@media (min-width: 768px) {
+  body {
+    padding: 40px 20px;
+  }
+}
+
 /* Contenedor central de la landing page */
 .container {
-  max-width: 400px;
+  max-width: 420px;
   margin: auto;
   background: white;
   padding: 20px;
@@ -20,59 +30,89 @@ body {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Page wrapper for flex ordering */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 #foro {
-    margin-top: 1em;
-    padding: 10px;
+  margin-top: 1em;
+  padding: 20px;
 }
 
 #foro h2 {
-    font-size: 16px;
-    margin: 0 0 10px 0;
-    color: #666;
+  font-size: 1.1rem;
+  margin: 0 0 15px 0;
+  color: #374151;
+  font-weight: 700;
 }
 
 #foro a {
-    color: #666;
-    text-decoration: none;
-    font-weight: bold;
+  color: #666;
+  text-decoration: none;
+  font-weight: bold;
 }
 
 #foro iframe {
   width: 100%;
-  padding: 0 10px;
 }
 
 /* Estilo para páginas de texto */
 .page-normas {
-    text-align: left;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
 }
+
 /* Estilo para el logo */
 .logo {
   width: 215px;
   border-radius: 10%;
   margin-bottom: 0;
 }
+
+.logo-centered {
+  display: block;
+  margin: 0 auto 30px auto;
+}
+
+.logo-hero {
+  display: block;
+  margin: 0 auto 20px auto;
+  width: 180px;
+}
+
+@media (min-width: 768px) {
+  .logo-hero {
+    width: 215px;
+    margin-bottom: 30px;
+  }
+}
+
 /* Título principal */
 h1 {
   font-size: 22px;
   margin-bottom: 10px;
   color: #333;
 }
+
 /* Párrafo descriptivo */
 p {
   font-size: 16px;
   color: #666;
   margin-bottom: 20px;
 }
+
 /* Estilos para los botones */
-.btn, #foro h2 {
+.btn,
+#foro h2 {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 3px; /* Espaciado entre icono y texto */
+  gap: 3px;
+  /* Espaciado entre icono y texto */
   font-weight: bold;
   padding: 12px;
   border-radius: 10px;
@@ -80,66 +120,508 @@ p {
   width: 100%;
   font-size: 0.84rem;
 }
-.btn i, #foro h2 i {
-  width: 24px; /* Ancho fijo para los iconos */
-  height: 24px; /* Altura fija para los iconos */
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2em;
-  min-width: 24px; /* Asegura que el ancho mínimo sea fijo */
-  margin-left: 20px; /* Margen izquierdo fijo para todos los iconos */
-}
-.btn svg {
-  margin: 0 10px;
-}
+
 .btn:hover {
   transform: scale(1.05);
 }
-/* Botones personalizados*/
-.telegram {
-background: #8B5CF6; /* Morado Aldea Pucela */
-color: #f8fafc;
-}
-.foro {
-    background: #79C779; /* Verde más suave */
-    color: #0C500C;
-}
-.normas {
-    background: #B0B0B0; /* Gris neutro */
-    color: #3A3A3A;
-}
-.podcast {
-    background: #9691ff;
-    color: #2e2b63;
-}
-.participa {
-    background: #dd91ff;
-    color: #552c67;
-}
-.eventos {
-  background: #6B97A9;
-  color: #192327;
-}
-.fotos {
-  background: #e0b79b;
-  color: #635043;
-}
-.negocios {
-    background: #9d8bbe;
-    color: #2e2440;
-}
-.archivo {
-    background: #D8B4FE; /* Morado pastel suave */
-    color: #4C1D95;
-}
-.integracion {
-  background: rgba(219, 118, 118, 0.76);
-  color: #122a3dc2;
-}
-.bluesky {
-    background: #57b6ffc2;
-    color: #122a3dc2;
-    font-weight: normal;
+
+
+
+/* --- Premium Redesign Styles (UX Overhaul) --- */
+
+/* Premium Body & Layout */
+body {
+  background: linear-gradient(135deg, #fdfbfd 0%, #f4eff9 100%);
+  /* Subtle premium gradient */
+  color: #1f2937;
+  /* Softer black */
 }
 
+.container {
+  max-width: 420px;
+  /* Consistent width for all containers */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  /* Soft, modern shadow */
+  background: rgba(255, 255, 255, 0.9);
+  /* Slight transparency */
+  backdrop-filter: blur(10px);
+}
+
+/* Hero Section with Social Proof */
+.hero-split {
+  gap: 20px;
+  background: white;
+  padding: 24px 20px;
+  border-radius: 24px;
+  /* More rounded */
+  box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.15);
+  /* Purple glow shadow */
+  margin-bottom: 30px;
+  position: relative;
+  overflow: hidden;
+  max-width: 420px;
+  /* Same as other containers */
+}
+
+@media (min-width: 768px) {
+  .hero-split {
+    gap: 40px;
+    padding: 40px;
+    margin-bottom: 50px;
+  }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #FEF3C7;
+  /* Amber-100 */
+  color: #92400E;
+  /* Amber-800 */
+  padding: 6px 12px;
+  border-radius: 9999px;
+  /* Pill shape */
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.hero-forum h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: linear-gradient(to right, #4A0072, #8B5CF6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.hero-forum p {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.hero-subtitle {
+  margin-bottom: 25px;
+  color: #4B5563;
+}
+
+
+
+/* Floating Action Button (FAB) Style for Main CTA - Menu List Alignment */
+.btn-premium-cta {
+  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  color: white;
+  font-size: 1.15rem;
+  padding: 16px 24px;
+  padding-left: 24px;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  gap: 12px;
+  width: 100%;
+}
+
+.btn-premium-cta i {
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.btn-premium-cta span {
+  line-height: 24px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-premium-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 30px -10px rgba(139, 92, 246, 0.5);
+}
+
+/* Newsletter Card - Ghost/Outline Style (Secondary Look) - Menu List Alignment */
+.newsletter-card {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px 24px;
+  padding-left: 24px;
+  background: transparent;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  text-align: left;
+  text-decoration: none;
+  color: #4B5563;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.newsletter-card i {
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  color: #6B7280;
+  flex-shrink: 0;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.newsletter-card span {
+  line-height: 24px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.newsletter-card:hover {
+  background: #F9FAFB;
+  border-color: #D1D5DB;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Hero Spacing Separator */
+.hero-spacing {
+  margin-top: 20px;
+}
+
+/* Feature Grid (The Dashboard) - Strict 2 columns on mobile */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* Strict 2-column layout on mobile */
+  gap: 12px;
+  margin-top: 40px;
+}
+
+@media (min-width: 800px) {
+  .features-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Feature Card Styling */
+.feature-card {
+  background: white;
+  border-radius: 16px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  /* Subtle border */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  height: 100%;
+}
+
+@media (min-width: 800px) {
+  .feature-card {
+    padding: 24px 20px;
+  }
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border-color: #e5e7eb;
+}
+
+.card-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  font-size: 30px;
+}
+
+@media (min-width: 800px) {
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+}
+
+.hero-telegram-text {
+  font-size: 0.95rem;
+  color: #6B7280;
+  margin-bottom: 10px;
+}
+
+/* Card Icon Color Variations */
+.card-icon-podcast {
+  background-color: #EEF2FF;
+  color: #4F46E5;
+}
+
+.card-icon-eventos {
+  background-color: #ECFEFF;
+  color: #0891B2;
+}
+
+.card-icon-fotos {
+  background-color: #FFF7ED;
+  color: #EA580C;
+}
+
+.card-icon-participa {
+  background-color: #FDF4FF;
+  color: #C026D3;
+}
+
+.card-icon-negocios {
+  background-color: #F5F3FF;
+  color: #7C3AED;
+}
+
+.card-icon-archivo {
+  background-color: #F3E8FF;
+  color: #6B21A8;
+}
+
+.card-icon-integracion {
+  background-color: #FEF2F2;
+  color: #DC2626;
+}
+
+.card-icon-normas {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.card-icon-bluesky {
+  background-color: #E0F2FE;
+  color: #0284C7;
+}
+
+.feature-card span {
+  font-weight: 700;
+  color: #374151;
+  /* Gray-700 */
+  font-size: 1rem;
+}
+
+.feature-card.highlight {
+  grid-column: span 1;
+}
+
+/* Mobile:/* Telegram Section (Secondary) - Increased spacing for visual grouping */
+.hero-telegram {
+  background: white;
+  margin-top: 44px;
+  /* Increased gap to visually separate from Forum/Newsletter group */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Enforce centering */
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-telegram .btn-secondary {
+  background: rgba(34, 158, 217, 0.1);
+  /* Diluted "Secondary" Blue */
+  color: #229ED9;
+  /* Telegram Brand Blue Text */
+  border: 1px solid rgba(34, 158, 217, 0.2);
+  border-radius: 12px;
+  padding: 10px 24px;
+  padding-left: 24px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  gap: 12px;
+  width: 100%;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.hero-telegram .btn-secondary:hover {
+  background: rgba(34, 158, 217, 0.2);
+  transform: translateY(-1px);
+}
+
+.hero-telegram .btn-secondary i {
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  color: #229ED9;
+  /* Icon Blue */
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.hero-telegram .btn-secondary span {
+  line-height: 24px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Hide legacy styles if they conflict */
+.links-list {
+  display: none !important;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal-overlay.is-visible {
+  display: flex !important;
+}
+
+.modal-box {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 450px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  animation: modalPop 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes modalPop {
+  0% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #1f2937;
+}
+
+.modal-tips {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 25px 0;
+  text-align: left;
+}
+
+.modal-tip {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.modal-tip i {
+  color: #8B5CF6;
+  background: #F3E8FF;
+  padding: 10px;
+  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.btn-modal-action {
+  background: #229ED9;
+  /* Telegram Blue */
+  color: white;
+  width: 100%;
+  justify-content: center;
+  margin-top: 15px;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.btn-modal-action:hover {
+  background: #1e8bbd;
+}
+
+/* Popular Topics Section */
+#foro {
+  margin-bottom: 30px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 24px 20px;
+}
+
+#foro d-topics-list::part(topic-list-item):nth-child(n+4) {
+  display: none;
+}
+
+#foro d-topics-list li:nth-child(n+4) {
+  display: none !important;
+}
+
+#foro .discourse-topic-list li:nth-child(n+4) {
+  display: none !important;
+}

@@ -194,17 +194,18 @@
   text-transform: uppercase;
 }
 
-/* Botón compartir visualmente secundario */
-.boletin-share-row #share-btn {
+/* Botones compartir visualmente secundarios */
+.boletin-share-row #share-btn,
+.boletin-share-row #share-btn-top {
   background-color: #e0e3ea;
   color: #3C4858;
   border: 1.5px solid #bcbecb;
   box-shadow: 0 1px 2px rgba(60,72,88,0.04);
   font-weight: 600;
-  padding: 11px 22px;
-  min-width: 180px;
+  padding: 6px 16px;
+  min-width: 160px;
   border-radius: 3px;
-  font-size: 15px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -215,10 +216,16 @@
   color: #32193d;
   border-color: #32193d;
 }
-.boletin-share-row #share-btn svg {
+.boletin-share-row #share-btn svg,
+.boletin-share-row #share-btn-top svg {
   color: #32193d;
   stroke: #32193d;
   transition: color 0.2s, stroke 0.2s;
+}
+
+.boletin-share-row #share-btn-top {
+  margin-bottom: 12px;
+  margin-top: 8px;
 }
 
 .sib-form-block__button.sib-form-block__button-with-loader:focus {

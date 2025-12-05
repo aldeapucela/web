@@ -659,14 +659,15 @@ const FilterSystem = {
         const monthInHours = 24 * 30; // 720 horas
         let agePenalty = 1;
         if (hoursAge > monthInHours) {
-            // Penalización exponencial para mensajes viejos
-            agePenalty = Math.pow(0.5, (hoursAge - monthInHours) / monthInHours);
+            // Penalización exponencial más agresiva para mensajes viejos
+            // Cada mes adicional reduce el score a 1/5 de su valor
+            agePenalty = Math.pow(0.2, (hoursAge - monthInHours) / monthInHours);
         }
         
         // Fórmula estilo Hacker News con penalización por edad
-        // (saves - 1) / (horas + 2)^1.5 * penalización_edad
-        const votes = Math.max(1, message.saveCount); // Mínimo 1 para evitar división por 0
-        const score = (votes - 1) / Math.pow(hoursAge + 2, 1.5) * agePenalty;
+        // votes / (horas + 2)^1.5 * penalización_edad
+        const votes = Math.max(1, message.saveCount);
+        const score = votes / Math.pow(hoursAge + 2, 1.5) * agePenalty;
         
         return score;
     }

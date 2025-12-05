@@ -35,13 +35,23 @@
     <link rel="stylesheet" href="./boletin.css">
 </head>
 <body>
+  <!-- Botón de compartir al inicio -->
+  <div class="boletin-share-row" style="margin-bottom: 24px; margin-top: 16px;">
+    <button id="share-btn-top" class="sib-form-block__button sib-form-block__button-with-loader" type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-share-2" viewBox="0 0 24 24">
+        <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.42 6.51l-6.83 3.98"/>
+      </svg>
+      COMPARTIR BOLETÍN
+    </button>
+  </div>
+
   <!-- Formulario de suscripción mediante iframe de Brevo -->
   <div class="sib-form" style="text-align: center; background-color: #EFF2F7;">
     <div id="sib-form-container" class="sib-form-container">
       <iframe 
         width="540" 
         height="1300" 
-        src="https://a62a2e37.sibforms.com/serve/MUIFAC9ta6fsIN__6l95CDSckns17Xq7UfYD-KfY9BZV8wAcrgkuNnoyX8b0Y8pU6CnJiPlW6Dd3kaN6jlCqaAJj4m_CYqhWsJ5HtUmjtzU2BjhPpa_c9quVpLF95G_AeoLSEbxoLlS3c3f7uautaF3odAuxDtXDnCQY9vU5UyCOaXTODmidcOrmgDLK_V_H2EZmC0CUhQKCAG7a" 
+        src="https://a62a2e37.sibforms.com/serve/MUIFAJ_YCR7W8GTKywTgWY5OfjkhFzytVbR2yGaOu5GVV1YtUQrR99BY6VKi_9tUYvUqSGVyWbuamEM8wRR2CfrI5Fl7Ha8o8IsRXTIzEsy5HTOEFl4QYOxXhx9ygRPrmj2UoxT2XHqj4tDcX847LGZeypuLNlcWk6cfpbQskJ9OxmUAWaFSVs34Mvt4-M9hvsXWup3npPtn6OeT" 
         frameborder="0" 
         scrolling="no" 
         allowfullscreen 

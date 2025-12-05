@@ -2,41 +2,52 @@
 // Incluye: carga de temas, botón compartir
 
 document.addEventListener('DOMContentLoaded', function() {
-  // --- Botón compartir (Web Share API + fallback) ---
-  const shareBtn = document.getElementById('share-btn');
-  if (shareBtn) {
-    const shareText = 'Suscríbete para estar al día de todas las novedades y actividades de la Plataforma por la Integración de Valladolid';
-    const shareData = {
-      title: document.title,
-      text: shareText,
-      url: window.location.href
-    };
-    shareBtn.addEventListener('click', function() {
-      if (navigator.share) {
-        navigator.share(shareData).catch(()=>{});
-      } else {
-        // Fallback: copiar al portapapeles y alert
-        const textoCompleto = shareText + '\n' + window.location.href;
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(textoCompleto).then(function() {
-            alert('Enlace copiado al portapapeles');
-          }, function() {
-            alert('No se pudo copiar el enlace');
-          });
+  // --- Función para manejar el compartir ---
+  function setupShareButton(buttonId) {
+    const shareBtn = document.getElementById(buttonId);
+    if (shareBtn) {
+      const shareText = '🚆 Defiende un Valladolid mejor conectado. Me he unido a la Plataforma por la Integración Ferroviaria para estar bien informado/a y apoyar mejoras reales de movilidad en nuestros barrios. Si tú también quieres que nuestra ciudad avance, ¡súmate!\n\nSuscríbete al boletín aquí para no perderte nada:';
+      
+      // Añadir parámetro de seguimiento de Matomo
+      const url = new URL(window.location.href);
+      url.searchParams.set('mtm_campaign', 'share');
+      
+      const shareData = {
+        title: document.title,
+        text: shareText,
+        url: url.toString()
+      };
+      shareBtn.addEventListener('click', function() {
+        if (navigator.share) {
+          navigator.share(shareData).catch(()=>{});
         } else {
-          // Fallback antiguo para navegadores viejos
-          const tempInput = document.createElement('input');
-          tempInput.value = textoCompleto;
-          document.body.appendChild(tempInput);
-          tempInput.select();
-          tempInput.setSelectionRange(0, 99999);
-          document.execCommand('copy');
-          document.body.removeChild(tempInput);
-          alert('Enlace copiado al portapapeles');
+          // Fallback: copiar al portapapeles y alert
+          const textoCompleto = shareText + '\n' + url.toString();
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(textoCompleto).then(function() {
+              alert('Enlace copiado al portapapeles');
+            }, function() {
+              alert('No se pudo copiar el enlace');
+            });
+          } else {
+            // Fallback antiguo para navegadores viejos
+            const tempInput = document.createElement('input');
+            tempInput.value = textoCompleto;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Enlace copiado al portapapeles');
+          }
         }
-      }
-    });
+      });
+    }
   }
+
+  // Configurar botones de compartir
+  setupShareButton('share-btn');     // Botón al final de la página
+  setupShareButton('share-btn-top'); // Nuevo botón al inicio de la página
 
   // --- Cargar últimos boletines publicados ---
   fetch('https://tasks.nukeador.com/webhook/boletin-integracion')

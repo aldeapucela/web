@@ -66,6 +66,97 @@ body {
   padding: 20px;
 }
 
+/* Content Container for Readable Pages */
+.content-container {
+  max-width: 800px !important;
+  background: white;
+  padding: 40px 30px;
+  text-align: left;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  line-height: 1.7;
+}
+
+@media (max-width: 767px) {
+  .content-container {
+    padding: 30px 20px;
+  }
+}
+
+/* Content Page Typography */
+.content-container h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.content-container h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.content-container h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+.content-container p {
+  font-size: 1rem;
+  color: #4b5563;
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  text-align: left;
+}
+
+.content-container a {
+  color: #8B5CF6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.content-container a:hover {
+  text-decoration: underline;
+}
+
+.content-container ul,
+.content-container ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  color: #4b5563;
+}
+
+.content-container li {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+
+.content-container strong {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.content-container em {
+  font-style: italic;
+}
+
+.content-container blockquote {
+  border-left: 4px solid #8B5CF6;
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
 /* Estilo para el logo */
 .logo {
   width: 215px;

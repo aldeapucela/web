@@ -1,5 +1,5 @@
 ---
-layout: landing
+layout: page
 title: Normas de participación de la comunidad - Aldea Pucela
 permalink: /normas/
 slug: normas

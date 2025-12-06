@@ -963,7 +963,7 @@ body {
 
 /* Title */
 .topic-title {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #1F2937;
   margin: 0 0 12px 0;
@@ -1155,5 +1155,15 @@ body {
 
   .hero-telegram .btn-secondary span {
     white-space: nowrap;
+  }
+}
+
+/* Larger Placeholder Icon on Desktop */
+@media (min-width: 900px) {
+  .placeholder-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.5;
+    /* Slightly reduced opacity for large icon elegance */
   }
 }

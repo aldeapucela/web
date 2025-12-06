@@ -16,7 +16,7 @@
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta name="twitter:card" content="summary_large_image">
 
-  <script src="https://foro.aldeapucela.org/javascripts/embed-topics.js"></script>
+
 
 </head>
 
@@ -27,12 +27,9 @@
     {{ content }}
 
     <!-- Popular Topics (should appear before feature grid) -->
+    <!-- Popular Topics (should appear before feature grid) -->
     <div id="foro">
-      <h2><i data-lucide="message-square"></i> Temas populares esta semana</h2>
-      <d-topics-list discourse-url="https://foro.aldeapucela.org" template="basic" top_period="weekly"
-        per-page="3"></d-topics-list>
-
-      <p><a href="https://foro.aldeapucela.org/top?period=weekly">Ver más</a></p>
+      <!-- Content populated by discourse-loader.js -->
     </div>
 
     <!-- Feature Grid Dashboard (appears after Popular Topics) -->
@@ -111,6 +108,7 @@
   <!-- Carga de Lucide Icons -->
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.482.0/dist/umd/lucide.min.js"></script>
   <script src="/js/main.js"></script>
+  <script src="/js/discourse-loader.js"></script>
   <script>
     lucide.createIcons();
 

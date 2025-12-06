@@ -495,7 +495,7 @@ body {
 .hero-telegram-text {
   font-size: 0.95rem;
   color: #6B7280;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 /* Card Icon Color Variations */
@@ -745,4 +745,415 @@ body {
 
 #foro .discourse-topic-list li:nth-child(n+4) {
   display: none !important;
+}
+
+/* --- PREMIUM DESKTOP LAYOUT (>= 900px) --- */
+@media (min-width: 900px) {
+
+  /* 1. Reset Container Constraints */
+  .container,
+  #foro,
+  .hero-split {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  /* 2. Main Grid Layout */
+  .page-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    /* Fluid Content + Fixed Sidebar */
+    gap: 30px;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 40px;
+    align-items: start;
+  }
+
+  /* 3. Hero Section (Spans Full Width) */
+  .page-wrapper>.hero-split {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* Center vertically */
+    justify-content: space-between;
+    text-align: left;
+    padding: 40px;
+    gap: 30px;
+  }
+
+  /* Logo */
+  .hero-split>.logo-hero {
+    order: 1;
+    margin: 0;
+    width: 160px;
+    /* Slightly smaller for balance */
+    flex-shrink: 0;
+  }
+
+  /* Forum Section (Title, Subtitle, Buttons) */
+  .hero-split>.hero-forum {
+    order: 2;
+    flex-grow: 1;
+    max-width: 500px;
+    /* Constrain reading width */
+    margin: 0 auto 0 0;
+  }
+
+  /* Ensure titles/text in hero align left explicitly */
+  .hero-forum h1 {
+    text-align: left;
+    font-size: 2.5rem;
+  }
+
+  .hero-forum p,
+  .hero-subtitle {
+    text-align: left;
+    margin-left: 0;
+  }
+
+  /* Hide Spacing Element */
+  .hero-split>.hero-spacing {
+    display: none;
+  }
+
+  /* Telegram Section */
+  .hero-split>.hero-telegram {
+    order: 3;
+    margin: 0;
+    width: 260px;
+    background: #F9FAFB;
+    padding: 0px 20px 20px 20px;
+    border-radius: 16px;
+    border: 1px solid #E5E7EB;
+    flex-shrink: 0;
+    text-align: left;
+  }
+
+  /* Telegram Text alignment */
+  .hero-telegram-text {
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
+  /* 4. Forum Section (Main Column) */
+  #foro {
+    grid-column: 1 / 2;
+    margin: 0;
+    padding: 30px;
+    min-height: 400px;
+  }
+
+  /* 5. Features Sidebar (Right Column) */
+  .page-wrapper>.container:not(.hero-split) {
+    grid-column: 2 / 3;
+    width: 100%;
+    position: sticky;
+    top: 30px;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+  }
+
+  /* Sidebar Grid adjustments */
+  .features-grid {
+    grid-template-columns: 1fr;
+    /* Stack vertically */
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  /* Sidebar Cards - Horizontal Layout */
+  .feature-card {
+    flex-direction: row;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 16px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    border: 1px solid transparent;
+  }
+
+  .feature-card:hover {
+    transform: translateX(4px) translateY(0);
+    border-color: #e5e7eb;
+    background: white;
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    margin-bottom: 0;
+    border-radius: 10px;
+  }
+
+  .feature-card span {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+}
+
+/* --- Custom Discourse Topic Cards --- */
+
+/* Grid for the cards */
+.topics-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* Card Container */
+.topic-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #E5E7EB;
+  display: flex;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.topic-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
+}
+
+/* Image Section */
+.topic-image {
+  width: 120px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+}
+
+/* Content Section */
+.topic-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  text-align: left;
+  /* Explicitly align left as requested */
+}
+
+/* Meta Top (Date) */
+.topic-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  color: #6B7280;
+}
+
+.topic-category-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #8B5CF6;
+  /* Default specific category color could be dynamic */
+  border-radius: 50%;
+}
+
+/* Title */
+.topic-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1F2937;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Meta Bottom (Author & Stats) */
+.topic-meta-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.topic-author img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.topic-stats {
+  display: flex;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: #6B7280;
+  font-weight: 600;
+}
+
+.topic-stats .stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.topic-stats i {
+  width: 16px;
+  height: 16px;
+}
+
+/* Loading & Fallback */
+.loading-state,
+.topic-error {
+  text-align: center;
+  padding: 40px;
+  color: #6B7280;
+  background: #F9FAFB;
+  border-radius: 12px;
+}
+
+.more-topics {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+
+  /* Hide 4th and 5th topic on mobile to save space */
+  .topic-card:nth-child(n+4) {
+    display: none;
+  }
+
+  /* Compact Horizontal Layout for Mobile */
+  .topic-card {
+    flex-direction: row;
+    /* Force horizontal row */
+    align-items: center;
+    padding: 12px;
+    height: auto;
+    min-height: 80px;
+  }
+
+  /* Smaller Image - HIDDEN per user request */
+  .topic-image {
+    display: none !important;
+  }
+
+  /* Remove image height override from previous rule if it exists or ensure this wins */
+
+  /* Hide Reference to Author and Stats */
+  .topic-meta-bottom {
+    display: none;
+  }
+
+  /* Compact Title */
+  .topic-title {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+    /* Less space since no bottom meta */
+    line-height: 1.3;
+  }
+
+  /* Adjust Date/Meta top */
+  .topic-meta-top {
+    margin-bottom: 4px;
+    font-size: 0.75rem;
+  }
+}
+
+/* --- Placeholder Refinements --- */
+
+.topic-image.is-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F3F4F6;
+  /* Gray-100 equivalent */
+  color: #9CA3AF;
+  /* Gray-400 */
+}
+
+.placeholder-icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+}
+
+/* Author Name tweaks for better UX */
+.topic-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.author-name {
+  font-size: 0.85rem;
+  color: #4B5563;
+  font-weight: 500;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Adjust card to always show image area */
+.topic-image {
+  /* Ensure it has size even if empty bg */
+  min-width: 120px;
+}
+
+/* --- Final Refinements --- */
+
+/* Adjust box title size */
+#foro h2 {
+  font-size: 1.2rem;
+  /* More appropriate than default H2 */
+  margin-bottom: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Ensure mobile header is tight */
+@media (max-width: 600px) {
+  #foro h2 {
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+}
+
+/* --- Desktop Button Refinements --- */
+@media (min-width: 900px) {
+
+  /* Make main CTAs narrower (approx 50%) */
+  .hero-forum .btn-premium-cta,
+  .hero-forum .newsletter-card {
+    width: auto;
+    min-width: 280px;
+    /* Ensure they don't get too small */
+    display: inline-flex;
+    margin-right: 12px;
+  }
+
+  /* Telegram button: Prevent wrapping */
+  .hero-telegram .btn-secondary {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 16px;
+    /* Slightly reduce padding if needed to fit */
+    padding-right: 16px;
+  }
+
+  .hero-telegram .btn-secondary span {
+    white-space: nowrap;
+  }
 }

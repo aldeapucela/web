@@ -1,4 +1,53 @@
 /* Global: que el padding se incluya en el width */
+:root {
+  /* Common Palette */
+  --color-primary: #8B5CF6;
+  --color-primary-dark: #6D28D9;
+  --color-secondary: #229ED9;
+
+  /* Light Theme Defaults */
+  --bg-body: #f4f4f4;
+  --bg-container: white;
+  --bg-container-premium: rgba(255, 255, 255, 0.9);
+  --bg-card: white;
+  --bg-card-hover: #F9FAFB;
+  --bg-highlight: #FEF3C7;
+
+  --text-main: #1f2937;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --text-highlight: #92400E;
+  --text-header: #333;
+
+  --border-light: #E5E7EB;
+  --border-subtle: rgba(0, 0, 0, 0.04);
+
+  --shadow-subtle: rgba(0, 0, 0, 0.05);
+  --shadow-card: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] {
+  /* Dark Theme Overrides */
+  --bg-body: #111827;
+  --bg-container: #1F2937;
+  --bg-container-premium: rgba(31, 41, 55, 0.95);
+  --bg-card: #374151;
+  --bg-card-hover: #4B5563;
+  --bg-highlight: #4B5563;
+
+  --text-main: #F9FAFB;
+  --text-secondary: #D1D5DB;
+  --text-muted: #9CA3AF;
+  --text-highlight: #FCD34D;
+  --text-header: #F3F4F6;
+
+  --border-light: #374151;
+  --border-subtle: rgba(255, 255, 255, 0.05);
+
+  --shadow-subtle: rgba(0, 0, 0, 0.3);
+  --shadow-card: rgba(0, 0, 0, 0.4);
+}
+
 *,
 *:before,
 *:after {
@@ -8,26 +57,35 @@
 /* Estilos generales para el body */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #f4f4f4;
+  background: var(--bg-body);
+  color: var(--text-main);
   text-align: center;
   padding: 20px 15px;
   margin: 0;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 @media (min-width: 768px) {
   body {
     padding: 40px 20px;
+    padding-bottom: 80px;
+    /* Ensure content isn't hidden by FAB */
   }
+}
+
+body {
+  padding-bottom: 90px;
+  /* Ensure content isn't hidden by FAB on mobile */
 }
 
 /* Contenedor central de la landing page */
 .container {
   max-width: 420px;
   margin: auto;
-  background: white;
+  background: var(--bg-container);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px var(--shadow-card);
 }
 
 /* Page wrapper for flex ordering */
@@ -44,9 +102,9 @@ body {
   /* Reducido de 20px para dar más espacio al contenido interno */
   box-sizing: border-box !important;
   overflow-x: hidden;
-  background: white;
+  background: var(--bg-container);
   border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 6px -1px var(--shadow-subtle), 0 2px 4px -1px var(--shadow-subtle);
 }
 
 #foro * {
@@ -74,12 +132,12 @@ body {
 #foro h2 {
   font-size: 1.1rem;
   margin: 0 0 15px 0;
-  color: #374151;
+  color: var(--text-secondary);
   font-weight: 700;
 }
 
 #foro a {
-  color: #666;
+  color: var(--text-muted);
   text-decoration: none;
   font-weight: bold;
 }
@@ -111,10 +169,10 @@ body {
 /* Content Container for Readable Pages */
 .content-container {
   max-width: 800px !important;
-  background: white;
+  background: var(--bg-container);
   padding: 40px 30px;
   text-align: left;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 6px -1px var(--shadow-subtle), 0 2px 4px -1px var(--shadow-subtle);
   line-height: 1.7;
 }
 
@@ -128,7 +186,7 @@ body {
 .content-container h1 {
   font-size: 2rem;
   font-weight: 800;
-  color: #1f2937;
+  color: var(--text-main);
   margin-bottom: 0.5rem;
   line-height: 1.2;
   text-align: left;
@@ -137,7 +195,7 @@ body {
 .content-container h2 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1f2937;
+  color: var(--text-main);
   margin-top: 2rem;
   margin-bottom: 1rem;
   text-align: left;
@@ -146,7 +204,7 @@ body {
 .content-container h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #374151;
+  color: var(--text-secondary);
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   text-align: left;
@@ -154,14 +212,14 @@ body {
 
 .content-container p {
   font-size: 1rem;
-  color: #4b5563;
+  color: var(--text-secondary);
   margin-bottom: 1rem;
   line-height: 1.7;
   text-align: left;
 }
 
 .content-container a {
-  color: #8B5CF6;
+  color: var(--color-primary);
   text-decoration: none;
   font-weight: 500;
 }
@@ -174,7 +232,7 @@ body {
 .content-container ol {
   margin-bottom: 1rem;
   padding-left: 1.5rem;
-  color: #4b5563;
+  color: var(--text-secondary);
 }
 
 .content-container li {
@@ -184,7 +242,7 @@ body {
 
 .content-container strong {
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-main);
 }
 
 .content-container em {
@@ -192,10 +250,10 @@ body {
 }
 
 .content-container blockquote {
-  border-left: 4px solid #8B5CF6;
+  border-left: 4px solid var(--color-primary);
   padding-left: 1rem;
   margin: 1.5rem 0;
-  color: #6b7280;
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -228,13 +286,13 @@ body {
 h1 {
   font-size: 22px;
   margin-bottom: 10px;
-  color: #333;
+  color: var(--text-header);
 }
 
 /* Párrafo descriptivo */
 p {
   font-size: 16px;
-  color: #666;
+  color: var(--text-muted);
   margin-bottom: 20px;
 }
 
@@ -264,18 +322,25 @@ p {
 
 /* Premium Body & Layout */
 body {
-  background: linear-gradient(135deg, #fdfbfd 0%, #f4eff9 100%);
-  /* Subtle premium gradient */
-  color: #1f2937;
-  /* Softer black */
+  /* Using gradients might be tricky in dark mode, simplified to solid for consistency with variables or subtle gradient if needed */
+  background: var(--bg-body);
+  /* If you want gradient in light mode only, you can scope it, but solid is safer for dark mode transition */
 }
+
+/* Re-applying gradient for light mode if specifically desired over the variable */
+/* Re-applying gradient for light mode if specifically desired over the variable */
+body:not([data-theme="dark"]) {
+  /* Removed to fix background issue: background: linear-gradient(135deg, #fdfbfd 0%, #f4eff9 100%); */
+  background: var(--bg-body);
+}
+
 
 .container {
   max-width: 420px;
   /* Consistent width for all containers */
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 6px -1px var(--shadow-subtle), 0 2px 4px -1px var(--shadow-subtle);
   /* Soft, modern shadow */
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--bg-container-premium);
   /* Slight transparency */
   backdrop-filter: blur(10px);
 }
@@ -283,7 +348,7 @@ body {
 /* Hero Section with Social Proof */
 .hero-split {
   gap: 20px;
-  background: white;
+  background: var(--bg-container);
   padding: 24px 20px;
   border-radius: 24px;
   /* More rounded */
@@ -308,9 +373,9 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background-color: #FEF3C7;
+  background-color: var(--bg-highlight);
   /* Amber-100 */
-  color: #92400E;
+  color: var(--text-highlight);
   /* Amber-800 */
   padding: 6px 12px;
   border-radius: 9999px;
@@ -318,19 +383,28 @@ body {
   font-size: 0.85rem;
   font-weight: 700;
   margin-bottom: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px var(--shadow-subtle);
 }
 
 .hero-forum h1 {
   font-size: 2.2rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  background: linear-gradient(to right, #4A0072, #8B5CF6);
+  background: linear-gradient(to right, #4A0072, var(--color-primary));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 10px;
 }
+
+[data-theme="dark"] .hero-forum h1 {
+  background: linear-gradient(to right, #A78BFA, #C4B5FD);
+  /* Lighter purple for dark mode */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 
 .hero-forum p {
   font-size: 1.1rem;
@@ -339,14 +413,14 @@ body {
 
 .hero-subtitle {
   margin-bottom: 25px;
-  color: #4B5563;
+  color: var(--text-secondary);
 }
 
 
 
 /* Floating Action Button (FAB) Style for Main CTA - Menu List Alignment */
 .btn-premium-cta {
-  background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
   color: white;
   font-size: 1.15rem;
   padding: 16px 24px;
@@ -395,10 +469,10 @@ body {
   padding-left: 24px;
   background: transparent;
   border-radius: 12px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--border-light);
   text-align: left;
   text-decoration: none;
-  color: #4B5563;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   font-weight: 600;
   transition: all 0.2s ease;
@@ -409,7 +483,7 @@ body {
   width: 24px;
   min-width: 24px;
   height: 24px;
-  color: #6B7280;
+  color: var(--text-muted);
   flex-shrink: 0;
   display: inline-flex;
   justify-content: center;
@@ -423,11 +497,16 @@ body {
 }
 
 .newsletter-card:hover {
-  background: #F9FAFB;
-  border-color: #D1D5DB;
+  background: var(--bg-card-hover);
+  border-color: var(--border-light);
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px var(--shadow-subtle);
 }
+
+[data-theme="dark"] .newsletter-card:hover {
+  border-color: var(--text-muted);
+}
+
 
 /* Hero Spacing Separator */
 .hero-spacing {
@@ -447,16 +526,16 @@ body {
 
 /* Feature Card Styling */
 .feature-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 16px;
   padding: 12px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--border-subtle);
   /* Subtle border */
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px var(--shadow-subtle);
   transition: all 0.2s ease;
   height: 100%;
 }
@@ -469,8 +548,8 @@ body {
 
 .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  border-color: #e5e7eb;
+  box-shadow: 0 10px 15px -3px var(--shadow-card);
+  border-color: var(--border-light);
 }
 
 .card-icon {
@@ -494,14 +573,22 @@ body {
 
 .hero-telegram-text {
   font-size: 0.95rem;
-  color: #6B7280;
+  color: var(--text-muted);
   margin-bottom: 20px;
 }
 
 /* Card Icon Color Variations */
+/* NOTE: Backgrounds might need adjustment for dark mode readability. 
+   Option: enhance opacity or change color in dark mode */
+
 .card-icon-podcast {
   background-color: #EEF2FF;
   color: #4F46E5;
+}
+
+[data-theme="dark"] .card-icon-podcast {
+  background-color: rgba(79, 70, 229, 0.2);
+  color: #818CF8;
 }
 
 .card-icon-eventos {
@@ -509,44 +596,92 @@ body {
   color: #0891B2;
 }
 
+[data-theme="dark"] .card-icon-eventos {
+  background-color: rgba(8, 145, 178, 0.2);
+  color: #22D3EE;
+}
+
+
 .card-icon-fotos {
   background-color: #FFF7ED;
   color: #EA580C;
 }
+
+[data-theme="dark"] .card-icon-fotos {
+  background-color: rgba(234, 88, 12, 0.2);
+  color: #FB923C;
+}
+
 
 .card-icon-participa {
   background-color: #FDF4FF;
   color: #C026D3;
 }
 
+[data-theme="dark"] .card-icon-participa {
+  background-color: rgba(192, 38, 211, 0.2);
+  color: #E879F9;
+}
+
+
 .card-icon-negocios {
   background-color: #F5F3FF;
   color: #7C3AED;
 }
+
+[data-theme="dark"] .card-icon-negocios {
+  background-color: rgba(124, 58, 237, 0.2);
+  color: #A78BFA;
+}
+
 
 .card-icon-archivo {
   background-color: #F3E8FF;
   color: #6B21A8;
 }
 
+[data-theme="dark"] .card-icon-archivo {
+  background-color: rgba(107, 33, 168, 0.2);
+  color: #C084FC;
+}
+
+
 .card-icon-integracion {
   background-color: #FEF2F2;
   color: #DC2626;
 }
+
+[data-theme="dark"] .card-icon-integracion {
+  background-color: rgba(220, 38, 38, 0.2);
+  color: #F87171;
+}
+
 
 .card-icon-normas {
   background-color: #F3F4F6;
   color: #374151;
 }
 
+[data-theme="dark"] .card-icon-normas {
+  background-color: rgba(55, 65, 81, 0.5);
+  color: #9CA3AF;
+}
+
+
 .card-icon-bluesky {
   background-color: #E0F2FE;
   color: #0284C7;
 }
 
+[data-theme="dark"] .card-icon-bluesky {
+  background-color: rgba(2, 132, 199, 0.2);
+  color: #38BDF8;
+}
+
+
 .feature-card span {
   font-weight: 700;
-  color: #374151;
+  color: var(--text-header);
   /* Gray-700 */
   font-size: 1rem;
 }
@@ -557,7 +692,7 @@ body {
 
 /* Mobile:/* Telegram Section (Secondary) - Increased spacing for visual grouping */
 .hero-telegram {
-  background: white;
+  background: var(--bg-container);
   margin-top: 44px;
   /* Increased gap to visually separate from Forum/Newsletter group */
   display: flex;
@@ -571,7 +706,7 @@ body {
 .hero-telegram .btn-secondary {
   background: rgba(34, 158, 217, 0.1);
   /* Diluted "Secondary" Blue */
-  color: #229ED9;
+  color: var(--color-secondary);
   /* Telegram Brand Blue Text */
   border: 1px solid rgba(34, 158, 217, 0.2);
   border-radius: 12px;
@@ -590,6 +725,14 @@ body {
   text-decoration: none;
 }
 
+[data-theme="dark"] .hero-telegram .btn-secondary {
+  background: rgba(34, 158, 217, 0.15);
+  border-color: rgba(34, 158, 217, 0.4);
+  color: #5BC0DE;
+  /* Lighter blue for dark mode */
+}
+
+
 .hero-telegram .btn-secondary:hover {
   background: rgba(34, 158, 217, 0.2);
   transform: translateY(-1px);
@@ -599,7 +742,7 @@ body {
   width: 24px;
   min-width: 24px;
   height: 24px;
-  color: #229ED9;
+  color: inherit;
   /* Icon Blue */
   display: inline-flex;
   justify-content: center;
@@ -638,7 +781,7 @@ body {
 }
 
 .modal-box {
-  background: white;
+  background: var(--bg-container);
   padding: 30px;
   border-radius: 16px;
   width: 90%;
@@ -674,14 +817,14 @@ body {
 }
 
 .modal-close:hover {
-  color: #333;
+  color: var(--text-main);
 }
 
 .modal-title {
   font-size: 1.35rem;
   font-weight: 800;
   margin-bottom: 10px;
-  color: #1f2937;
+  color: var(--text-main);
 }
 
 .modal-tips {
@@ -699,11 +842,11 @@ body {
   gap: 12px;
   font-size: 16px;
   font-weight: 500;
-  color: #4b5563;
+  color: var(--text-secondary);
 }
 
 .modal-tip i {
-  color: #8B5CF6;
+  color: var(--color-primary);
   background: #F3E8FF;
   padding: 10px;
   border-radius: 12px;
@@ -712,8 +855,14 @@ body {
   flex-shrink: 0;
 }
 
+[data-theme="dark"] .modal-tip i {
+  background: rgba(139, 92, 246, 0.2);
+  color: #C4B5FD;
+}
+
+
 .btn-modal-action {
-  background: #229ED9;
+  background: var(--color-secondary);
   /* Telegram Blue */
   color: white;
   width: 100%;
@@ -823,10 +972,10 @@ body {
     order: 3;
     margin: 0;
     width: 260px;
-    background: #F9FAFB;
+    background: var(--bg-card-hover);
     padding: 0px 20px 20px 20px;
     border-radius: 16px;
-    border: 1px solid #E5E7EB;
+    border: 1px solid var(--border-light);
     flex-shrink: 0;
     text-align: left;
   }
@@ -852,7 +1001,7 @@ body {
     position: sticky;
     top: 30px;
     padding: 24px;
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--bg-container-premium);
     backdrop-filter: blur(12px);
   }
 
@@ -877,8 +1026,8 @@ body {
 
   .feature-card:hover {
     transform: translateX(4px) translateY(0);
-    border-color: #e5e7eb;
-    background: white;
+    border-color: var(--border-light);
+    background: var(--bg-card);
   }
 
   .card-icon {
@@ -907,9 +1056,9 @@ body {
 
 /* Card Container */
 .topic-card {
-  background: white;
+  background: var(--bg-card);
   border-radius: 16px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--border-light);
   display: flex;
   overflow: hidden;
   text-decoration: none;
@@ -920,8 +1069,8 @@ body {
 
 .topic-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
-  border-color: #d1d5db;
+  box-shadow: 0 10px 20px -5px var(--shadow-card);
+  border-color: var(--text-secondary);
 }
 
 /* Image Section */
@@ -950,13 +1099,13 @@ body {
   gap: 8px;
   margin-bottom: 8px;
   font-size: 0.8rem;
-  color: #6B7280;
+  color: var(--text-muted);
 }
 
 .topic-category-dot {
   width: 8px;
   height: 8px;
-  background-color: #8B5CF6;
+  background-color: var(--color-primary);
   /* Default specific category color could be dynamic */
   border-radius: 50%;
 }
@@ -965,7 +1114,7 @@ body {
 .topic-title {
   font-size: 1rem;
   font-weight: 700;
-  color: #1F2937;
+  color: var(--text-main);
   margin: 0 0 12px 0;
   line-height: 1.4;
   display: -webkit-box;
@@ -986,15 +1135,109 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 2px 4px var(--shadow-subtle);
+}
+
+/* --- Footer --- */
+.site-footer {
+  text-align: center;
+  padding: 40px 20px;
+  grid-column: 1 / -1;
+  /* Spans full width on desktop grid */
+  display: flex;
+  justify-content: center;
+}
+
+/* --- Theme Toggle Button (Static Footer Version) --- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background: var(--bg-container);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 2px 5px var(--shadow-subtle);
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px var(--shadow-card);
+  background: var(--bg-card-hover);
+}
+
+.theme-toggle .toggle-text {
+  display: inline-block;
+}
+
+/* Icon styles */
+.theme-toggle i {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  /* Reset absolute positioning from previous version */
+}
+
+/* Logic: Show/Hide icons based on theme */
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+  position: absolute;
+  /* Keep absolute to overlap if we want to swap in place, OR use display none */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Since we want them side-by-side with text, maybe just show one icon? 
+   Let's keep the swap logic but make sure the container 'i' holds space 
+*/
+.theme-toggle {
+  position: relative;
+  /* Context for icons if absolute */
+}
+
+/* RE-DO Icon Logic for Static Button */
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+  position: static;
+  /* Reset to flow */
+  display: none;
+  /* Hide by default */
+}
+
+/* Light Mode: Show Moon */
+.theme-toggle .icon-moon {
+  display: block;
+}
+
+.theme-toggle .icon-sun {
+  display: none;
+}
+
+/* Dark Mode: Show Sun */
+[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+
+[data-theme="dark"] .theme-toggle {
+  background: var(--bg-card);
+  border-color: var(--border-light);
+  color: var(--text-main);
 }
 
 .topic-stats {
   display: flex;
   gap: 12px;
   font-size: 0.85rem;
-  color: #6B7280;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
@@ -1014,8 +1257,8 @@ body {
 .topic-error {
   text-align: center;
   padding: 40px;
-  color: #6B7280;
-  background: #F9FAFB;
+  color: var(--text-muted);
+  background: var(--bg-card-hover);
   border-radius: 12px;
 }
 
@@ -1077,9 +1320,14 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #F3F4F6;
-  /* Gray-100 equivalent */
+  /* Reverted to original Gray-100 */
   color: #9CA3AF;
-  /* Gray-400 */
+  /* Reverted to original Gray-400 */
+}
+
+[data-theme="dark"] .topic-image.is-placeholder {
+  background-color: var(--bg-highlight);
+  color: var(--text-muted);
 }
 
 .placeholder-icon {
@@ -1097,7 +1345,7 @@ body {
 
 .author-name {
   font-size: 0.85rem;
-  color: #4B5563;
+  color: var(--text-secondary);
   font-weight: 500;
   max-width: 100px;
   overflow: hidden;
@@ -1119,7 +1367,7 @@ body {
   /* More appropriate than default H2 */
   margin-bottom: 24px;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-header);
 }
 
 /* Ensure mobile header is tight */

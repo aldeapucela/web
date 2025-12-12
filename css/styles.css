@@ -646,6 +646,17 @@ body:not([data-theme="dark"]) {
 }
 
 
+.card-icon-videos {
+  background-color: #FFE4E6;
+  color: #BE123C;
+}
+
+[data-theme="dark"] .card-icon-videos {
+  background-color: rgba(190, 18, 60, 0.2);
+  color: #FB7185;
+}
+
+
 .card-icon-integracion {
   background-color: #FEF2F2;
   color: #DC2626;

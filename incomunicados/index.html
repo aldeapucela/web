@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ciudad de la (IN)Comunicación</title>
+
+    <!-- Metadatos para preview en redes sociales -->
+    <meta property="og:title" content="Ciudad de la (IN)Comunicación">
+    <meta property="og:description"
+        content="Damos voz a los vecinos del barrio de la Ciudad de la Comunicación, actualmente desolados por la decisión del Ayuntamiento y la Junta de no ejecutar los pasos peatonales y de vehículos que estaban programados para iniciar ya mismo.">
+    <meta property="og:image" content="https://aldeapucela.org/incomunicados/portada.jpg">
+    <meta property="og:url" content="https://aldeapucela.org/incomunicados/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Matomo Tracking -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "https://stats.aldeapucela.org/";
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setSiteId', '13']);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
+
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loader {
+            margin-top: 20px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #8e44ad;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Ciudad de la (IN)Comunicación</h1>
+    <p></p>
+    <div class="loader"></div>
+
+    <script>
+        // Redirect logic with a small delay to allow Matomo to fire
+        setTimeout(function () {
+            window.location.href = "https://video.aldeapucela.org/w/wMjeKigXYTYzUKeum6N3yd";
+        }, 800);
+    </script>
+</body>
+
+</html>

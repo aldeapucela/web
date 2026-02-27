@@ -623,6 +623,16 @@ body:not([data-theme="dark"]) {
   color: #E879F9;
 }
 
+.card-icon-elecciones {
+  background-color: #ECFDF3;
+  color: #15803D;
+}
+
+[data-theme="dark"] .card-icon-elecciones {
+  background-color: rgba(21, 128, 61, 0.2);
+  color: #4ADE80;
+}
+
 
 .card-icon-negocios {
   background-color: #F5F3FF;

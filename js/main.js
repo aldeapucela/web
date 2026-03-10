@@ -15,8 +15,31 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
+    const shareButton = document.getElementById('share-button');
+    const shareFeedback = document.getElementById('share-feedback');
+    const shareText = 'Descubre la mayor comunidad vecinal online de Valladolid, más de 6000 vecinos/as ya forma parte';
+    const shareData = {
+        title: 'Aldea Pucela',
+        text: shareText,
+        url: window.location.href
+    };
+    const shareClipboardText = `${shareText}\n\n${shareData.url}`;
+    let shareFeedbackTimeout;
+
     const modal = document.getElementById('js-telegram-modal');
     const closeBtns = document.querySelectorAll('.js-modal-close');
+
+    function showShareFeedback(message) {
+        if (!shareFeedback) return;
+
+        window.clearTimeout(shareFeedbackTimeout);
+        shareFeedback.textContent = message;
+        shareFeedback.classList.add('is-visible');
+
+        shareFeedbackTimeout = window.setTimeout(() => {
+            shareFeedback.classList.remove('is-visible');
+        }, 2400);
+    }
 
     // Close buttons logic
     if (closeBtns) {
@@ -29,6 +52,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modal) {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) modal.classList.remove('is-visible');
+        });
+    }
+
+    if (shareButton) {
+        shareButton.addEventListener('click', async () => {
+            try {
+                if (navigator.share) {
+                    await navigator.share(shareData);
+                    return;
+                }
+
+                if (navigator.clipboard?.writeText) {
+                    await navigator.clipboard.writeText(shareClipboardText);
+                    showShareFeedback('Texto y enlace copiados al portapapeles');
+                    return;
+                }
+
+                window.prompt('Copia este texto y enlace:', shareClipboardText);
+            } catch (error) {
+                if (error?.name !== 'AbortError') {
+                    console.error('Share failed:', error);
+                    showShareFeedback('No se ha podido compartir ahora mismo');
+                }
+            }
         });
     }
 });

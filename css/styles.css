@@ -361,11 +361,103 @@ body:not([data-theme="dark"]) {
   /* Same as other containers */
 }
 
+.hero-share-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--border-light);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-secondary);
+  box-shadow: 0 8px 20px -12px var(--shadow-card);
+  backdrop-filter: blur(10px);
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
+}
+
+.hero-share-button:hover {
+  transform: translateY(-1px);
+  background: var(--bg-card-hover);
+  box-shadow: 0 12px 24px -14px var(--shadow-card);
+}
+
+.hero-share-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.hero-share-button i {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+.share-feedback {
+  position: absolute;
+  top: 60px;
+  right: 12px;
+  max-width: 220px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(17, 24, 39, 0.92);
+  color: #F9FAFB;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: left;
+  box-shadow: 0 14px 30px -18px rgba(15, 23, 42, 0.55);
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 2;
+}
+
+.share-feedback.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-theme="dark"] .hero-share-button {
+  background: rgba(31, 41, 55, 0.92);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+}
+
+[data-theme="dark"] .share-feedback {
+  background: rgba(249, 250, 251, 0.96);
+  color: #111827;
+}
+
 @media (min-width: 768px) {
   .hero-split {
     gap: 40px;
     padding: 40px;
     margin-bottom: 50px;
+  }
+
+  .hero-share-button {
+    top: 18px;
+    right: 18px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .share-feedback {
+    top: 74px;
+    right: 18px;
   }
 }
 
@@ -953,6 +1045,11 @@ body:not([data-theme="dark"]) {
     gap: 30px;
   }
 
+  .hero-share-button {
+    top: 22px;
+    right: 22px;
+  }
+
   /* Logo */
   .hero-split>.logo-hero {
     order: 1;
@@ -969,6 +1066,7 @@ body:not([data-theme="dark"]) {
     max-width: 500px;
     /* Constrain reading width */
     margin: 0 auto 0 0;
+    padding-right: 96px;
   }
 
   /* Ensure titles/text in hero align left explicitly */

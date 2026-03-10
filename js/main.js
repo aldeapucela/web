@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const shareButton = document.getElementById('share-button');
     const shareFeedback = document.getElementById('share-feedback');
-    const shareText = 'Descubre la mayor comunidad vecinal online de Valladolid, más de 6000 vecinos/as ya forma parte';
+    const shareText = 'Descubre la mayor comunidad vecinal online de Valladolid, más de 6000 vecinos/as ya forman parte';
     const shareData = {
         title: 'Aldea Pucela',
         text: shareText,

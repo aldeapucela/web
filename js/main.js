@@ -18,10 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareButton = document.getElementById('share-button');
     const shareFeedback = document.getElementById('share-feedback');
     const shareText = 'Descubre la mayor comunidad vecinal online de Valladolid, más de 6000 vecinos/as ya forman parte';
+    const shareUrl = new URL(window.location.href);
+    shareUrl.searchParams.set('mtm_campaign', 'share-home');
     const shareData = {
         title: 'Aldea Pucela',
         text: shareText,
-        url: window.location.href
+        url: shareUrl.toString()
     };
     const shareClipboardText = `${shareText}\n\n${shareData.url}`;
     let shareFeedbackTimeout;
@@ -39,6 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
         shareFeedbackTimeout = window.setTimeout(() => {
             shareFeedback.classList.remove('is-visible');
         }, 2400);
+    }
+
+    function trackShareEvent(action) {
+        if (window._paq) {
+            window._paq.push(['trackEvent', 'Share', action, 'home']);
+        }
     }
 
     // Close buttons logic
@@ -60,19 +68,23 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 if (navigator.share) {
                     await navigator.share(shareData);
+                    trackShareEvent('native');
                     return;
                 }
 
                 if (navigator.clipboard?.writeText) {
                     await navigator.clipboard.writeText(shareClipboardText);
+                    trackShareEvent('clipboard');
                     showShareFeedback('Texto y enlace copiados al portapapeles');
                     return;
                 }
 
+                trackShareEvent('prompt');
                 window.prompt('Copia este texto y enlace:', shareClipboardText);
             } catch (error) {
                 if (error?.name !== 'AbortError') {
                     console.error('Share failed:', error);
+                    trackShareEvent('error');
                     showShareFeedback('No se ha podido compartir ahora mismo');
                 }
             }

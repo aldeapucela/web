@@ -715,14 +715,14 @@ body:not([data-theme="dark"]) {
   color: #E879F9;
 }
 
-.card-icon-elecciones {
-  background-color: #ECFDF3;
-  color: #15803D;
+.card-icon-otra-pucela {
+  background-color: #EFF6FF;
+  color: #1E3A8A;
 }
 
-[data-theme="dark"] .card-icon-elecciones {
-  background-color: rgba(21, 128, 61, 0.2);
-  color: #4ADE80;
+[data-theme="dark"] .card-icon-otra-pucela {
+  background-color: rgba(30, 58, 138, 0.22);
+  color: #93C5FD;
 }
 
 

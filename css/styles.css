@@ -791,6 +791,16 @@ body:not([data-theme="dark"]) {
   color: #38BDF8;
 }
 
+.card-icon-contratos {
+  background-color: #ECFDF5;
+  color: #059669;
+}
+
+[data-theme="dark"] .card-icon-contratos {
+  background-color: rgba(5, 150, 105, 0.2);
+  color: #34D399;
+}
+
 
 .feature-card span {
   font-weight: 700;

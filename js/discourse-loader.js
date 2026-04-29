@@ -33,7 +33,7 @@ function renderTopics(topics, users) {
     const topicList = topics.slice(0, 5); // Show top 5 topics
 
     let html = `
-        <h2><i data-lucide="message-square"></i> Popular esta semana</h2>
+        <h2>Popular esta semana</h2>
         <div class="topics-grid">
     `;
 
@@ -61,7 +61,7 @@ function renderTopics(topics, users) {
             <a href="https://foro.aldeapucela.org/t/${topic.slug}/${topic.id}" class="topic-card">
                 <div class="topic-image ${!imageUrl ? 'is-placeholder' : ''}" 
                      style="${imageUrl ? `background-image: url('${imageUrl}')` : ''}">
-                     ${!imageUrl ? '<i data-lucide="message-square-text" class="placeholder-icon"></i>' : ''}
+                     ${!imageUrl ? '<i class="fa-regular fa-message placeholder-icon" aria-hidden="true"></i>' : ''}
                 </div>
                 
                 <div class="topic-content">
@@ -78,7 +78,7 @@ function renderTopics(topics, users) {
                             <span class="author-name">${authorName}</span>
                         </div>
                         <div class="topic-stats">
-                            <span class="stat"><i data-lucide="message-circle"></i> ${topic.posts_count - 1}</span>
+                            <span class="stat"><i class="fa-regular fa-comment" aria-hidden="true"></i> ${topic.posts_count - 1}</span>
                         </div>
                     </div>
                 </div>
@@ -88,15 +88,11 @@ function renderTopics(topics, users) {
 
     html += `
         </div>
-        <p class="more-topics"><a href="https://foro.aldeapucela.org/top?period=weekly">Ver más &rarr;</a></p>
+        <p class="more-topics"><a href="https://foro.aldeapucela.org/top?period=weekly">Ver más <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></p>
     `;
 
     container.innerHTML = html;
 
-    // Re-init icons for the new content
-    if (window.lucide) {
-        lucide.createIcons();
-    }
 }
 
 function renderFallback(message) {

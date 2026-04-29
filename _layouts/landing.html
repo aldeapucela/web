@@ -6,13 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
   <title>{{ page.title }}</title>
 
   <!-- Metadatos para preview en redes sociales -->
   <meta property="og:title" content="{{ page.title }}">
   <meta property="og:description" content="La mayor comunidad vecinal online sobre Valladolid">
-  <meta property="og:image" content="https://aldeapucela.org/img/logo.jpg">
+  <meta property="og:image" content="https://aldeapucela.org/img/social-preview.jpg">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -38,84 +39,84 @@
 
         <a href="https://creators.spotify.com/pod/show/aldea-pucela" class="feature-card">
           <div class="card-icon card-icon-podcast">
-            <i data-lucide="podcast"></i>
+            <i class="fa-solid fa-podcast" aria-hidden="true"></i>
           </div>
           <span>Podcasts</span>
         </a>
 
         <a href="https://otrapucela.org" class="feature-card">
           <div class="card-icon card-icon-otra-pucela">
-            <i data-lucide="newspaper"></i>
+            <i class="fa-regular fa-newspaper" aria-hidden="true"></i>
           </div>
           <span>La Otra Pucela</span>
         </a>
 
         <a href="https://contratos.aldeapucela.org" class="feature-card">
           <div class="card-icon card-icon-contratos">
-            <i data-lucide="scroll"></i>
+            <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
           </div>
           <span>Contratos municipales</span>
         </a>
 
         <a href="https://participa.aldeapucela.org" class="feature-card">
           <div class="card-icon card-icon-participa">
-            <i data-lucide="megaphone"></i>
+            <i class="fa-solid fa-bullhorn" aria-hidden="true"></i>
           </div>
           <span>Campañas vecinales</span>
         </a>
 
         <a href="https://fotos.aldeapucela.org" class="feature-card">
           <div class="card-icon card-icon-fotos">
-            <i data-lucide="camera"></i>
+            <i class="fa-solid fa-camera-retro" aria-hidden="true"></i>
           </div>
           <span>Fotos de Valladolid</span>
         </a>
 
         <a href="https://negocios.aldeapucela.org" class="feature-card">
           <div class="card-icon card-icon-negocios">
-            <i data-lucide="store"></i>
+            <i class="fa-solid fa-store" aria-hidden="true"></i>
           </div>
           <span>Negocios locales</span>
         </a>
 
         <a href="https://foro.aldeapucela.org/c/eventos/6" class="feature-card">
           <div class="card-icon card-icon-eventos">
-            <i data-lucide="calendar"></i>
+            <i class="fa-regular fa-calendar-days" aria-hidden="true"></i>
           </div>
           <span>Eventos culturales</span>
         </a>
 
         <a href="https://video.aldeapucela.org" class="feature-card">
           <div class="card-icon card-icon-videos">
-            <i data-lucide="video"></i>
+            <i class="fa-solid fa-video" aria-hidden="true"></i>
           </div>
           <span>Vídeos</span>
         </a>
 
         <a href="/archivo/" class="feature-card">
           <div class="card-icon card-icon-archivo">
-            <i data-lucide="archive"></i>
+            <i class="fa-solid fa-box-archive" aria-hidden="true"></i>
           </div>
           <span>Archivo Chat</span>
         </a>
 
         <a href="https://aldeapucela.org/integracion/" class="feature-card">
           <div class="card-icon card-icon-integracion">
-            <i data-lucide="train-track"></i>
+            <i class="fa-solid fa-train-subway" aria-hidden="true"></i>
           </div>
           <span>Plataforma Integración Ferroviaria</span>
         </a>
 
         <a href="/normas/" class="feature-card">
           <div class="card-icon card-icon-normas">
-            <i data-lucide="info"></i>
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
           </div>
           <span>Normas</span>
         </a>
 
         <a href="https://bsky.app/profile/pucelobot.aldeapucela.org" class="feature-card">
           <div class="card-icon card-icon-bluesky">
-            <i data-lucide="bot"></i>
+            <i class="fa-solid fa-robot" aria-hidden="true"></i>
           </div>
           <span>PuceloBot en BlueSky</span>
         </a>
@@ -127,8 +128,8 @@
   <!-- Footer with Theme Toggle -->
   <footer class="site-footer">
     <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo oscuro/claro">
-      <i data-lucide="moon" class="icon-moon"></i>
-      <i data-lucide="sun" class="icon-sun"></i>
+      <i class="fa-regular fa-moon icon-moon" aria-hidden="true"></i>
+      <i class="fa-regular fa-sun icon-sun" aria-hidden="true"></i>
       <span class="toggle-text">Cambiar tema</span>
     </button>
   </footer>
@@ -136,13 +137,9 @@
 
   {% include telegram_modal.html %}
 
-  <!-- Carga de Lucide Icons -->
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.482.0/dist/umd/lucide.min.js"></script>
   <script src="/js/main.js"></script>
   <script src="/js/discourse-loader.js"></script>
   <script>
-    lucide.createIcons();
-
     // Matomo
     var _paq = window._paq = window._paq || [];
     _paq.push(['trackPageView']);

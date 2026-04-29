@@ -10,11 +10,6 @@ function openTelegramModal(e) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Re-initialize icons
-    if (window.lucide) {
-        lucide.createIcons();
-    }
-
     const shareButton = document.getElementById('share-button');
     const shareFeedback = document.getElementById('share-feedback');
     const shareText = 'Descubre la mayor comunidad vecinal online de Valladolid, más de 6000 vecinos/as ya forman parte';

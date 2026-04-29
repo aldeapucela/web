@@ -11,50 +11,56 @@ title: Aldea Pucela - La mayor comunidad vecinal online sobre Valladolid
         class="hero-share-button"
         aria-label="Compartir Aldea Pucela"
         title="Compartir Aldea Pucela">
-        <i data-lucide="share-2"></i>
+        <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
     </button>
 
     <div id="share-feedback" class="share-feedback" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- Logo incorporated in hero -->
-    <img src="/img/logo.jpg" class="logo logo-hero" alt="Logo Aldea Pucela">
-
-    <!-- Forum Section (Primary) -->
-    <div class="hero-section hero-forum">
-        <h1>¿Vives en Valladolid?</h1>
-
-        <div class="hero-badge">
-            <span>+6,000 vecinos/as conectados</span>
-        </div>
-
-        <p class="hero-subtitle">
-            Únete a su mayor comunidad vecinal
-        </p>
-
-        <!-- A. Purple Button -->
-        <a href="https://foro.aldeapucela.org/" class="btn btn-premium-cta">
-            <i data-lucide="message-square"></i>
-            <span>Entrar al foro</span>
-        </a>
-
-        <!-- B. Newsletter Link (Single Clickable Card) -->
-        <a href="https://foro.aldeapucela.org/signup" class="newsletter-card">
-            <i data-lucide="mail"></i>
-            <span>Suscribirme al resumen semanal</span>
-        </a>
+    <div class="hero-brand">
+        <img src="/img/logo-web.jpg" class="logo logo-hero" alt="Logo Aldea Pucela">
+        <span class="hero-wordmark">ALDEA<br>PUCELA</span>
     </div>
 
-    <!-- C. Visual Spacing Separator -->
-    <div class="hero-spacing"></div>
+    <div class="hero-body">
+        <div class="hero-media">
+            <img src="/img/hero-home.jpg" class="hero-visual hero-visual-light" alt="Ilustración de Valladolid con el Puente Mayor">
+            <img src="/img/hero-home-dark.jpg" class="hero-visual hero-visual-dark" alt="Ilustración de Valladolid con el Puente Mayor en modo oscuro">
+        </div>
 
-    <!-- D. Telegram Button -->
-    <div class="hero-section hero-telegram">
-        <p class="hero-telegram-text">
-            ¿Prefieres chat en tiempo real?
-        </p>
-        <a href="#" id="js-chat-trigger" class="btn btn-secondary" onclick="openTelegramModal(event)">
-            <i data-lucide="send"></i>
-            <span>Grupo en Telegram</span>
-        </a>
+        <!-- Forum Section (Primary) -->
+        <div class="hero-section hero-forum">
+            <h1>¿Vives en Valladolid?</h1>
+
+            <div class="hero-badge">
+                <span>+6,000 vecinos/as conectados</span>
+            </div>
+
+            <p class="hero-subtitle">
+                Únete a su mayor comunidad vecinal
+            </p>
+
+            <!-- Newsletter Link (Primary CTA) -->
+            <a href="https://foro.aldeapucela.org/signup" class="newsletter-card newsletter-card-primary">
+                <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+                <span>Suscribirme al resumen semanal</span>
+                <i class="fa-solid fa-arrow-right cta-arrow" aria-hidden="true"></i>
+            </a>
+
+            <a href="#" id="js-chat-trigger" class="hero-telegram-trigger" onclick="openTelegramModal(event)">
+                <span class="hero-telegram-text">¿Prefieres el chat en tiempo real?</span>
+                <span class="btn btn-secondary">
+                    <i class="fa-brands fa-telegram" aria-hidden="true"></i>
+                    <span>Grupo en Telegram</span>
+                    <i class="fa-solid fa-arrow-right cta-arrow" aria-hidden="true"></i>
+                </span>
+            </a>
+
+            <!-- Tertiary CTA -->
+            <a href="https://foro.aldeapucela.org/" class="btn btn-tertiary">
+                <i class="fa-regular fa-message" aria-hidden="true"></i>
+                <span>Entrar al foro</span>
+                <i class="fa-solid fa-arrow-right cta-arrow" aria-hidden="true"></i>
+            </a>
+        </div>
     </div>
 </div>

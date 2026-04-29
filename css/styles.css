@@ -368,7 +368,7 @@ p {
   line-height: 1;
   cursor: pointer;
   transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-  z-index: 2;
+  z-index: 5;
 }
 
 .hero-share-button:hover {
@@ -406,7 +406,7 @@ p {
   transform: translateY(-6px);
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 2;
+  z-index: 5;
 }
 
 .share-feedback.is-visible {

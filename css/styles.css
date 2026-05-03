@@ -753,7 +753,8 @@ p {
 .card-icon-videos,
 .card-icon-integracion,
 .card-icon-contratos,
-.card-icon-normas {
+.card-icon-normas,
+.card-icon-presupuestos {
   color: #49627A;
 }
 
@@ -771,7 +772,8 @@ p {
 [data-theme="dark"] .card-icon-videos,
 [data-theme="dark"] .card-icon-integracion,
 [data-theme="dark"] .card-icon-contratos,
-[data-theme="dark"] .card-icon-normas {
+[data-theme="dark"] .card-icon-normas,
+[data-theme="dark"] .card-icon-presupuestos {
   color: #BCD0E1;
 }
 

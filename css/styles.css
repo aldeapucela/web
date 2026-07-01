@@ -170,7 +170,8 @@ body {
 }
 
 /* Estilo para páginas de texto */
-.page-normas {
+.page-normas,
+.page-sobre {
   text-align: left;
   max-width: 600px;
   margin: 0 auto;

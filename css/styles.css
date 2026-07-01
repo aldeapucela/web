@@ -1395,6 +1395,21 @@ p {
   /* Spans full width on desktop grid */
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.site-footer .footer-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.site-footer .footer-link:hover {
+  color: var(--text-main);
+  text-decoration: underline;
 }
 
 /* --- Theme Toggle Button (Static Footer Version) --- */

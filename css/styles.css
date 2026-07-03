@@ -745,7 +745,8 @@ p {
 .card-icon-negocios,
 .card-icon-archivo,
 .card-icon-bluesky,
-.card-icon-participa {
+.card-icon-participa,
+.card-icon-peluditos {
   color: #5B4A78;
 }
 
@@ -764,7 +765,8 @@ p {
 [data-theme="dark"] .card-icon-negocios,
 [data-theme="dark"] .card-icon-archivo,
 [data-theme="dark"] .card-icon-bluesky,
-[data-theme="dark"] .card-icon-participa {
+[data-theme="dark"] .card-icon-participa,
+[data-theme="dark"] .card-icon-peluditos {
   color: #C7BDE0;
 }
 

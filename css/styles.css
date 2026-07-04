@@ -2,7 +2,7 @@
 :root {
   --color-primary: #66517D;
   --color-primary-dark: #4F3E62;
-  --color-secondary: #2B78B8;
+  --color-secondary: #1E9E8A;
   --color-tertiary: #5C6472;
 
   --bg-body: #F4F4F4;
@@ -804,9 +804,9 @@ p {
 
 .hero-telegram-trigger .btn-secondary {
   margin-top: 6px;
-  background: rgba(43, 120, 184, 0.08);
+  background: rgba(30, 158, 138, 0.08);
   color: var(--color-secondary);
-  border: 1px solid rgba(43, 120, 184, 0.22);
+  border: 1px solid rgba(30, 158, 138, 0.22);
   border-radius: 16px;
   padding: 14px 18px;
   font-weight: 700;
@@ -820,17 +820,17 @@ p {
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: 0 10px 24px -20px rgba(43, 120, 184, 0.45);
+  box-shadow: 0 10px 24px -20px rgba(30, 158, 138, 0.45);
 }
 
 [data-theme="dark"] .hero-telegram-trigger .btn-secondary {
-  background: rgba(43, 120, 184, 0.16);
-  border-color: rgba(43, 120, 184, 0.30);
+  background: rgba(30, 158, 138, 0.16);
+  border-color: rgba(30, 158, 138, 0.30);
   color: #A8D2F4;
 }
 
 .hero-telegram-trigger .btn-secondary:hover {
-  background: rgba(43, 120, 184, 0.16);
+  background: rgba(30, 158, 138, 0.16);
   transform: translateY(-1px);
 }
 
@@ -1054,7 +1054,7 @@ p {
   gap: 10px;
   text-decoration: none;
   transition: background 0.2s, transform 0.2s ease;
-  box-shadow: 0 16px 28px -18px rgba(43, 120, 184, 0.45);
+  box-shadow: 0 16px 28px -18px rgba(30, 158, 138, 0.45);
 }
 
 .btn-modal-action:hover {

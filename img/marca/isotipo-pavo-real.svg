@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="30 44 180 180">
+<title>Aldea Pucela — isotipo</title>
+<g transform="translate(120,140) rotate(-54)"><path d="M0,0 C-19,-40.5 -19,-73.8 0,-90 C19,-73.8 19,-40.5 0,0 Z" fill="#1E9E8A"/><ellipse cx="0" cy="-63.0" rx="9" ry="13" fill="#FFFFFF"/><ellipse cx="0" cy="-63.0" rx="5" ry="8" fill="#66517D"/></g><g transform="translate(120,140) rotate(-27)"><path d="M0,0 C-19,-40.5 -19,-73.8 0,-90 C19,-73.8 19,-40.5 0,0 Z" fill="#1E9E8A"/><ellipse cx="0" cy="-63.0" rx="9" ry="13" fill="#FFFFFF"/><ellipse cx="0" cy="-63.0" rx="5" ry="8" fill="#66517D"/></g><g transform="translate(120,140) rotate(27)"><path d="M0,0 C-19,-40.5 -19,-73.8 0,-90 C19,-73.8 19,-40.5 0,0 Z" fill="#1E9E8A"/><ellipse cx="0" cy="-63.0" rx="9" ry="13" fill="#FFFFFF"/><ellipse cx="0" cy="-63.0" rx="5" ry="8" fill="#66517D"/></g><g transform="translate(120,140) rotate(54)"><path d="M0,0 C-19,-40.5 -19,-73.8 0,-90 C19,-73.8 19,-40.5 0,0 Z" fill="#1E9E8A"/><ellipse cx="0" cy="-63.0" rx="9" ry="13" fill="#FFFFFF"/><ellipse cx="0" cy="-63.0" rx="5" ry="8" fill="#66517D"/></g>
+
+<!-- cuerpo continuo: puño -> cuello (sin cintura) -->
+<path d="M120,218
+ C156,218 165,198 162,180
+ C160,163 150,157 142,150
+ C137,133 135,120 133,108
+ C132,103 130,101 129,100
+ C124,98 116,98 111,100
+ C110,101 108,103 107,108
+ C105,120 103,133 98,150
+ C90,157 80,163 78,180
+ C75,198 84,218 120,218 Z" fill="#66517D"/>
+<!-- cabeza -->
+<circle cx="120" cy="94" r="14" fill="#66517D"/>
+<!-- pico -->
+<path d="M107,91 L91,95 L107,99 Z" fill="#66517D"/>
+<!-- cresta: 3 tallos con punta -->
+<g stroke="#66517D" stroke-width="3" stroke-linecap="round">
+<line x1="120" y1="81" x2="111" y2="66"/>
+<line x1="120" y1="81" x2="120" y2="63"/>
+<line x1="120" y1="81" x2="129" y2="66"/>
+</g>
+<circle cx="110" cy="65" r="3.6" fill="#66517D"/>
+<circle cx="120" cy="61" r="3.6" fill="#66517D"/>
+<circle cx="130" cy="65" r="3.6" fill="#66517D"/>
+<!-- dedos (lado derecho) -->
+<g stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" fill="none">
+<path d="M120,170 C134,169 146,170 152,173"/>
+<path d="M118,185 C134,184 148,185 154,187"/>
+<path d="M120,200 C134,200 145,199 150,201"/>
+</g>
+<!-- pulgar: arco que lo separa del puño (lado izquierdo) -->
+<path d="M96,158 C86,168 82,180 84,196" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+</svg>

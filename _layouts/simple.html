@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% if page.noindex %}<meta name="robots" content="noindex">{% endif %}
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <link rel="stylesheet" href="/css/styles.css">
+  {% if page.extra_css %}<link rel="stylesheet" href="{{ page.extra_css }}">{% endif %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <title>{{ page.title }}</title>
+  <meta name="description" content="{{ page.description | default: 'La mayor comunidad vecinal online sobre Valladolid' }}">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.description | default: 'La mayor comunidad vecinal online sobre Valladolid' }}">
+  <meta property="og:image" content="{{ page.og_image | default: 'https://aldeapucela.org/img/social-preview.jpg' }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="{{ page.twitter_card | default: 'summary_large_image' }}">
+  <meta name="twitter:title" content="{{ page.title }}">
+  <meta name="twitter:description" content="{{ page.description | default: 'La mayor comunidad vecinal online sobre Valladolid' }}">
+  <meta name="twitter:image" content="{{ page.og_image | default: 'https://aldeapucela.org/img/social-preview.jpg' }}">
+</head>
+
+<body class="{% if page.slug %}page-{{ page.slug }}{% else %}default-page{% endif %}">
+  {{ content }}
+
+  <footer class="site-footer">
+    <a href="/sobre/" class="footer-link">Sobre Aldea Pucela</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar modo oscuro/claro">
+      <i class="fa-regular fa-moon icon-moon" aria-hidden="true"></i>
+      <i class="fa-regular fa-sun icon-sun" aria-hidden="true"></i>
+      <span class="toggle-text">Cambiar tema</span>
+    </button>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function () {
+      var u = "https://stats.aldeapucela.org/";
+      _paq.push(['setTrackerUrl', u + 'matomo.php']);
+      _paq.push(['setSiteId', '13']);
+      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+      g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+    })();
+  </script>
+</body>
+
+</html>

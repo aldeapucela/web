@@ -1,0 +1,69 @@
+---
+layout: simple
+slug: boletin-status
+title: Suscripción confirmada - Aldea Pucela
+description: Tu suscripción al boletín de Aldea Pucela ya está confirmada.
+extra_css: /boletin/boletin.css
+og_image: https://aldeapucela.org/img/social-preview.jpg
+---
+
+<main class="boletin-status-page" aria-labelledby="boletin-status-title">
+  <section class="boletin-status-card">
+    <a class="boletin-status-brand" href="/" aria-label="Volver a Aldea Pucela">
+      <img src="/img/logo-web.jpg" class="logo logo-hero" alt="Logo Aldea Pucela">
+      <span class="hero-wordmark">ALDEA<br>PUCELA</span>
+    </a>
+
+    <div class="boletin-status-icon" aria-hidden="true">
+      <i class="fa-regular fa-circle-check"></i>
+    </div>
+
+    <h1 id="boletin-status-title">Tu suscripción se ha confirmado</h1>
+    <p class="boletin-status-description">
+      Ya está todo listo. A partir de ahora iremos enviando a tu correo las noticias y novedades de Aldea Pucela.
+    </p>
+    <p class="boletin-status-support">
+      Solo te pedimos una última cosa: si crees que este proyecto puede interesarle a alguien más, compártelo.
+    </p>
+
+    <button
+      type="button"
+      class="boletin-status-button boletin-status-button-primary"
+      id="share-newsletter-button"
+      data-share-url="/boletin/"
+      aria-label="Compartir página del boletín">
+      <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+      <span>Compartir el boletín</span>
+    </button>
+
+    <a href="/" class="boletin-status-backlink">Seguir en Aldea Pucela</a>
+  </section>
+</main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const button = document.getElementById('share-newsletter-button');
+    if (!button) return;
+
+    const shareUrl = new URL(button.dataset.shareUrl || '/boletin/', window.location.origin);
+    shareUrl.searchParams.set('mtm_campaign', 'share-confirmacion');
+
+    const shareData = {
+      title: 'Boletín de Aldea Pucela',
+      text: 'Únete gratis al boletín de Aldea Pucela y recibe cada semana lo importante de Valladolid y de tu barrio.',
+      url: shareUrl.toString()
+    };
+
+    button.addEventListener('click', async () => {
+      if (navigator.share) {
+        await navigator.share(shareData).catch(() => {});
+        return;
+      }
+
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+        button.querySelector('span').textContent = 'Enlace copiado';
+      }
+    });
+  });
+</script>

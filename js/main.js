@@ -12,7 +12,7 @@ function openTelegramModal(e) {
 document.addEventListener('DOMContentLoaded', () => {
     const shareButton = document.getElementById('share-button');
     const shareFeedback = document.getElementById('share-feedback');
-    const shareText = 'Descubre la mayor comunidad vecinal online de Valladolid, más de 6000 vecinos/as ya forman parte';
+    const shareText = 'Descubre la mayor comunidad vecinal online de Valladolid, más de 7000 vecinos/as ya forman parte';
     const shareUrl = new URL(window.location.href);
     shareUrl.searchParams.set('mtm_campaign', 'share-home');
     const shareData = {

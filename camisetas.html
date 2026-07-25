@@ -978,6 +978,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
       '* Tamaño de la imagen: ' + sel.tamano + '\n\n' +
       'Te adjunto el diseño generado.';
 
+    copiarDisenoAlPortapapeles();
     window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg), '_blank');
   }
 
@@ -986,9 +987,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     if (e.key === 'Enter') enviarPedido();
   });
 
-  // --- Descargar PNG ---
-  document.getElementById('cfg-download').onclick = function () {
-    trackEvent('Descargar diseño configurado', sel.tipo + ' · ' + sel.imagen);
+  function crearPng(callback) {
     var svg = document.getElementById('cfg-svg');
     var xml = new XMLSerializer().serializeToString(svg);
     var img = new Image();
@@ -1000,13 +999,35 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
       ctx.fillStyle = '#f4f4f4';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(callback, 'image/png');
+    };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+  }
+
+  function copiarDisenoAlPortapapeles() {
+    if (!navigator.clipboard || !navigator.clipboard.write || !window.ClipboardItem) return;
+    crearPng(function (blob) {
+      if (!blob) return;
+      navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(function () {
+        trackEvent('Copiar diseño al portapapeles', sel.tipo + ' · ' + sel.imagen);
+      }).catch(function () {
+        // La descarga manual sigue siendo el respaldo si el navegador no permite copiar la imagen.
+      });
+    });
+  }
+
+  // --- Descargar PNG ---
+  document.getElementById('cfg-download').onclick = function () {
+    trackEvent('Descargar diseño configurado', sel.tipo + ' · ' + sel.imagen);
+    crearPng(function (blob) {
+      if (!blob) return;
       var a = document.createElement('a');
       var nombre = document.getElementById('cfg-nombre').value.trim() || 'aldeapucela';
       a.download = 'camiseta-' + nombre.toLowerCase().replace(/\s+/g, '-') + '.png';
-      a.href = canvas.toDataURL('image/png');
+      a.href = URL.createObjectURL(blob);
       a.click();
-    };
-    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 0);
+    });
   };
 
   document.getElementById('cfg-nombre').addEventListener('input', function () {

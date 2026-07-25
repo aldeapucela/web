@@ -140,7 +140,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     transform: none;
   }
 
-  .cfg-hint { font-size: 0.72rem; line-height: 1.45; color: var(--text-muted); margin: 8px 0 0; }
+  .cfg-hint { font-size: 0.7rem; font-weight: 400; line-height: 1.45; color: var(--text-muted); margin: 8px 0 0; }
 
   .cfg-name {
     width: 100%;
@@ -445,13 +445,29 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   .cfg-gallery-grid figure { margin: 0; }
 
+  .cfg-gallery-trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+    background: none;
+    border: 0;
+    border-radius: 12px;
+    cursor: zoom-in;
+  }
+
   .cfg-gallery-grid img {
     width: 100%;
     height: auto;
     display: block;
     border-radius: 12px;
     border: 1px solid var(--border-light);
+    transition: transform .2s ease;
   }
+
+  .cfg-gallery-trigger:hover img { transform: scale(1.025); }
+
+  .cfg-gallery-trigger:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; }
 
   .cfg-gallery-grid figcaption {
     font-size: 0.78rem;
@@ -459,6 +475,54 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     margin-top: 6px;
     text-align: center;
   }
+
+  .cfg-lightbox {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(15, 16, 19, 0.88);
+    z-index: 1100;
+  }
+
+  .cfg-lightbox.open { display: flex; }
+
+  .cfg-lightbox-content { max-width: min(960px, 100%); text-align: center; }
+
+  .cfg-lightbox-image {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100dvh - 100px);
+    margin: 0 auto;
+    border-radius: 14px;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .cfg-lightbox-caption { margin: 12px 0 0; font-size: 0.9rem; color: #fff; }
+
+  .cfg-lightbox-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    font-size: 1.1rem;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .cfg-lightbox-close:hover { background: rgba(255, 255, 255, 0.24); }
+
+  body.cfg-lightbox-open { overflow: hidden; }
 </style>
 
 <div class="cfg-header">
@@ -525,14 +589,14 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     </div>
 
     <div class="cfg-group">
-      <h3>Talla</h3>
-      <div class="cfg-options" id="opt-talla"></div>
-      <p class="cfg-hint" id="talla-hint">Las tallas 3XL, 4XL y 5XL solo están disponibles en blanco y negro.</p>
+      <h3>Color</h3>
+      <div class="cfg-options" id="opt-color"></div>
     </div>
 
     <div class="cfg-group">
-      <h3>Color</h3>
-      <div class="cfg-options" id="opt-color"></div>
+      <h3>Talla</h3>
+      <div class="cfg-options" id="opt-talla"></div>
+      <p class="cfg-hint" id="talla-hint">Las tallas 3XL, 4XL y 5XL solo están disponibles en blanco y negro.</p>
     </div>
 
     <button class="cfg-buy" id="cfg-buy">
@@ -546,23 +610,39 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   <h2>Así quedan</h2>
   <div class="cfg-gallery-grid">
     <figure>
-      <img src="/img/marca_2/camisetas/camiseta_blanca_eslogan_escudo_web.jpg" alt="Camiseta blanca con isotipo y eslogan en tamaño escudo" loading="lazy">
+      <button class="cfg-gallery-trigger" type="button" aria-label="Ampliar camiseta blanca con isotipo y eslogan en tamaño escudo">
+        <img src="/img/marca_2/camisetas/camiseta_blanca_eslogan_escudo_web.jpg" alt="Camiseta blanca con isotipo y eslogan en tamaño escudo" loading="lazy">
+      </button>
       <figcaption>Blanca · Isotipo con eslogan · Escudo</figcaption>
     </figure>
     <figure>
-      <img src="/img/marca_2/camisetas/camiseta_morada_eslogan_grande_web.jpg" alt="Camiseta morada con isotipo y eslogan en tamaño grande" loading="lazy">
+      <button class="cfg-gallery-trigger" type="button" aria-label="Ampliar camiseta morada con isotipo y eslogan en tamaño grande">
+        <img src="/img/marca_2/camisetas/camiseta_morada_eslogan_grande_web.jpg" alt="Camiseta morada con isotipo y eslogan en tamaño grande" loading="lazy">
+      </button>
       <figcaption>Morada · Isotipo con eslogan · Grande</figcaption>
     </figure>
     <figure>
-      <img src="/img/marca_2/camisetas/camiseta_blanca_escudo_web.jpg" alt="Camiseta blanca con logo en tamaño escudo" loading="lazy">
+      <button class="cfg-gallery-trigger" type="button" aria-label="Ampliar camiseta blanca con logo en tamaño escudo">
+        <img src="/img/marca_2/camisetas/camiseta_blanca_escudo_web.jpg" alt="Camiseta blanca con logo en tamaño escudo" loading="lazy">
+      </button>
       <figcaption>Blanca · Logo · Escudo</figcaption>
     </figure>
     <figure>
-      <img src="/img/marca_2/camisetas/camiseta_negra_grande_web.jpg" alt="Camiseta negra con logo en tamaño grande" loading="lazy">
+      <button class="cfg-gallery-trigger" type="button" aria-label="Ampliar camiseta negra con logo en tamaño grande">
+        <img src="/img/marca_2/camisetas/camiseta_negra_grande_web.jpg" alt="Camiseta negra con logo en tamaño grande" loading="lazy">
+      </button>
       <figcaption>Negra · Logo · Grande</figcaption>
     </figure>
   </div>
 </div>
+</div>
+
+<div class="cfg-lightbox" id="cfg-lightbox" role="dialog" aria-modal="true" aria-labelledby="cfg-lightbox-caption" aria-hidden="true">
+  <button class="cfg-lightbox-close" id="cfg-lightbox-close" type="button" aria-label="Cerrar imagen ampliada"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+  <div class="cfg-lightbox-content">
+    <img class="cfg-lightbox-image" id="cfg-lightbox-image" src="" alt="">
+    <p class="cfg-lightbox-caption" id="cfg-lightbox-caption"></p>
+  </div>
 </div>
 
 <div class="cfg-modal-overlay" id="cfg-modal" role="dialog" aria-modal="true" aria-labelledby="cfg-modal-title">
@@ -827,6 +907,10 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   var modal = document.getElementById('cfg-modal');
   var nombreInput = document.getElementById('cfg-nombre');
   var nombreError = document.getElementById('cfg-nombre-error');
+  var lightbox = document.getElementById('cfg-lightbox');
+  var lightboxImage = document.getElementById('cfg-lightbox-image');
+  var lightboxCaption = document.getElementById('cfg-lightbox-caption');
+  var lastGalleryTrigger = null;
 
   function abrirModal() {
     trackEvent('Iniciar pedido');
@@ -843,8 +927,35 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   document.getElementById('cfg-buy').onclick = abrirModal;
   document.getElementById('cfg-modal-cancel').onclick = cerrarModal;
   modal.addEventListener('click', function (e) { if (e.target === modal) cerrarModal(); });
+
+  function cerrarLightbox() {
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('cfg-lightbox-open');
+    if (lastGalleryTrigger) lastGalleryTrigger.focus();
+  }
+
+  document.querySelectorAll('.cfg-gallery-trigger').forEach(function (trigger) {
+    trigger.addEventListener('click', function () {
+      var image = this.querySelector('img');
+      lastGalleryTrigger = this;
+      lightboxImage.src = image.src;
+      lightboxImage.alt = image.alt;
+      lightboxCaption.textContent = this.parentElement.querySelector('figcaption').textContent;
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('cfg-lightbox-open');
+      document.getElementById('cfg-lightbox-close').focus();
+    });
+  });
+
+  document.getElementById('cfg-lightbox-close').onclick = cerrarLightbox;
+  lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrarLightbox(); });
+
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && modal.classList.contains('open')) cerrarModal();
+    if (e.key !== 'Escape') return;
+    if (modal.classList.contains('open')) cerrarModal();
+    else if (lightbox.classList.contains('open')) cerrarLightbox();
   });
 
   function enviarPedido() {

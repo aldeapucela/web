@@ -37,6 +37,12 @@ slug: camisetas
     padding: 8px;
   }
 
+  @media (max-width: 760px) {
+    /* En columna única la preview no puede ser sticky: se queda fija y las
+       opciones (p. ej. tallas deshabilitadas con opacity) se pintan encima. */
+    .cfg-preview { position: static; }
+  }
+
   .cfg-preview svg { width: 100%; height: auto; display: block; }
 
   .cfg-group { margin-bottom: 20px; }

@@ -83,6 +83,19 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   .cfg-options { display: flex; flex-wrap: wrap; gap: 8px; }
 
+  .cfg-image-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .cfg-image-controls .cfg-group { margin: 0; }
+
+  .cfg-image-controls .cfg-options { flex-direction: column; align-items: stretch; }
+
+  .cfg-image-controls .cfg-btn { width: 100%; min-height: 44px; padding: 8px 10px; }
+
   .cfg-btn {
     border: 1.5px solid var(--border-light);
     background: var(--bg-card);
@@ -494,6 +507,18 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   </div>
 
   <div>
+    <div class="cfg-image-controls">
+      <div class="cfg-group">
+        <h3>Imagen</h3>
+        <div class="cfg-options" id="opt-imagen"></div>
+      </div>
+
+      <div class="cfg-group">
+        <h3>Tamaño</h3>
+        <div class="cfg-options" id="opt-tamano"></div>
+      </div>
+    </div>
+
     <div class="cfg-group">
       <h3>Tipo de camiseta</h3>
       <div class="cfg-options" id="opt-tipo"></div>
@@ -508,16 +533,6 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     <div class="cfg-group">
       <h3>Color</h3>
       <div class="cfg-options" id="opt-color"></div>
-    </div>
-
-    <div class="cfg-group">
-      <h3>Imagen</h3>
-      <div class="cfg-options" id="opt-imagen"></div>
-    </div>
-
-    <div class="cfg-group">
-      <h3>Tamaño de la imagen</h3>
-      <div class="cfg-options" id="opt-tamano"></div>
     </div>
 
     <button class="cfg-buy" id="cfg-buy">

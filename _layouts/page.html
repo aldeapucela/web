@@ -14,9 +14,10 @@
     <!-- Metadatos para preview en redes sociales -->
     <meta property="og:title" content="{{ page.title }}">
     <meta property="og:description" content="La mayor comunidad vecinal online sobre Valladolid">
-    <meta property="og:image" content="https://aldeapucela.org/img/social-preview.jpg">
+    <meta property="og:image" content="{{ page.og_image | default: 'https://aldeapucela.org/img/social-preview.jpg' }}">
     <meta property="og:url" content="{{ site.url }}{{ page.url }}">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{ page.og_image | default: 'https://aldeapucela.org/img/social-preview.jpg' }}">
 
 </head>
 
@@ -27,6 +28,11 @@
             {{ content }}
         </div>
     </div>
+
+    <footer class="site-footer">
+        <a href="/sobre/" class="footer-link">Sobre Aldea Pucela</a>
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" class="footer-link" target="_blank" rel="license noopener">Logo y diseños: CC BY-SA 4.0</a>
+    </footer>
 
     <script>
         // Matomo

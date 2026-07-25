@@ -153,6 +153,109 @@ slug: camisetas
 
   .cfg-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 10px; }
 
+  /* Pantalla previa: aviso sin ánimo de lucro + descargas */
+  .cfg-intro {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: left;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 26px 28px;
+  }
+
+  .cfg-intro h2 { margin: 0 0 14px; font-size: 1.2rem; color: var(--text-header); }
+
+  .cfg-intro p { font-size: 0.95rem; margin: 0 0 14px; }
+
+  .cfg-downloads {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cfg-downloads a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 12px;
+    font-size: 0.85rem;
+    border: 1.5px solid var(--border-light);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    background: var(--bg-card);
+  }
+
+  .cfg-downloads a:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  .cfg-intro-ok {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px;
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    background: var(--color-primary);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+
+  .cfg-intro-ok:hover { filter: brightness(0.93); }
+
+  /* Modal de nombre al comprar */
+  .cfg-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 1000;
+  }
+
+  .cfg-modal-overlay.open { display: flex; }
+
+  .cfg-modal {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    max-width: 440px;
+    text-align: left;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  }
+
+  .cfg-modal h3 { margin: 0 0 6px; font-size: 1.05rem; color: var(--text-header); }
+
+  .cfg-modal p { font-size: 0.85rem; color: var(--text-muted); margin: 0 0 14px; }
+
+  .cfg-modal .cfg-buy { margin-top: 14px; }
+
+  .cfg-modal-cancel {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px;
+    font: inherit;
+    font-size: 0.9rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .cfg-modal-cancel:hover { color: var(--text-main); }
+
   /* Galería de ejemplos */
   .cfg-gallery {
     margin-top: 48px;
@@ -192,6 +295,30 @@ slug: camisetas
 <h1>Camisetas de Aldea Pucela</h1>
 <p>Configura tu camiseta y encárgala por WhatsApp. Coste aproximado: <strong>10&nbsp;€</strong>.</p>
 
+<div class="cfg-intro" id="cfg-intro">
+  <h2><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Antes de empezar</h2>
+  <p>Esta es una iniciativa <strong>sin ánimo de lucro</strong> de Aldea Pucela: no ganamos ni un solo
+    céntimo con las camisetas. Toda la transacción se realiza directamente entre quien compra y la empresa.</p>
+  <p>Este sistema está pensado para encargar las camisetas a través de la empresa vallisoletana
+    <strong>ROTULATED</strong>, a la que queremos agradecer el detalle de habernos ofrecido un precio
+    especial tan competitivo para la comunidad.</p>
+  <p>No obstante, <strong>no existe ninguna obligatoriedad ni exclusividad</strong> de fabricar las camisetas
+    con esta empresa. Por ello ofrecemos igualmente los diseños originales vectoriales, disponibles para
+    que cualquiera los descargue y los encargue o fabrique en cualquier otra empresa:</p>
+  <ul class="cfg-downloads">
+    <li><a href="/img/marca_2/isotipo_eslogan_fondo_claro.svg" download><i class="fa-solid fa-download" aria-hidden="true"></i> Isotipo con eslogan (fondo claro)</a></li>
+    <li><a href="/img/marca_2/isotipo_eslogan.svg" download><i class="fa-solid fa-download" aria-hidden="true"></i> Isotipo con eslogan (fondo oscuro)</a></li>
+    <li><a href="/img/marca_2/logo.svg" download><i class="fa-solid fa-download" aria-hidden="true"></i> Logo</a></li>
+    <li><a href="/img/marca_2/logo_contorno_blanco.svg" download><i class="fa-solid fa-download" aria-hidden="true"></i> Logo contorno blanco (fondo oscuro)</a></li>
+    <li><a href="/img/marca_2/isotipo.svg" download><i class="fa-solid fa-download" aria-hidden="true"></i> Isotipo</a></li>
+  </ul>
+  <button class="cfg-intro-ok" id="cfg-intro-ok">
+    <i class="fa-solid fa-check" aria-hidden="true"></i>
+    Vale, lo he entendido: abrir el configurador
+  </button>
+</div>
+
+<div id="cfg-app" hidden>
 <div class="cfg-wrap">
   <div class="cfg-preview">
     <svg id="cfg-svg" viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg">
@@ -228,12 +355,6 @@ slug: camisetas
       <div class="cfg-options" id="opt-tamano"></div>
     </div>
 
-    <div class="cfg-group">
-      <h3>Nombre y apellido <span style="font-weight:400;color:var(--text-muted)">(para identificar tu pedido al recogerlo)</span></h3>
-      <input type="text" id="cfg-nombre" class="cfg-name" placeholder="Ej: María García" maxlength="80" autocomplete="name">
-      <div class="cfg-error" id="cfg-nombre-error">Escribe tu nombre y apellido para poder identificar el pedido.</div>
-    </div>
-
     <button class="cfg-buy" id="cfg-buy">
       <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
       ¡Comprar la camiseta! (~10 €)
@@ -242,7 +363,7 @@ slug: camisetas
       <i class="fa-solid fa-download" aria-hidden="true"></i>
       Descargar diseño (PNG) para adjuntarlo al mensaje
     </button>
-    <p class="cfg-note">Al pulsar comprar se abrirá WhatsApp con el pedido ya redactado; solo tienes que enviarlo. Si quieres, adjunta también el PNG del diseño.</p>
+    <p class="cfg-note">Al pulsar comprar te pediremos tu nombre y se abrirá WhatsApp con el pedido ya redactado; solo tienes que enviarlo. Si quieres, adjunta también el PNG del diseño.</p>
   </div>
 </div>
 
@@ -265,6 +386,21 @@ slug: camisetas
       <img src="/img/marca_2/camisetas/camiseta_negra_grande_web.jpg" alt="Camiseta negra con logo en tamaño grande" loading="lazy">
       <figcaption>Negra · Logo · Grande</figcaption>
     </figure>
+  </div>
+</div>
+</div>
+
+<div class="cfg-modal-overlay" id="cfg-modal" role="dialog" aria-modal="true" aria-labelledby="cfg-modal-title">
+  <div class="cfg-modal">
+    <h3 id="cfg-modal-title">¿A nombre de quién hacemos el pedido?</h3>
+    <p>Necesitamos tu nombre y apellido para identificar tu pedido al recogerlo.</p>
+    <input type="text" id="cfg-nombre" class="cfg-name" placeholder="Ej: María García" maxlength="80" autocomplete="name">
+    <div class="cfg-error" id="cfg-nombre-error">Escribe tu nombre y apellido para poder identificar el pedido.</div>
+    <button class="cfg-buy" id="cfg-enviar">
+      <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+      Enviar pedido por WhatsApp
+    </button>
+    <button class="cfg-modal-cancel" id="cfg-modal-cancel">Cancelar</button>
   </div>
 </div>
 
@@ -317,8 +453,8 @@ slug: camisetas
       collar: 'M148,64 Q200,96 252,64 Q200,112 148,64 Z'
     },
     'Mujer (Entallada)': {
-      body: 'M150,66 L94,90 L48,166 L108,190 L120,170 Q126,230 112,286 Q104,340 116,398 Q118,412 132,412 L268,412 Q282,412 284,398 Q296,340 288,286 Q274,230 280,170 L292,190 L352,166 L306,90 L250,66 Q200,124 150,66 Z',
-      collar: 'M150,66 Q200,124 250,66 Q200,140 150,66 Z'
+      body: 'M152,64 L106,84 Q80,106 64,148 Q92,172 120,178 Q138,224 138,268 Q138,332 130,398 Q129,410 142,410 L258,410 Q271,410 270,398 Q262,332 262,268 Q262,224 280,178 Q308,172 336,148 Q320,106 294,84 L248,64 Q200,118 152,64 Z',
+      collar: 'M152,64 Q200,118 248,64 Q200,140 152,64 Z'
     },
     'Niño': {
       body: 'M160,110 L112,128 L74,190 L124,212 L136,192 L136,382 Q136,392 146,392 L254,392 Q264,392 264,382 L264,192 L276,212 L326,190 L288,128 L240,110 Q200,134 160,110 Z',
@@ -461,19 +597,44 @@ slug: camisetas
     print.setAttribute('href', dataUris[url] || url);
   }
 
-  // --- Comprar por WhatsApp ---
-  document.getElementById('cfg-buy').onclick = function () {
-    var nombre = document.getElementById('cfg-nombre').value.trim();
-    var input = document.getElementById('cfg-nombre');
-    var err = document.getElementById('cfg-nombre-error');
+  // --- Pantalla previa ---
+  document.getElementById('cfg-intro-ok').onclick = function () {
+    document.getElementById('cfg-intro').hidden = true;
+    document.getElementById('cfg-app').hidden = false;
+  };
+
+  // --- Comprar por WhatsApp (pide el nombre en un modal) ---
+  var modal = document.getElementById('cfg-modal');
+  var nombreInput = document.getElementById('cfg-nombre');
+  var nombreError = document.getElementById('cfg-nombre-error');
+
+  function abrirModal() {
+    modal.classList.add('open');
+    nombreInput.focus();
+  }
+
+  function cerrarModal() {
+    modal.classList.remove('open');
+    nombreInput.classList.remove('error');
+    nombreError.style.display = 'none';
+  }
+
+  document.getElementById('cfg-buy').onclick = abrirModal;
+  document.getElementById('cfg-modal-cancel').onclick = cerrarModal;
+  modal.addEventListener('click', function (e) { if (e.target === modal) cerrarModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) cerrarModal();
+  });
+
+  function enviarPedido() {
+    var nombre = nombreInput.value.trim();
     if (!nombre) {
-      input.classList.add('error');
-      err.style.display = 'block';
-      input.focus();
+      nombreInput.classList.add('error');
+      nombreError.style.display = 'block';
+      nombreInput.focus();
       return;
     }
-    input.classList.remove('error');
-    err.style.display = 'none';
+    cerrarModal();
 
     var msg = 'Hola, soy ' + nombre + ', te escribo desde Aldea Pucela para encargarte una camiseta con las siguientes características:\n\n' +
       '* Tipo de camiseta: ' + sel.tipo + '\n' +
@@ -484,7 +645,12 @@ slug: camisetas
       'Te adjunto el diseño generado.';
 
     window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg), '_blank');
-  };
+  }
+
+  document.getElementById('cfg-enviar').onclick = enviarPedido;
+  nombreInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') enviarPedido();
+  });
 
   // --- Descargar PNG ---
   document.getElementById('cfg-download').onclick = function () {

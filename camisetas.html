@@ -1,0 +1,512 @@
+---
+layout: page
+title: Configurador de camisetas - Aldea Pucela
+permalink: /camisetas/
+slug: camisetas
+---
+
+<style>
+  /* El configurador ocupa el ancho de la página, centrado.
+     Los !important ganan al max-width:800px !important de .content-container
+     y al margin:0 que aplica el CSS global a .container en escritorio. */
+  body.page-camisetas .content-container {
+    max-width: 1150px !important;
+    width: 100%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .cfg-wrap {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 36px;
+    text-align: left;
+    align-items: start;
+  }
+
+  @media (max-width: 760px) {
+    .cfg-wrap { grid-template-columns: 1fr; gap: 20px; }
+  }
+
+  .cfg-preview {
+    position: sticky;
+    top: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 8px;
+  }
+
+  .cfg-preview svg { width: 100%; height: auto; display: block; }
+
+  .cfg-group { margin-bottom: 20px; }
+
+  .cfg-group h3 {
+    font-size: 0.95rem;
+    margin: 0 0 10px;
+    color: var(--text-header);
+  }
+
+  .cfg-options { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .cfg-btn {
+    border: 1.5px solid var(--border-light);
+    background: var(--bg-card);
+    color: var(--text-main);
+    border-radius: 10px;
+    padding: 8px 14px;
+    font: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+
+  .cfg-btn:hover { border-color: var(--color-primary); }
+
+  .cfg-btn.sel {
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .cfg-swatch {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid var(--border-light);
+    cursor: pointer;
+    padding: 0;
+    transition: transform .15s, border-color .15s;
+  }
+
+  .cfg-swatch:hover { transform: scale(1.1); }
+
+  .cfg-swatch.sel {
+    border-color: var(--color-primary);
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .cfg-btn.dis, .cfg-swatch.dis {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .cfg-hint { font-size: 0.78rem; color: var(--text-muted); margin: 8px 0 0; }
+
+  .cfg-name {
+    width: 100%;
+    padding: 10px 12px;
+    font: inherit;
+    border: 1.5px solid var(--border-light);
+    border-radius: 10px;
+    background: var(--bg-card);
+    color: var(--text-main);
+  }
+
+  .cfg-name.error { border-color: #c0392b; }
+
+  .cfg-error { color: #c0392b; font-size: 0.85rem; display: none; margin-top: 6px; }
+
+  .cfg-buy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px;
+    font: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    background: #25D366;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+
+  .cfg-buy:hover { filter: brightness(0.93); }
+
+  .cfg-download {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    font: inherit;
+    font-size: 0.9rem;
+    background: none;
+    border: 1.5px solid var(--border-light);
+    border-radius: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+
+  .cfg-download:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+  .cfg-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 10px; }
+
+  /* Galería de ejemplos */
+  .cfg-gallery {
+    margin-top: 48px;
+    text-align: left;
+  }
+
+  .cfg-gallery h2 { font-size: 1.3rem; }
+
+  .cfg-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  @media (max-width: 760px) {
+    .cfg-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .cfg-gallery-grid figure { margin: 0; }
+
+  .cfg-gallery-grid img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+  }
+
+  .cfg-gallery-grid figcaption {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    text-align: center;
+  }
+</style>
+
+<h1>Camisetas de Aldea Pucela</h1>
+<p>Configura tu camiseta y encárgala por WhatsApp. Coste aproximado: <strong>10&nbsp;€</strong>.</p>
+
+<div class="cfg-wrap">
+  <div class="cfg-preview">
+    <svg id="cfg-svg" viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg">
+      <path id="cfg-shirt" d="" stroke-width="3" stroke-linejoin="round"></path>
+      <path id="cfg-collar" d="" fill="none" stroke-width="3"></path>
+      <image id="cfg-print" href="" preserveAspectRatio="xMidYMid meet"></image>
+    </svg>
+  </div>
+
+  <div>
+    <div class="cfg-group">
+      <h3>Tipo de camiseta</h3>
+      <div class="cfg-options" id="opt-tipo"></div>
+    </div>
+
+    <div class="cfg-group">
+      <h3>Talla</h3>
+      <div class="cfg-options" id="opt-talla"></div>
+      <p class="cfg-hint" id="talla-hint">Las tallas 3XL, 4XL y 5XL solo están disponibles en blanco y negro.</p>
+    </div>
+
+    <div class="cfg-group">
+      <h3>Color</h3>
+      <div class="cfg-options" id="opt-color"></div>
+    </div>
+
+    <div class="cfg-group">
+      <h3>Imagen</h3>
+      <div class="cfg-options" id="opt-imagen"></div>
+    </div>
+
+    <div class="cfg-group">
+      <h3>Tamaño de la imagen</h3>
+      <div class="cfg-options" id="opt-tamano"></div>
+    </div>
+
+    <div class="cfg-group">
+      <h3>Nombre y apellido <span style="font-weight:400;color:var(--text-muted)">(para identificar tu pedido al recogerlo)</span></h3>
+      <input type="text" id="cfg-nombre" class="cfg-name" placeholder="Ej: María García" maxlength="80" autocomplete="name">
+      <div class="cfg-error" id="cfg-nombre-error">Escribe tu nombre y apellido para poder identificar el pedido.</div>
+    </div>
+
+    <button class="cfg-buy" id="cfg-buy">
+      <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+      ¡Comprar la camiseta! (~10 €)
+    </button>
+    <button class="cfg-download" id="cfg-download">
+      <i class="fa-solid fa-download" aria-hidden="true"></i>
+      Descargar diseño (PNG) para adjuntarlo al mensaje
+    </button>
+    <p class="cfg-note">Al pulsar comprar se abrirá WhatsApp con el pedido ya redactado; solo tienes que enviarlo. Si quieres, adjunta también el PNG del diseño.</p>
+  </div>
+</div>
+
+<div class="cfg-gallery">
+  <h2>Así quedan</h2>
+  <div class="cfg-gallery-grid">
+    <figure>
+      <img src="/img/marca_2/camisetas/camiseta_blanca_eslogan_escudo_web.jpg" alt="Camiseta blanca con isotipo y eslogan en tamaño escudo" loading="lazy">
+      <figcaption>Blanca · Isotipo con eslogan · Escudo</figcaption>
+    </figure>
+    <figure>
+      <img src="/img/marca_2/camisetas/camiseta_morada_eslogan_grande_web.jpg" alt="Camiseta morada con isotipo y eslogan en tamaño grande" loading="lazy">
+      <figcaption>Morada · Isotipo con eslogan · Grande</figcaption>
+    </figure>
+    <figure>
+      <img src="/img/marca_2/camisetas/camiseta_blanca_escudo_web.jpg" alt="Camiseta blanca con logo en tamaño escudo" loading="lazy">
+      <figcaption>Blanca · Logo · Escudo</figcaption>
+    </figure>
+    <figure>
+      <img src="/img/marca_2/camisetas/camiseta_negra_grande_web.jpg" alt="Camiseta negra con logo en tamaño grande" loading="lazy">
+      <figcaption>Negra · Logo · Grande</figcaption>
+    </figure>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var WHATSAPP = '34698941605';
+
+  // --- Datos ---
+  var TIPOS = ['Unisex', 'Mujer (Entallada)', 'Niño'];
+  var TALLAS_ADULTO = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL'];
+  var TALLAS_NINO = ['3-4 años', '5-6 años', '7-8 años', '9-11 años', '12-14 años'];
+  var TALLAS_ESPECIALES = ['3XL', '4XL', '5XL'];
+  var COLORES_BN = ['Blanca', 'Negra'];
+  var COLORES = [
+    { n: 'Blanca',   hex: '#ffffff', oscura: false },
+    { n: 'Negra',    hex: '#1f1f1f', oscura: true },
+    { n: 'Morada',   hex: '#4b3a68', oscura: true },
+    { n: 'Azul',     hex: '#2e5fa3', oscura: true },
+    { n: 'Amarilla', hex: '#f2c53d', oscura: false },
+    { n: 'Rosa',     hex: '#e58fb1', oscura: false }
+  ];
+  var IMAGENES = ['Isotipo con eslogan', 'Logo'];
+  var TAMANOS = ['Escudo', 'Grande'];
+
+  // Rutas de assets: [imagen][fondo] -> url  (fondo oscuro usa variante clara/contorno)
+  var ASSETS = {
+    'Isotipo con eslogan': {
+      claro:  '/img/marca_2/isotipo_eslogan_fondo_claro.svg',
+      oscuro: '/img/marca_2/isotipo_eslogan.svg'
+    },
+    'Logo': {
+      claro:  '/img/marca_2/logo.svg',
+      oscuro: '/img/marca_2/logo_contorno_blanco.svg'
+    }
+  };
+  // Bounding box real del arte dentro de cada SVG (los lienzos tienen márgenes).
+  // Se usa para recortar el viewBox al precargar y para la relación de aspecto.
+  var ART_BBOX = {
+    'Isotipo con eslogan': '242 89 784 1035',
+    'Logo': '406 60 741 841'
+  };
+  var RATIO = { 'Isotipo con eslogan': 784 / 1035, 'Logo': 741 / 841 };
+
+  // --- Siluetas de camiseta (viewBox 0 0 400 440) ---
+  var SHIRTS = {
+    'Unisex': {
+      body: 'M148,64 L84,88 L30,172 L98,200 L114,172 L114,404 Q114,416 126,416 L274,416 Q286,416 286,404 L286,172 L302,200 L370,172 L316,88 L252,64 Q200,96 148,64 Z',
+      collar: 'M148,64 Q200,96 252,64 Q200,112 148,64 Z'
+    },
+    'Mujer (Entallada)': {
+      body: 'M150,66 L94,90 L48,166 L108,190 L120,170 Q126,230 112,286 Q104,340 116,398 Q118,412 132,412 L268,412 Q282,412 284,398 Q296,340 288,286 Q274,230 280,170 L292,190 L352,166 L306,90 L250,66 Q200,124 150,66 Z',
+      collar: 'M150,66 Q200,124 250,66 Q200,140 150,66 Z'
+    },
+    'Niño': {
+      body: 'M160,110 L112,128 L74,190 L124,212 L136,192 L136,382 Q136,392 146,392 L254,392 Q264,392 264,382 L264,192 L276,212 L326,190 L288,128 L240,110 Q200,134 160,110 Z',
+      collar: 'M160,110 Q200,134 240,110 Q200,146 160,110 Z'
+    }
+  };
+
+  // Zonas de estampado por tipo y tamaño: [centroX, y, ancho] (alto según ratio).
+  // "Grande" según proporción de los mockups: ~50-60% del ancho del torso.
+  var ZONES = {
+    'Unisex':            { escudo: [247, 138, 58], grande: [200, 150, 104] },
+    'Mujer (Entallada)': { escudo: [241, 140, 54], grande: [200, 158, 94] },
+    'Niño':              { escudo: [238, 158, 46], grande: [200, 170, 78] }
+  };
+
+  // --- Estado ---
+  var sel = { tipo: 'Unisex', talla: 'M', color: COLORES[0], imagen: 'Isotipo con eslogan', tamano: 'Escudo' };
+
+  // Los SVG de diseño se precargan como data-URI (necesario para exportar a PNG)
+  var dataUris = {};
+  Object.keys(ASSETS).forEach(function (img) {
+    Object.keys(ASSETS[img]).forEach(function (fondo) {
+      var url = ASSETS[img][fondo];
+      fetch(url).then(function (r) { return r.text(); }).then(function (txt) {
+        // recorta el lienzo al arte real para poder posicionar con precisión
+        txt = txt.replace(/viewBox="[^"]*"/, 'viewBox="' + ART_BBOX[img] + '"');
+        dataUris[url] = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(txt);
+        render();
+      });
+    });
+  });
+
+  // --- Reglas de disponibilidad ---
+  function tallasDe(tipo) { return tipo === 'Niño' ? TALLAS_NINO : TALLAS_ADULTO; }
+
+  function tallaDisponible(t) {
+    return !(TALLAS_ESPECIALES.indexOf(t) !== -1 && COLORES_BN.indexOf(sel.color.n) === -1);
+  }
+
+  function colorDisponible(c) {
+    return !(TALLAS_ESPECIALES.indexOf(sel.talla) !== -1 && COLORES_BN.indexOf(c.n) === -1);
+  }
+
+  // --- UI de opciones ---
+  function buildButtons(containerId, values, onPick) {
+    var box = document.getElementById(containerId);
+    box.innerHTML = '';
+    values.forEach(function (v) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'cfg-btn';
+      b.textContent = v;
+      b.dataset.value = v;
+      b.onclick = function () {
+        if (b.classList.contains('dis')) return;
+        onPick(v);
+        refresh();
+      };
+      box.appendChild(b);
+    });
+  }
+
+  buildButtons('opt-tipo', TIPOS, function (v) {
+    sel.tipo = v;
+    var tallas = tallasDe(v);
+    if (tallas.indexOf(sel.talla) === -1) {
+      sel.talla = v === 'Niño' ? '7-8 años' : 'M';
+    }
+    buildTallas();
+  });
+  buildButtons('opt-imagen', IMAGENES, function (v) { sel.imagen = v; });
+  buildButtons('opt-tamano', TAMANOS, function (v) { sel.tamano = v; });
+
+  function buildTallas() {
+    buildButtons('opt-talla', tallasDe(sel.tipo), function (v) { sel.talla = v; });
+    document.getElementById('talla-hint').style.display = sel.tipo === 'Niño' ? 'none' : '';
+  }
+  buildTallas();
+
+  var colorBox = document.getElementById('opt-color');
+  COLORES.forEach(function (c) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'cfg-swatch';
+    b.style.background = c.hex;
+    b.title = c.n;
+    b.setAttribute('aria-label', c.n);
+    b.dataset.value = c.n;
+    b.onclick = function () {
+      if (b.classList.contains('dis')) return;
+      sel.color = c;
+      refresh();
+    };
+    colorBox.appendChild(b);
+  });
+
+  function refresh() {
+    var map = { 'opt-tipo': sel.tipo, 'opt-talla': sel.talla, 'opt-imagen': sel.imagen, 'opt-tamano': sel.tamano, 'opt-color': sel.color.n };
+    Object.keys(map).forEach(function (id) {
+      var kids = document.getElementById(id).children;
+      for (var i = 0; i < kids.length; i++) {
+        kids[i].classList.toggle('sel', kids[i].dataset.value === map[id]);
+      }
+    });
+    // disponibilidad tallas especiales <-> colores
+    var tallaBtns = document.getElementById('opt-talla').children;
+    for (var i = 0; i < tallaBtns.length; i++) {
+      tallaBtns[i].classList.toggle('dis', !tallaDisponible(tallaBtns[i].dataset.value));
+    }
+    var colorBtns = document.getElementById('opt-color').children;
+    for (var j = 0; j < colorBtns.length; j++) {
+      var c = null;
+      for (var k = 0; k < COLORES.length; k++) if (COLORES[k].n === colorBtns[j].dataset.value) c = COLORES[k];
+      colorBtns[j].classList.toggle('dis', !colorDisponible(c));
+    }
+    render();
+  }
+
+  // --- Render de la preview ---
+  function render() {
+    var shirt = document.getElementById('cfg-shirt');
+    var collar = document.getElementById('cfg-collar');
+    var print = document.getElementById('cfg-print');
+    var s = SHIRTS[sel.tipo];
+
+    shirt.setAttribute('d', s.body);
+    shirt.setAttribute('fill', sel.color.hex);
+    shirt.setAttribute('stroke', sel.color.oscura ? 'rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.25)');
+    collar.setAttribute('d', s.collar);
+    collar.setAttribute('stroke', sel.color.oscura ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.2)');
+
+    var url = ASSETS[sel.imagen][sel.color.oscura ? 'oscuro' : 'claro'];
+    var zone = ZONES[sel.tipo][sel.tamano === 'Escudo' ? 'escudo' : 'grande'];
+    var w = zone[2];
+    var h = w / RATIO[sel.imagen];
+    print.setAttribute('x', zone[0] - w / 2);
+    print.setAttribute('y', zone[1]);
+    print.setAttribute('width', w);
+    print.setAttribute('height', h);
+    print.setAttribute('href', dataUris[url] || url);
+  }
+
+  // --- Comprar por WhatsApp ---
+  document.getElementById('cfg-buy').onclick = function () {
+    var nombre = document.getElementById('cfg-nombre').value.trim();
+    var input = document.getElementById('cfg-nombre');
+    var err = document.getElementById('cfg-nombre-error');
+    if (!nombre) {
+      input.classList.add('error');
+      err.style.display = 'block';
+      input.focus();
+      return;
+    }
+    input.classList.remove('error');
+    err.style.display = 'none';
+
+    var msg = 'Hola, soy ' + nombre + ', te escribo desde Aldea Pucela para encargarte una camiseta con las siguientes características:\n\n' +
+      '* Tipo de camiseta: ' + sel.tipo + '\n' +
+      '* Talla: ' + sel.talla + '\n' +
+      '* Color: ' + sel.color.n + '\n' +
+      '* Imagen que llevará: ' + sel.imagen + '\n' +
+      '* Tamaño de la imagen: ' + sel.tamano + '\n\n' +
+      'Te adjunto el diseño generado.';
+
+    window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg), '_blank');
+  };
+
+  // --- Descargar PNG ---
+  document.getElementById('cfg-download').onclick = function () {
+    var svg = document.getElementById('cfg-svg');
+    var xml = new XMLSerializer().serializeToString(svg);
+    var img = new Image();
+    img.onload = function () {
+      var canvas = document.createElement('canvas');
+      canvas.width = 1000;
+      canvas.height = 1100;
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#f4f4f4';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      var a = document.createElement('a');
+      var nombre = document.getElementById('cfg-nombre').value.trim() || 'aldeapucela';
+      a.download = 'camiseta-' + nombre.toLowerCase().replace(/\s+/g, '-') + '.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+  };
+
+  document.getElementById('cfg-nombre').addEventListener('input', function () {
+    this.classList.remove('error');
+    document.getElementById('cfg-nombre-error').style.display = 'none';
+  });
+
+  refresh();
+})();
+</script>

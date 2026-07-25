@@ -16,6 +16,18 @@ slug: camisetas
     margin-right: auto !important;
   }
 
+  .cfg-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+
+  .cfg-header-logo { width: 60px; height: auto; flex-shrink: 0; }
+
+  .cfg-header h1 { margin: 0; }
+
   .cfg-wrap {
     display: grid;
     grid-template-columns: 3fr 2fr;
@@ -292,7 +304,10 @@ slug: camisetas
   }
 </style>
 
-<h1>Camisetas de Aldea Pucela</h1>
+<div class="cfg-header">
+  <img src="/img/marca_2/isotipo.svg" alt="" class="cfg-header-logo">
+  <h1>Camisetas de Aldea Pucela</h1>
+</div>
 <p>Configura tu camiseta y encárgala por WhatsApp. Coste aproximado: <strong>10&nbsp;€</strong>.</p>
 
 <div class="cfg-intro" id="cfg-intro">
@@ -311,7 +326,6 @@ slug: camisetas
     <li><a href="/img/marca_2/isotipo_eslogan.svg" download><i class="fa-solid fa-download" aria-hidden="true"></i> Isotipo con eslogan (fondo oscuro)</a></li>
     <li><a href="/img/marca_2/logo.svg" download><i class="fa-solid fa-download" aria-hidden="true"></i> Logo</a></li>
     <li><a href="/img/marca_2/logo_contorno_blanco.svg" download><i class="fa-solid fa-download" aria-hidden="true"></i> Logo contorno blanco (fondo oscuro)</a></li>
-    <li><a href="/img/marca_2/isotipo.svg" download><i class="fa-solid fa-download" aria-hidden="true"></i> Isotipo</a></li>
   </ul>
   <button class="cfg-intro-ok" id="cfg-intro-ok">
     <i class="fa-solid fa-check" aria-hidden="true"></i>

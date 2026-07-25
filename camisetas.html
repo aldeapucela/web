@@ -616,6 +616,8 @@ slug: camisetas
   document.getElementById('cfg-intro-ok').onclick = function () {
     document.getElementById('cfg-intro').hidden = true;
     document.getElementById('cfg-app').hidden = false;
+    // vuelve arriba para que se vea la preview de la camiseta
+    window.scrollTo(0, 0);
   };
 
   // --- Comprar por WhatsApp (pide el nombre en un modal) ---

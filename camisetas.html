@@ -1581,6 +1581,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     document.getElementById('cfg-intro').hidden = true;
     document.getElementById('cfg-app').hidden = false;
     document.getElementById('cfg-resume-notice').hidden = false;
+    renderPedido();
     if (pedido.length) {
       window.requestAnimationFrame(function () {
         document.getElementById('cfg-cart').scrollIntoView({ behavior: 'smooth', block: 'start' });

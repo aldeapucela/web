@@ -101,6 +101,9 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   .cfg-image-controls .cfg-btn { width: 100%; min-height: 44px; padding: 8px 10px; }
 
+  .cfg-image-personalization { grid-column: 1 / -1; }
+  .cfg-image-personalization .cfg-btn { width: 100%; min-height: 44px; }
+
   .cfg-btn {
     border: 1.5px solid var(--border-light);
     background: var(--bg-card);
@@ -146,6 +149,12 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   }
 
   .content-container .cfg-hint { font-size: 0.72rem; font-weight: 400; line-height: 1.4; color: var(--text-muted); opacity: 0.82; margin: 7px 0 0; }
+
+  .cfg-personalization { margin: 10px 0 0; }
+  .cfg-personalization label { display: block; margin-bottom: 6px; font-size: 0.78rem; font-weight: 600; color: var(--text-secondary); }
+  .cfg-personalization p { margin: 0 0 7px; font-size: 0.72rem; line-height: 1.4; color: var(--text-muted); }
+  .cfg-personalization textarea { width: 100%; min-height: 76px; padding: 10px 12px; font: inherit; font-size: 0.9rem; line-height: 1.45; color: var(--text-header); background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 10px; resize: vertical; }
+  .cfg-personalization textarea:focus { outline: 2px solid color-mix(in srgb, var(--color-primary) 35%, transparent); border-color: var(--color-primary); }
 
   .cfg-name {
     width: 100%;
@@ -454,6 +463,19 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     text-align: center;
   }
 
+  .cfg-modal .cfg-modal-personalization {
+    margin: 16px 0 0;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  .cfg-modal .cfg-modal-personalization i {
+    margin-right: 4px;
+    color: var(--color-primary);
+  }
+
   .cfg-modal-cancel {
     display: block;
     width: 100%;
@@ -472,6 +494,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   .cfg-size-modal { max-width: 720px; }
   .cfg-size-modal h3 { margin-bottom: 8px; }
   .cfg-size-intro { margin-bottom: 18px !important; line-height: 1.5; }
+  .cfg-size-diagram { display: block; width: min(160px, 42vw); height: auto; margin: 0 auto 14px; }
   .cfg-size-section + .cfg-size-section { margin-top: 22px; }
   .cfg-size-section h4 { margin: 0 0 9px; font-size: 0.9rem; color: var(--text-header); }
   .cfg-size-table-wrap { overflow-x: auto; border: 1px solid var(--border-light); border-radius: 10px; }
@@ -594,6 +617,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     <li>Aldea Pucela no gana dinero con estas camisetas.</li>
     <li>Puedes pedirla con la empresa local Rotulated por unos 10&nbsp;€, o descargar el diseño y fabricarla donde prefieras.<span class="cfg-intro-thanks">(Gracias a Rotulated por ofrecer este precio especial a la comunidad.)</span></li>
     <li>Al hacer el pedido, Rotulated te enviará la factura y el pago se hará por transferencia bancaria.</li>
+    <li>Normalmente, el punto de recogida será el quiosco del Calderón.</li>
   </ul>
   <div class="cfg-intro-actions">
     <button class="cfg-intro-ok" id="cfg-intro-ok">
@@ -629,14 +653,23 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   <div>
     <div class="cfg-image-controls">
-      <div class="cfg-group">
+      <div class="cfg-group" id="cfg-image-group">
         <h3>Imagen</h3>
         <div class="cfg-options" id="opt-imagen"></div>
       </div>
 
-      <div class="cfg-group">
+      <div class="cfg-group" id="cfg-size-group">
         <h3>Tamaño</h3>
         <div class="cfg-options" id="opt-tamano"></div>
+      </div>
+
+      <div class="cfg-image-personalization">
+        <button class="cfg-btn" id="cfg-personalization-toggle" type="button"><i class="fa-solid fa-sliders" aria-hidden="true"></i> Personalizado</button>
+        <div class="cfg-personalization" id="cfg-personalization" hidden>
+          <label for="cfg-personalization-text">Detalles de personalización</label>
+          <p>Se enviarán con el pedido.</p>
+          <textarea id="cfg-personalization-text" maxlength="160" placeholder="Ej.: logo grande centrado en la espalda"></textarea>
+        </div>
       </div>
     </div>
 
@@ -715,14 +748,15 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   <div class="cfg-modal cfg-size-modal">
     <h3 id="cfg-size-modal-title">Guía de tallas</h3>
     <p class="cfg-size-intro">Medidas aproximadas de la prenda en centímetros. Compara ancho y largo con una camiseta que te quede bien.</p>
+    <img class="cfg-size-diagram" src="/img/marca_2/camisetas/guia-tallas-ancho-largo.png" alt="Esquema de medidas: A es el ancho de la camiseta y L es el largo.">
     <section class="cfg-size-section" aria-labelledby="cfg-size-adulto-title">
       <h4 id="cfg-size-adulto-title">Adulto</h4>
       <div class="cfg-size-table-wrap">
         <table class="cfg-size-table">
           <thead><tr><th scope="col">Talla</th><th scope="col">XS</th><th scope="col">S</th><th scope="col">M</th><th scope="col">L</th><th scope="col">XL</th><th scope="col">XXL</th><th scope="col">3XL</th><th scope="col">4XL</th><th scope="col">5XL</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Ancho</th><td>48</td><td>51</td><td>53</td><td>56</td><td>58</td><td>61</td><td>66</td><td>68</td><td>72</td></tr>
-            <tr><th scope="row">Largo</th><td>68</td><td>70</td><td>72</td><td>74</td><td>76</td><td>78</td><td>82</td><td>84</td><td>88</td></tr>
+            <tr><th scope="row">Ancho (A)</th><td>48</td><td>51</td><td>53</td><td>56</td><td>58</td><td>61</td><td>66</td><td>68</td><td>72</td></tr>
+            <tr><th scope="row">Largo (L)</th><td>68</td><td>70</td><td>72</td><td>74</td><td>76</td><td>78</td><td>82</td><td>84</td><td>88</td></tr>
           </tbody>
         </table>
       </div>
@@ -733,8 +767,8 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
         <table class="cfg-size-table">
           <thead><tr><th scope="col">Talla</th><th scope="col">3-4 años</th><th scope="col">5-6 años</th><th scope="col">7-8 años</th><th scope="col">9-11 años</th><th scope="col">12-14 años</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Ancho</th><td>32</td><td>35</td><td>38</td><td>41</td><td>43</td></tr>
-            <tr><th scope="row">Largo</th><td>44</td><td>49</td><td>52</td><td>58</td><td>61</td></tr>
+            <tr><th scope="row">Ancho (A)</th><td>32</td><td>35</td><td>38</td><td>41</td><td>43</td></tr>
+            <tr><th scope="row">Largo (L)</th><td>44</td><td>49</td><td>52</td><td>58</td><td>61</td></tr>
           </tbody>
         </table>
       </div>
@@ -861,7 +895,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   };
 
   // --- Estado ---
-  var sel = { tipo: 'Unisex', talla: 'M', color: COLORES[0], imagen: 'Isotipo con eslogan', tamano: 'Escudo' };
+  var sel = { tipo: 'Unisex', talla: 'M', color: COLORES[0], imagen: 'Isotipo con eslogan', tamano: 'Escudo', personalizado: false, personalizacion: '' };
   var pedido = [];
   var editandoIndice = null;
   var editandoCantidad = 1;
@@ -873,12 +907,14 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
       color: { n: origen.color.n, hex: origen.color.hex, oscura: origen.color.oscura },
       imagen: origen.imagen,
       tamano: origen.tamano,
+      personalizado: Boolean(origen.personalizado),
+      personalizacion: origen.personalizacion || '',
       cantidad: origen.cantidad || 1
     };
   }
 
   function seleccionInicial() {
-    return { tipo: 'Unisex', talla: 'M', color: COLORES[0], imagen: 'Isotipo con eslogan', tamano: 'Escudo' };
+    return { tipo: 'Unisex', talla: 'M', color: COLORES[0], imagen: 'Isotipo con eslogan', tamano: 'Escudo', personalizado: false, personalizacion: '' };
   }
 
   function totalPrendas() {
@@ -886,12 +922,22 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   }
 
   function textoConfiguracion(item) {
-    return item.tipo + ' · ' + item.color.n + ' · Talla ' + item.talla + ' · ' + item.imagen + ' · ' + item.tamano;
+    if (item.personalizado) {
+      return item.tipo + ' · ' + item.color.n + ' · Talla ' + item.talla + ' · Personalizado: ' + (item.personalizacion || 'Detalles por confirmar');
+    }
+    var texto = item.tipo + ' · ' + item.color.n + ' · Talla ' + item.talla + ' · ' + item.imagen + ' · ' + item.tamano;
+    return item.personalizacion ? texto + ' · Personalización: ' + item.personalizacion : texto;
+  }
+
+  function escaparHtml(texto) {
+    return texto.replace(/[&<>'"]/g, function (caracter) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[caracter];
+    });
   }
 
   function mismaConfiguracion(a, b) {
     return a.tipo === b.tipo && a.talla === b.talla && a.color.n === b.color.n &&
-      a.imagen === b.imagen && a.tamano === b.tamano;
+      a.imagen === b.imagen && a.tamano === b.tamano && a.personalizado === b.personalizado && a.personalizacion === b.personalizacion;
   }
 
   function indiceConfiguracionIgual(item, excluirIndice) {
@@ -917,6 +963,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   // --- Reglas de disponibilidad ---
   function tallasDe(tipo) { return tipo === 'Niño' ? TALLAS_NINO : TALLAS_ADULTO; }
+  function tipoPrevisualizacion(tipo) { return SHIRTS[tipo] ? tipo : 'Unisex'; }
 
   function tallaDisponible(t) {
     return !(TALLAS_ESPECIALES.indexOf(t) !== -1 && COLORES_BN.indexOf(sel.color.n) === -1);
@@ -962,6 +1009,16 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   }
   buildTallas();
 
+  document.getElementById('cfg-personalization-text').addEventListener('input', function () {
+    sel.personalizacion = this.value.trim();
+  });
+
+  document.getElementById('cfg-personalization-toggle').addEventListener('click', function () {
+    sel.personalizado = !sel.personalizado;
+    refresh();
+    if (sel.personalizado) document.getElementById('cfg-personalization-text').focus();
+  });
+
   var colorBox = document.getElementById('opt-color');
   COLORES.forEach(function (c) {
     var b = document.createElement('button');
@@ -987,6 +1044,12 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
         kids[i].classList.toggle('sel', kids[i].dataset.value === map[id]);
       }
     });
+    document.getElementById('cfg-personalization').hidden = !sel.personalizado;
+    document.getElementById('cfg-personalization-toggle').classList.toggle('sel', sel.personalizado);
+    document.getElementById('cfg-personalization-toggle').setAttribute('aria-pressed', String(sel.personalizado));
+    document.getElementById('cfg-personalization-text').value = sel.personalizacion || '';
+    document.getElementById('cfg-image-group').hidden = sel.personalizado;
+    document.getElementById('cfg-size-group').hidden = sel.personalizado;
     // disponibilidad tallas especiales <-> colores
     var tallaBtns = document.getElementById('opt-talla').children;
     for (var i = 0; i < tallaBtns.length; i++) {
@@ -1006,7 +1069,8 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     var shirt = document.getElementById('cfg-shirt');
     var collar = document.getElementById('cfg-collar');
     var print = document.getElementById('cfg-print');
-    var s = SHIRTS[sel.tipo];
+    var tipoVista = tipoPrevisualizacion(sel.tipo);
+    var s = SHIRTS[tipoVista];
 
     shirt.setAttribute('d', s.body);
     shirt.setAttribute('fill', sel.color.hex);
@@ -1014,8 +1078,12 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     collar.setAttribute('d', s.collar);
     collar.setAttribute('stroke', sel.color.oscura ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.2)');
 
+    if (sel.personalizado) {
+      print.setAttribute('href', '');
+      return;
+    }
     var url = ASSETS[sel.imagen][sel.color.oscura ? 'oscuro' : 'claro'];
-    var zone = ZONES[sel.tipo][sel.tamano === 'Escudo' ? 'escudo' : 'grande'];
+    var zone = ZONES[tipoVista][sel.tamano === 'Escudo' ? 'escudo' : 'grande'];
     var w = zone[2];
     var h = w / RATIO[sel.imagen];
     print.setAttribute('x', zone[0] - w / 2);
@@ -1026,15 +1094,17 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   }
 
   function svgDeConfiguracion(item) {
-    var shirt = SHIRTS[item.tipo];
+    var tipoVista = tipoPrevisualizacion(item.tipo);
+    var shirt = SHIRTS[tipoVista];
     var url = ASSETS[item.imagen][item.color.oscura ? 'oscuro' : 'claro'];
-    var zone = ZONES[item.tipo][item.tamano === 'Escudo' ? 'escudo' : 'grande'];
+    var zone = ZONES[tipoVista][item.tamano === 'Escudo' ? 'escudo' : 'grande'];
     var w = zone[2];
     var h = w / RATIO[item.imagen];
     var stroke = item.color.oscura ? 'rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.25)';
     var collarStroke = item.color.oscura ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.2)';
     var href = dataUris[url] || url;
-    return '<svg viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg"><path d="' + shirt.body + '" fill="' + item.color.hex + '" stroke="' + stroke + '" stroke-width="3" stroke-linejoin="round"/><path d="' + shirt.collar + '" fill="none" stroke="' + collarStroke + '" stroke-width="3"/><image href="' + href + '" x="' + (zone[0] - w / 2) + '" y="' + zone[1] + '" width="' + w + '" height="' + h + '" preserveAspectRatio="xMidYMid meet"/></svg>';
+    var imagen = item.personalizado ? '' : '<image href="' + href + '" x="' + (zone[0] - w / 2) + '" y="' + zone[1] + '" width="' + w + '" height="' + h + '" preserveAspectRatio="xMidYMid meet"/>';
+    return '<svg viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg"><path d="' + shirt.body + '" fill="' + item.color.hex + '" stroke="' + stroke + '" stroke-width="3" stroke-linejoin="round"/><path d="' + shirt.collar + '" fill="none" stroke="' + collarStroke + '" stroke-width="3"/>' + imagen + '</svg>';
   }
 
   function renderPedido() {
@@ -1051,7 +1121,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
       row.innerHTML =
         '<div class="cfg-cart-thumb" aria-hidden="true">' + svgDeConfiguracion(item) + '</div>' +
         '<div><div class="cfg-cart-item-head"><h4 class="cfg-cart-item-title">Camiseta ' + (indice + 1) + '</h4><div class="cfg-quantity" aria-label="Cantidad de camiseta ' + (indice + 1) + '"><button type="button" data-action="menos" aria-label="Quitar una unidad">−</button><span>' + item.cantidad + '</span><button type="button" data-action="mas" aria-label="Añadir una unidad">+</button></div></div>' +
-        '<p class="cfg-cart-item-details">' + textoConfiguracion(item) + '</p>' +
+        '<p class="cfg-cart-item-details">' + escaparHtml(textoConfiguracion(item)) + '</p>' +
         '<div class="cfg-cart-actions"><button class="cfg-text-action" type="button" data-action="editar">Editar</button><button class="cfg-text-action cfg-danger" type="button" data-action="eliminar">Eliminar</button></div></div>';
       row.querySelectorAll('button').forEach(function (button) {
         button.addEventListener('click', function () { gestionarPedido(indice, button.dataset.action); });
@@ -1134,7 +1204,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     pedido.forEach(function (item, indice) {
       var row = document.createElement('div');
       row.className = 'cfg-modal-summary-item';
-      row.innerHTML = '<div class="cfg-modal-summary-thumb" aria-hidden="true">' + svgDeConfiguracion(item) + '</div><div><strong>' + (indice + 1) + '. ' + item.cantidad + (item.cantidad === 1 ? ' camiseta' : ' camisetas') + '</strong><span>' + textoConfiguracion(item) + '</span></div>';
+      row.innerHTML = '<div class="cfg-modal-summary-thumb" aria-hidden="true">' + svgDeConfiguracion(item) + '</div><div><strong>' + (indice + 1) + '. ' + item.cantidad + (item.cantidad === 1 ? ' camiseta' : ' camisetas') + '</strong><span>' + escaparHtml(textoConfiguracion(item)) + '</span></div>';
       summary.appendChild(row);
     });
     var total = totalPrendas();
@@ -1291,11 +1361,18 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   function crearResumenPng(nombre, callback) {
     var ancho = 1080;
     var altoCabecera = 190;
-    var altoFila = 310;
     var altoPie = 150;
+    var alturas = pedido.map(function (item) { return item.personalizado ? 390 : 310; });
+    var altoContenido = alturas.reduce(function (total, alto) { return total + alto; }, 0);
+    var posiciones = [];
+    var siguienteY = altoCabecera;
+    alturas.forEach(function (alto) {
+      posiciones.push(siguienteY);
+      siguienteY += alto;
+    });
     var canvas = document.createElement('canvas');
     canvas.width = ancho;
-    canvas.height = altoCabecera + pedido.length * altoFila + altoPie;
+    canvas.height = altoCabecera + altoContenido + altoPie;
     var ctx = canvas.getContext('2d');
     ctx.fillStyle = '#f7f6f8';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1307,10 +1384,29 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     ctx.font = '400 28px system-ui, sans-serif';
     ctx.fillText('Aldea Pucela', 56, 122);
 
+    function dibujarLineas(texto, x, y, anchoMaximo, altoLinea) {
+      var palabras = texto.split(' ');
+      var linea = '';
+      var lineas = [];
+      palabras.forEach(function (palabra) {
+        var candidata = linea ? linea + ' ' + palabra : palabra;
+        if (ctx.measureText(candidata).width > anchoMaximo && linea) {
+          lineas.push(linea);
+          linea = palabra;
+        } else {
+          linea = candidata;
+        }
+      });
+      if (linea) lineas.push(linea);
+      lineas.forEach(function (fila, indice) { ctx.fillText(fila, x, y + indice * altoLinea); });
+      return y + lineas.length * altoLinea;
+    }
+
     var pendientes = pedido.length;
     pedido.forEach(function (item, indice) {
       imagenDeConfiguracion(item, function (imagen) {
-        var y = altoCabecera + indice * altoFila;
+        var y = posiciones[indice];
+        var altoFila = alturas[indice];
         ctx.fillStyle = '#ffffff';
         rectRedondeado(ctx, 36, y + 18, ancho - 72, altoFila - 28, 20);
         ctx.fill();
@@ -1327,12 +1423,21 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
         ctx.font = '400 25px system-ui, sans-serif';
         ctx.fillStyle = '#5f5968';
         ctx.fillText('Color: ' + item.color.n, 310, y + 174);
-        ctx.fillText('Diseño: ' + item.imagen, 310, y + 212);
-        ctx.fillText('Tamaño de imagen: ' + item.tamano, 310, y + 250);
+        if (item.personalizado) {
+          ctx.fillStyle = '#4b3a68';
+          ctx.font = '600 24px system-ui, sans-serif';
+          ctx.fillText('Personalización:', 310, y + 220);
+          ctx.fillStyle = '#5f5968';
+          ctx.font = '400 23px system-ui, sans-serif';
+          dibujarLineas(item.personalizacion || 'Detalles por confirmar', 310, y + 254, 690, 30);
+        } else {
+          ctx.fillText('Diseño: ' + item.imagen, 310, y + 212);
+          ctx.fillText('Tamaño de imagen: ' + item.tamano, 310, y + 250);
+        }
         pendientes -= 1;
         if (pendientes === 0) {
           var total = totalPrendas();
-          var pie = altoCabecera + pedido.length * altoFila;
+          var pie = altoCabecera + altoContenido;
           ctx.fillStyle = '#24212a';
           ctx.font = '600 27px system-ui, sans-serif';
           ctx.fillText('Recogida a nombre de: ' + (nombre || 'Pendiente de indicar'), 56, pie + 58);

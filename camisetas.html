@@ -81,6 +81,11 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     color: var(--text-header);
   }
 
+  .cfg-group-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .cfg-group-heading h3 { margin-bottom: 10px; }
+  .cfg-size-guide-link { padding: 2px 0; font: inherit; font-size: 0.76rem; font-weight: 600; color: var(--color-primary); background: none; border: 0; cursor: pointer; }
+  .cfg-size-guide-link:hover { text-decoration: underline; }
+
   .cfg-options { display: flex; flex-wrap: wrap; gap: 8px; }
 
   .cfg-image-controls {
@@ -464,6 +469,19 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   .cfg-modal-cancel:hover { color: var(--text-main); }
 
+  .cfg-size-modal { max-width: 720px; }
+  .cfg-size-modal h3 { margin-bottom: 8px; }
+  .cfg-size-intro { margin-bottom: 18px !important; line-height: 1.5; }
+  .cfg-size-section + .cfg-size-section { margin-top: 22px; }
+  .cfg-size-section h4 { margin: 0 0 9px; font-size: 0.9rem; color: var(--text-header); }
+  .cfg-size-table-wrap { overflow-x: auto; border: 1px solid var(--border-light); border-radius: 10px; }
+  .cfg-size-table { width: 100%; min-width: 580px; border-collapse: collapse; font-size: 0.78rem; }
+  .cfg-size-table th, .cfg-size-table td { padding: 9px 10px; text-align: center; border-bottom: 1px solid var(--border-light); }
+  .cfg-size-table tr:last-child th, .cfg-size-table tr:last-child td { border-bottom: 0; }
+  .cfg-size-table th { font-weight: 700; color: var(--text-header); background: var(--bg-card-hover); }
+  .cfg-size-table th[scope="row"] { text-align: left; white-space: nowrap; }
+  .cfg-size-table td { color: var(--text-secondary); }
+
   /* Galería de ejemplos */
   .cfg-gallery {
     margin-top: 48px;
@@ -633,7 +651,10 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     </div>
 
     <div class="cfg-group">
-      <h3>Talla</h3>
+      <div class="cfg-group-heading">
+        <h3>Talla</h3>
+        <button class="cfg-size-guide-link" id="cfg-size-guide-open" type="button">Guía de tallas</button>
+      </div>
       <div class="cfg-options" id="opt-talla"></div>
       <p class="cfg-hint" id="talla-hint">Las tallas 3XL, 4XL y 5XL solo están disponibles en blanco y negro.</p>
     </div>
@@ -688,6 +709,38 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     </figure>
   </div>
 </div>
+</div>
+
+<div class="cfg-modal-overlay" id="cfg-size-modal" role="dialog" aria-modal="true" aria-labelledby="cfg-size-modal-title">
+  <div class="cfg-modal cfg-size-modal">
+    <h3 id="cfg-size-modal-title">Guía de tallas</h3>
+    <p class="cfg-size-intro">Medidas aproximadas de la prenda en centímetros. Compara ancho y largo con una camiseta que te quede bien.</p>
+    <section class="cfg-size-section" aria-labelledby="cfg-size-adulto-title">
+      <h4 id="cfg-size-adulto-title">Adulto</h4>
+      <div class="cfg-size-table-wrap">
+        <table class="cfg-size-table">
+          <thead><tr><th scope="col">Talla</th><th scope="col">XS</th><th scope="col">S</th><th scope="col">M</th><th scope="col">L</th><th scope="col">XL</th><th scope="col">XXL</th><th scope="col">3XL</th><th scope="col">4XL</th><th scope="col">5XL</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Ancho</th><td>48</td><td>51</td><td>53</td><td>56</td><td>58</td><td>61</td><td>66</td><td>68</td><td>72</td></tr>
+            <tr><th scope="row">Largo</th><td>68</td><td>70</td><td>72</td><td>74</td><td>76</td><td>78</td><td>82</td><td>84</td><td>88</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="cfg-size-section" aria-labelledby="cfg-size-nino-title">
+      <h4 id="cfg-size-nino-title">Niño</h4>
+      <div class="cfg-size-table-wrap">
+        <table class="cfg-size-table">
+          <thead><tr><th scope="col">Talla</th><th scope="col">3-4 años</th><th scope="col">5-6 años</th><th scope="col">7-8 años</th><th scope="col">9-11 años</th><th scope="col">12-14 años</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Ancho</th><td>32</td><td>35</td><td>38</td><td>41</td><td>43</td></tr>
+            <tr><th scope="row">Largo</th><td>44</td><td>49</td><td>52</td><td>58</td><td>61</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <button class="cfg-modal-cancel" id="cfg-size-modal-close" type="button">Cerrar</button>
+  </div>
 </div>
 
 <div class="cfg-lightbox" id="cfg-lightbox" role="dialog" aria-modal="true" aria-labelledby="cfg-lightbox-caption" aria-hidden="true">
@@ -1066,6 +1119,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   // --- Pedido y envío por WhatsApp ---
   var modal = document.getElementById('cfg-modal');
+  var sizeModal = document.getElementById('cfg-size-modal');
   var nombreInput = document.getElementById('cfg-nombre');
   var nombreError = document.getElementById('cfg-nombre-error');
   var lightbox = document.getElementById('cfg-lightbox');
@@ -1100,6 +1154,16 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     nombreError.style.display = 'none';
   }
 
+  function abrirGuiaTallas() {
+    sizeModal.classList.add('open');
+    document.getElementById('cfg-size-modal-close').focus();
+  }
+
+  function cerrarGuiaTallas() {
+    sizeModal.classList.remove('open');
+    document.getElementById('cfg-size-guide-open').focus();
+  }
+
   document.getElementById('cfg-add').onclick = function () {
     if (editandoIndice === null) {
       var repetida = indiceConfiguracionIgual(sel, -1);
@@ -1132,7 +1196,10 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   document.getElementById('cfg-review-order').onclick = abrirModal;
   document.getElementById('cfg-cancel-edit').onclick = cancelarEdicion;
   document.getElementById('cfg-modal-cancel').onclick = cerrarModal;
+  document.getElementById('cfg-size-guide-open').onclick = abrirGuiaTallas;
+  document.getElementById('cfg-size-modal-close').onclick = cerrarGuiaTallas;
   modal.addEventListener('click', function (e) { if (e.target === modal) cerrarModal(); });
+  sizeModal.addEventListener('click', function (e) { if (e.target === sizeModal) cerrarGuiaTallas(); });
 
   function cerrarLightbox() {
     lightbox.classList.remove('open');
@@ -1160,7 +1227,8 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
-    if (modal.classList.contains('open')) cerrarModal();
+    if (sizeModal.classList.contains('open')) cerrarGuiaTallas();
+    else if (modal.classList.contains('open')) cerrarModal();
     else if (lightbox.classList.contains('open')) cerrarLightbox();
   });
 

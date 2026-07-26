@@ -852,6 +852,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   // --- Datos ---
   var TIPOS = ['Unisex', 'Mujer (Entallada)', 'Niño'];
   var TALLAS_ADULTO = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL', '4XL', '5XL'];
+  var TALLAS_MUJER = ['S', 'M', 'L', 'XL', 'XXL'];
   var TALLAS_NINO = ['3-4 años', '5-6 años', '7-8 años', '9-11 años', '12-14 años'];
   var TALLAS_ESPECIALES = ['3XL', '4XL', '5XL'];
   var COLORES_BN = ['Blanca', 'Negra'];
@@ -974,7 +975,11 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   });
 
   // --- Reglas de disponibilidad ---
-  function tallasDe(tipo) { return tipo === 'Niño' ? TALLAS_NINO : TALLAS_ADULTO; }
+  function tallasDe(tipo) {
+    if (tipo === 'Niño') return TALLAS_NINO;
+    if (tipo === 'Mujer (Entallada)') return TALLAS_MUJER;
+    return TALLAS_ADULTO;
+  }
   function tipoPrevisualizacion(tipo) { return SHIRTS[tipo] ? tipo : 'Unisex'; }
 
   function tallaDisponible(t) {
@@ -1017,7 +1022,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   function buildTallas() {
     buildButtons('opt-talla', tallasDe(sel.tipo), function (v) { sel.talla = v; });
-    document.getElementById('talla-hint').style.display = sel.tipo === 'Niño' ? 'none' : '';
+    document.getElementById('talla-hint').style.display = sel.tipo === 'Unisex' ? '' : 'none';
   }
   buildTallas();
 

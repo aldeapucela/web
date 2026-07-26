@@ -176,11 +176,40 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   .cfg-buy:hover { filter: brightness(0.93); }
 
-  #cfg-buy { flex-direction: column; min-height: 62px; gap: 3px; }
+  #cfg-add { flex-direction: column; min-height: 62px; gap: 3px; background: var(--color-primary); }
 
   .cfg-buy-title { display: inline-flex; align-items: center; gap: 10px; }
 
   .cfg-buy-price { font-size: 0.78rem; font-weight: 500; opacity: 0.9; }
+
+  .cfg-cart {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-light);
+  }
+
+  .cfg-cart-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+  .cfg-cart-header h3 { margin: 0; font-size: 1.05rem; color: var(--text-header); }
+  .cfg-cart-total { font-size: 0.82rem; color: var(--text-muted); white-space: nowrap; }
+  .cfg-cart-list { display: grid; gap: 10px; }
+  .cfg-cart-item { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 12px; padding: 10px; background: var(--bg-card-hover); border: 1px solid var(--border-light); border-radius: 12px; }
+  .cfg-cart-thumb { width: 74px; height: 82px; align-self: center; }
+  .cfg-cart-thumb svg { width: 100%; height: 100%; display: block; }
+  .cfg-cart-item-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .cfg-cart-item-title { margin: 0; font-size: 0.9rem; color: var(--text-header); }
+  .cfg-cart-item-details { margin: 4px 0 8px; font-size: 0.76rem; line-height: 1.45; color: var(--text-muted); }
+  .cfg-cart-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .cfg-text-action { padding: 3px 0; font: inherit; font-size: 0.78rem; font-weight: 600; color: var(--color-primary); background: none; border: 0; cursor: pointer; }
+  .cfg-text-action.cfg-danger { color: var(--text-muted); }
+  .cfg-quantity { display: inline-flex; align-items: center; border: 1px solid var(--border-light); border-radius: 8px; overflow: hidden; }
+  .cfg-quantity button { width: 28px; height: 28px; padding: 0; font: inherit; color: var(--text-main); background: var(--bg-card); border: 0; cursor: pointer; }
+  .cfg-quantity span { min-width: 28px; text-align: center; font-size: 0.78rem; font-weight: 700; }
+  .cfg-cart-footer { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .cfg-cart-footer button { min-height: 48px; }
+  .cfg-add-another { font: inherit; font-size: 0.88rem; font-weight: 600; color: var(--color-primary); background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 10px; cursor: pointer; }
+  .cfg-review-order { font: inherit; font-size: 0.9rem; font-weight: 700; color: #fff; background: #25D366; border: 0; border-radius: 10px; cursor: pointer; }
+  .cfg-editing { margin: 0 0 14px; padding: 10px 12px; font-size: 0.84rem; line-height: 1.45; color: var(--text-secondary); background: var(--bg-card-hover); border-left: 3px solid var(--color-primary); border-radius: 0 8px 8px 0; }
+  .cfg-editing button { margin-left: 6px; padding: 0; font: inherit; font-size: inherit; font-weight: 700; color: var(--color-primary); background: none; border: 0; cursor: pointer; }
 
   /* Pantalla previa: aviso sin ánimo de lucro + descargas */
   .cfg-intro {
@@ -343,6 +372,15 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   .cfg-modal .cfg-buy { margin-top: 14px; }
 
+  .cfg-modal-summary { display: grid; gap: 8px; margin: 16px 0 0; }
+  .cfg-modal-summary-item { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; padding: 9px 0; border-top: 1px solid var(--border-light); }
+  .cfg-modal-summary-item:first-child { border-top: 0; }
+  .cfg-modal-summary-thumb { width: 44px; height: 50px; }
+  .cfg-modal-summary-thumb svg { width: 100%; height: 100%; display: block; }
+  .cfg-modal-summary-item strong { display: block; font-size: 0.83rem; color: var(--text-header); }
+  .cfg-modal-summary-item span { display: block; margin-top: 2px; font-size: 0.74rem; line-height: 1.4; color: var(--text-muted); }
+  .cfg-order-total { margin: 12px 0 0 !important; padding-top: 12px; font-size: 0.82rem !important; text-align: center; border-top: 1px solid var(--border-light); }
+
   .cfg-order-steps {
     display: grid;
     gap: 20px;
@@ -400,6 +438,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   @media (max-width: 480px) {
     .cfg-modal { padding: 22px 16px 18px; }
+    .cfg-cart-footer { grid-template-columns: 1fr; }
   }
 
   .cfg-modal .cfg-modal-disclaimer {
@@ -599,10 +638,24 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
       <p class="cfg-hint" id="talla-hint">Las tallas 3XL, 4XL y 5XL solo están disponibles en blanco y negro.</p>
     </div>
 
-    <button class="cfg-buy" id="cfg-buy">
-      <span class="cfg-buy-title"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Comprar camiseta</span>
-      <span class="cfg-buy-price">Coste aproximado: 10&nbsp;€</span>
+    <p class="cfg-editing" id="cfg-editing" hidden>Estás editando una camiseta del pedido.<button type="button" id="cfg-cancel-edit">Cancelar cambios</button></p>
+
+    <button class="cfg-buy" id="cfg-add" type="button">
+      <span class="cfg-buy-title"><i class="fa-solid fa-plus" aria-hidden="true"></i> Añadir al pedido</span>
+      <span class="cfg-buy-price">Coste aproximado: 10&nbsp;€ por camiseta</span>
     </button>
+
+    <section class="cfg-cart" id="cfg-cart" hidden aria-live="polite">
+      <div class="cfg-cart-header">
+        <h3>Tu pedido</h3>
+        <span class="cfg-cart-total" id="cfg-cart-total"></span>
+      </div>
+      <div class="cfg-cart-list" id="cfg-cart-list"></div>
+      <div class="cfg-cart-footer">
+        <button class="cfg-add-another" id="cfg-add-another" type="button"><i class="fa-solid fa-plus" aria-hidden="true"></i> Añadir otra</button>
+        <button class="cfg-review-order" id="cfg-review-order" type="button"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Revisar y enviar</button>
+      </div>
+    </section>
   </div>
 </div>
 
@@ -647,7 +700,10 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
 <div class="cfg-modal-overlay" id="cfg-modal" role="dialog" aria-modal="true" aria-labelledby="cfg-modal-title">
   <div class="cfg-modal">
-    <h3 id="cfg-modal-title">¿A nombre de quién hacemos el pedido?</h3>
+    <h3 id="cfg-modal-title">Revisa tu pedido</h3>
+    <div class="cfg-modal-summary" id="cfg-modal-summary"></div>
+    <p class="cfg-order-total" id="cfg-order-total"></p>
+    <h3>¿A nombre de quién hacemos el pedido?</h3>
     <p>Rotulated necesitará tu nombre y apellido para identificar tu pedido al recogerlo.</p>
     <input type="text" id="cfg-nombre" class="cfg-name" placeholder="Ej: María García" maxlength="80" autocomplete="name">
     <div class="cfg-error" id="cfg-nombre-error">Escribe tu nombre y apellido para poder identificar el pedido.</div>
@@ -655,12 +711,12 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
       <li class="cfg-order-step">
         <div class="cfg-step-heading">
           <span class="cfg-step-number" aria-hidden="true">1</span>
-          <h4 class="cfg-step-title">Descarga la imagen del diseño</h4>
+          <h4 class="cfg-step-title">Descarga el resumen del pedido</h4>
         </div>
-        <p class="cfg-step-detail">Guárdala para adjuntarla al mensaje de WhatsApp.</p>
+        <p class="cfg-step-detail">Guárdalo para adjuntarlo al mensaje de WhatsApp.</p>
         <button class="cfg-modal-download" id="cfg-download" type="button">
           <i class="fa-solid fa-download" aria-hidden="true"></i>
-          Descargar diseño para adjuntarlo
+          Descargar resumen para adjuntarlo
         </button>
       </li>
       <li class="cfg-order-step">
@@ -752,6 +808,44 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   // --- Estado ---
   var sel = { tipo: 'Unisex', talla: 'M', color: COLORES[0], imagen: 'Isotipo con eslogan', tamano: 'Escudo' };
+  var pedido = [];
+  var editandoIndice = null;
+  var editandoCantidad = 1;
+
+  function copiaSeleccion(origen) {
+    return {
+      tipo: origen.tipo,
+      talla: origen.talla,
+      color: { n: origen.color.n, hex: origen.color.hex, oscura: origen.color.oscura },
+      imagen: origen.imagen,
+      tamano: origen.tamano,
+      cantidad: origen.cantidad || 1
+    };
+  }
+
+  function seleccionInicial() {
+    return { tipo: 'Unisex', talla: 'M', color: COLORES[0], imagen: 'Isotipo con eslogan', tamano: 'Escudo' };
+  }
+
+  function totalPrendas() {
+    return pedido.reduce(function (total, item) { return total + item.cantidad; }, 0);
+  }
+
+  function textoConfiguracion(item) {
+    return item.tipo + ' · ' + item.color.n + ' · Talla ' + item.talla + ' · ' + item.imagen + ' · ' + item.tamano;
+  }
+
+  function mismaConfiguracion(a, b) {
+    return a.tipo === b.tipo && a.talla === b.talla && a.color.n === b.color.n &&
+      a.imagen === b.imagen && a.tamano === b.tamano;
+  }
+
+  function indiceConfiguracionIgual(item, excluirIndice) {
+    for (var i = 0; i < pedido.length; i++) {
+      if (i !== excluirIndice && mismaConfiguracion(pedido[i], item)) return i;
+    }
+    return -1;
+  }
 
   // Los SVG de diseño se precargan como data-URI (necesario para exportar a PNG)
   var dataUris = {};
@@ -877,6 +971,76 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     print.setAttribute('href', dataUris[url] || url);
   }
 
+  function svgDeConfiguracion(item) {
+    var shirt = SHIRTS[item.tipo];
+    var url = ASSETS[item.imagen][item.color.oscura ? 'oscuro' : 'claro'];
+    var zone = ZONES[item.tipo][item.tamano === 'Escudo' ? 'escudo' : 'grande'];
+    var w = zone[2];
+    var h = w / RATIO[item.imagen];
+    var stroke = item.color.oscura ? 'rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.25)';
+    var collarStroke = item.color.oscura ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.2)';
+    var href = dataUris[url] || url;
+    return '<svg viewBox="0 0 400 440" xmlns="http://www.w3.org/2000/svg"><path d="' + shirt.body + '" fill="' + item.color.hex + '" stroke="' + stroke + '" stroke-width="3" stroke-linejoin="round"/><path d="' + shirt.collar + '" fill="none" stroke="' + collarStroke + '" stroke-width="3"/><image href="' + href + '" x="' + (zone[0] - w / 2) + '" y="' + zone[1] + '" width="' + w + '" height="' + h + '" preserveAspectRatio="xMidYMid meet"/></svg>';
+  }
+
+  function renderPedido() {
+    var cart = document.getElementById('cfg-cart');
+    var list = document.getElementById('cfg-cart-list');
+    var total = totalPrendas();
+    cart.hidden = pedido.length === 0;
+    document.getElementById('cfg-cart-total').textContent = total + (total === 1 ? ' camiseta' : ' camisetas') + ' · aprox. ' + (total * 10) + ' €';
+    list.innerHTML = '';
+
+    pedido.forEach(function (item, indice) {
+      var row = document.createElement('article');
+      row.className = 'cfg-cart-item';
+      row.innerHTML =
+        '<div class="cfg-cart-thumb" aria-hidden="true">' + svgDeConfiguracion(item) + '</div>' +
+        '<div><div class="cfg-cart-item-head"><h4 class="cfg-cart-item-title">Camiseta ' + (indice + 1) + '</h4><div class="cfg-quantity" aria-label="Cantidad de camiseta ' + (indice + 1) + '"><button type="button" data-action="menos" aria-label="Quitar una unidad">−</button><span>' + item.cantidad + '</span><button type="button" data-action="mas" aria-label="Añadir una unidad">+</button></div></div>' +
+        '<p class="cfg-cart-item-details">' + textoConfiguracion(item) + '</p>' +
+        '<div class="cfg-cart-actions"><button class="cfg-text-action" type="button" data-action="editar">Editar</button><button class="cfg-text-action cfg-danger" type="button" data-action="eliminar">Eliminar</button></div></div>';
+      row.querySelectorAll('button').forEach(function (button) {
+        button.addEventListener('click', function () { gestionarPedido(indice, button.dataset.action); });
+      });
+      list.appendChild(row);
+    });
+  }
+
+  function gestionarPedido(indice, accion) {
+    var item = pedido[indice];
+    if (accion === 'menos') {
+      if (item.cantidad > 1) item.cantidad -= 1;
+    } else if (accion === 'mas') {
+      item.cantidad += 1;
+    } else if (accion === 'eliminar') {
+      pedido.splice(indice, 1);
+      if (editandoIndice === indice) cancelarEdicion();
+      else if (editandoIndice !== null && editandoIndice > indice) editandoIndice -= 1;
+    } else if (accion === 'editar') {
+      editandoIndice = indice;
+      editandoCantidad = item.cantidad;
+      sel = copiaSeleccion(item);
+      delete sel.cantidad;
+      document.getElementById('cfg-editing').hidden = false;
+      document.querySelector('#cfg-add .cfg-buy-title').innerHTML = '<i class="fa-solid fa-check" aria-hidden="true"></i> Guardar cambios';
+      document.getElementById('cfg-add').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      buildTallas();
+      refresh();
+      return;
+    }
+    renderPedido();
+  }
+
+  function cancelarEdicion() {
+    editandoIndice = null;
+    editandoCantidad = 1;
+    sel = seleccionInicial();
+    document.getElementById('cfg-editing').hidden = true;
+    document.querySelector('#cfg-add .cfg-buy-title').innerHTML = '<i class="fa-solid fa-plus" aria-hidden="true"></i> Añadir al pedido';
+    buildTallas();
+    refresh();
+  }
+
   // --- Pantalla previa ---
   document.getElementById('cfg-intro-ok').onclick = function () {
     trackEvent('Abrir configurador');
@@ -900,7 +1064,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     });
   });
 
-  // --- Comprar por WhatsApp (pide el nombre en un modal) ---
+  // --- Pedido y envío por WhatsApp ---
   var modal = document.getElementById('cfg-modal');
   var nombreInput = document.getElementById('cfg-nombre');
   var nombreError = document.getElementById('cfg-nombre-error');
@@ -909,8 +1073,23 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   var lightboxCaption = document.getElementById('cfg-lightbox-caption');
   var lastGalleryTrigger = null;
 
+  function resumenModal() {
+    var summary = document.getElementById('cfg-modal-summary');
+    summary.innerHTML = '';
+    pedido.forEach(function (item, indice) {
+      var row = document.createElement('div');
+      row.className = 'cfg-modal-summary-item';
+      row.innerHTML = '<div class="cfg-modal-summary-thumb" aria-hidden="true">' + svgDeConfiguracion(item) + '</div><div><strong>' + (indice + 1) + '. ' + item.cantidad + (item.cantidad === 1 ? ' camiseta' : ' camisetas') + '</strong><span>' + textoConfiguracion(item) + '</span></div>';
+      summary.appendChild(row);
+    });
+    var total = totalPrendas();
+    document.getElementById('cfg-order-total').textContent = total + (total === 1 ? ' camiseta' : ' camisetas') + ' · Coste aproximado: ' + (total * 10) + ' €';
+  }
+
   function abrirModal() {
-    trackEvent('Iniciar pedido');
+    if (!pedido.length) return;
+    resumenModal();
+    trackEvent('Revisar pedido', pedido.length + ' modelos');
     modal.classList.add('open');
     nombreInput.focus();
   }
@@ -921,7 +1100,37 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     nombreError.style.display = 'none';
   }
 
-  document.getElementById('cfg-buy').onclick = abrirModal;
+  document.getElementById('cfg-add').onclick = function () {
+    if (editandoIndice === null) {
+      var repetida = indiceConfiguracionIgual(sel, -1);
+      if (repetida === -1) {
+        pedido.push(copiaSeleccion(sel));
+        trackEvent('Añadir camiseta al pedido', sel.tipo + ' · ' + sel.imagen);
+      } else {
+        pedido[repetida].cantidad += 1;
+        trackEvent('Aumentar cantidad de camiseta');
+      }
+    } else {
+      var actualizada = copiaSeleccion(sel);
+      actualizada.cantidad = editandoCantidad;
+      var coincidente = indiceConfiguracionIgual(actualizada, editandoIndice);
+      if (coincidente === -1) {
+        pedido[editandoIndice] = actualizada;
+      } else {
+        pedido[coincidente].cantidad += actualizada.cantidad;
+        pedido.splice(editandoIndice, 1);
+      }
+      trackEvent('Editar camiseta del pedido');
+    }
+    cancelarEdicion();
+    renderPedido();
+  };
+  document.getElementById('cfg-add-another').onclick = function () {
+    cancelarEdicion();
+    document.querySelector('.cfg-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  document.getElementById('cfg-review-order').onclick = abrirModal;
+  document.getElementById('cfg-cancel-edit').onclick = cancelarEdicion;
   document.getElementById('cfg-modal-cancel').onclick = cerrarModal;
   modal.addEventListener('click', function (e) { if (e.target === modal) cerrarModal(); });
 
@@ -965,17 +1174,20 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     }
     cerrarModal();
 
-    trackEvent('Enviar pedido a WhatsApp', sel.tipo + ' · ' + sel.imagen);
+    var total = totalPrendas();
+    trackEvent('Enviar pedido a WhatsApp', pedido.length + ' modelos / ' + total + ' camisetas');
 
-    var msg = 'Hola, soy ' + nombre + ', te escribo desde Aldea Pucela para encargarte una camiseta con las siguientes características:\n\n' +
-      '* Tipo de camiseta: ' + sel.tipo + '\n' +
-      '* Talla: ' + sel.talla + '\n' +
-      '* Color: ' + sel.color.n + '\n' +
-      '* Imagen que llevará: ' + sel.imagen + '\n' +
-      '* Tamaño de la imagen: ' + sel.tamano + '\n\n' +
-      'Te adjunto el diseño generado.';
+    var lineas = pedido.map(function (item) {
+      return item.cantidad + (item.cantidad === 1 ? ' camiseta' : ' camisetas') + '\n' +
+        '   ' + textoConfiguracion(item);
+    });
+    var msg = 'Hola, soy ' + nombre + ', te escribo desde Aldea Pucela para encargar estas camisetas:\n\n' +
+      lineas.join('\n\n') + '\n\n' +
+      'Total: ' + total + (total === 1 ? ' camiseta' : ' camisetas') + '\n' +
+      'Nombre para la recogida: ' + nombre + '\n\n' +
+      'Adjunto el resumen visual del pedido.';
 
-    copiarDisenoAlPortapapeles();
+    copiarResumenAlPortapapeles(nombre);
     window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(msg), '_blank');
   }
 
@@ -984,43 +1196,101 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     if (e.key === 'Enter') enviarPedido();
   });
 
-  function crearPng(callback) {
-    var svg = document.getElementById('cfg-svg');
-    var xml = new XMLSerializer().serializeToString(svg);
+  function imagenDeConfiguracion(item, callback) {
     var img = new Image();
-    img.onload = function () {
-      var canvas = document.createElement('canvas');
-      canvas.width = 1000;
-      canvas.height = 1100;
-      var ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#f4f4f4';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      canvas.toBlob(callback, 'image/png');
-    };
-    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+    img.onload = function () { callback(img); };
+    img.onerror = function () { callback(null); };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgDeConfiguracion(item));
   }
 
-  function copiarDisenoAlPortapapeles() {
+  function rectRedondeado(ctx, x, y, width, height, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.arcTo(x + width, y, x + width, y + height, radius);
+    ctx.arcTo(x + width, y + height, x, y + height, radius);
+    ctx.arcTo(x, y + height, x, y, radius);
+    ctx.arcTo(x, y, x + width, y, radius);
+    ctx.closePath();
+  }
+
+  function crearResumenPng(nombre, callback) {
+    var ancho = 1080;
+    var altoCabecera = 190;
+    var altoFila = 310;
+    var altoPie = 150;
+    var canvas = document.createElement('canvas');
+    canvas.width = ancho;
+    canvas.height = altoCabecera + pedido.length * altoFila + altoPie;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#f7f6f8';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#4b3a68';
+    ctx.fillRect(0, 0, canvas.width, altoCabecera);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 44px system-ui, sans-serif';
+    ctx.fillText('Pedido de camisetas', 56, 76);
+    ctx.font = '400 28px system-ui, sans-serif';
+    ctx.fillText('Aldea Pucela', 56, 122);
+
+    var pendientes = pedido.length;
+    pedido.forEach(function (item, indice) {
+      imagenDeConfiguracion(item, function (imagen) {
+        var y = altoCabecera + indice * altoFila;
+        ctx.fillStyle = '#ffffff';
+        rectRedondeado(ctx, 36, y + 18, ancho - 72, altoFila - 28, 20);
+        ctx.fill();
+        ctx.strokeStyle = '#dfdbe3';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        if (imagen) ctx.drawImage(imagen, 62, y + 42, 210, 231);
+        ctx.fillStyle = '#4b3a68';
+        ctx.font = '700 30px system-ui, sans-serif';
+        ctx.fillText(item.cantidad + (item.cantidad === 1 ? ' camiseta' : ' camisetas'), 310, y + 76);
+        ctx.fillStyle = '#24212a';
+        ctx.font = '600 26px system-ui, sans-serif';
+        ctx.fillText(item.tipo + ' · Talla ' + item.talla, 310, y + 126);
+        ctx.font = '400 25px system-ui, sans-serif';
+        ctx.fillStyle = '#5f5968';
+        ctx.fillText('Color: ' + item.color.n, 310, y + 174);
+        ctx.fillText('Diseño: ' + item.imagen, 310, y + 212);
+        ctx.fillText('Tamaño de imagen: ' + item.tamano, 310, y + 250);
+        pendientes -= 1;
+        if (pendientes === 0) {
+          var total = totalPrendas();
+          var pie = altoCabecera + pedido.length * altoFila;
+          ctx.fillStyle = '#24212a';
+          ctx.font = '600 27px system-ui, sans-serif';
+          ctx.fillText('Recogida a nombre de: ' + (nombre || 'Pendiente de indicar'), 56, pie + 58);
+          ctx.fillStyle = '#5f5968';
+          ctx.font = '400 25px system-ui, sans-serif';
+          ctx.fillText('Total: ' + total + (total === 1 ? ' camiseta' : ' camisetas'), 56, pie + 104);
+          canvas.toBlob(callback, 'image/png');
+        }
+      });
+    });
+  }
+
+  function copiarResumenAlPortapapeles(nombre) {
     if (!navigator.clipboard || !navigator.clipboard.write || !window.ClipboardItem) return;
-    crearPng(function (blob) {
+    crearResumenPng(nombre, function (blob) {
       if (!blob) return;
       navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(function () {
-        trackEvent('Copiar diseño al portapapeles', sel.tipo + ' · ' + sel.imagen);
+        trackEvent('Copiar resumen al portapapeles');
       }).catch(function () {
         // La descarga manual sigue siendo el respaldo si el navegador no permite copiar la imagen.
       });
     });
   }
 
-  // --- Descargar PNG ---
+  // --- Descargar resumen PNG ---
   document.getElementById('cfg-download').onclick = function () {
-    trackEvent('Descargar diseño configurado', sel.tipo + ' · ' + sel.imagen);
-    crearPng(function (blob) {
+    var nombre = document.getElementById('cfg-nombre').value.trim();
+    trackEvent('Descargar resumen del pedido', pedido.length + ' modelos');
+    crearResumenPng(nombre, function (blob) {
       if (!blob) return;
       var a = document.createElement('a');
-      var nombre = document.getElementById('cfg-nombre').value.trim() || 'aldeapucela';
-      a.download = 'camiseta-' + nombre.toLowerCase().replace(/\s+/g, '-') + '.png';
+      var archivo = nombre || 'aldeapucela';
+      a.download = 'pedido-camisetas-' + archivo.toLowerCase().replace(/\s+/g, '-') + '.png';
       a.href = URL.createObjectURL(blob);
       a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); }, 0);

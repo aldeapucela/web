@@ -1409,7 +1409,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     var total = totalPrendas();
     // Mantiene el evento que usa el objetivo existente. Su valor permite sumar
     // camisetas solicitadas, no solo pedidos finalizados.
-    trackEvent('Enviar pedido a WhatsApp', pedido.length + ' modelos', total);
+    trackEvent('Enviar pedido a WhatsApp', pedido.length + ' modelos', total * 10);
     // El desglose se envía únicamente al finalizar: no cuenta carritos abandonados.
     pedido.forEach(function (item) {
       trackEvent('Camisetas solicitadas por tipo', item.tipo, item.cantidad);

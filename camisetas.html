@@ -222,6 +222,16 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   .cfg-cart-footer button { min-height: 48px; }
   .cfg-add-another { font: inherit; font-size: 0.88rem; font-weight: 600; color: var(--color-primary); background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 10px; cursor: pointer; }
   .cfg-review-order { font: inherit; font-size: 0.9rem; font-weight: 700; color: #fff; background: #25D366; border: 0; border-radius: 10px; cursor: pointer; }
+  .cfg-mobile-order-bar { display: none; }
+
+  @media (max-width: 760px) {
+    body.cfg-has-order { padding-bottom: 88px; }
+    .cfg-mobile-order-bar { position: fixed; right: 0; bottom: 0; left: 0; z-index: 30; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: var(--bg-card); border-top: 1px solid var(--border-light); box-shadow: 0 -8px 24px rgba(30, 24, 38, 0.12); }
+    .cfg-mobile-order-bar[hidden] { display: none; }
+    .cfg-mobile-order-summary { min-width: 0; font-size: 0.82rem; font-weight: 700; line-height: 1.3; color: var(--text-header); }
+    .cfg-mobile-order-summary span { display: block; overflow: hidden; font-size: 0.72rem; font-weight: 400; color: var(--text-muted); text-overflow: ellipsis; white-space: nowrap; }
+    .cfg-mobile-order-button { min-height: 46px; padding: 0 14px; font: inherit; font-size: 0.84rem; font-weight: 700; color: #fff; background: #25D366; border: 0; border-radius: 10px; cursor: pointer; }
+  }
   .cfg-editing { margin: 0 0 14px; padding: 10px 12px; font-size: 0.84rem; line-height: 1.45; color: var(--text-secondary); background: var(--bg-card-hover); border-left: 3px solid var(--color-primary); border-radius: 0 8px 8px 0; }
   .cfg-editing button { margin-left: 6px; padding: 0; font: inherit; font-size: inherit; font-weight: 700; color: var(--color-primary); background: none; border: 0; cursor: pointer; }
 
@@ -710,7 +720,12 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
         <button class="cfg-review-order" id="cfg-review-order" type="button"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Revisar y enviar</button>
       </div>
     </section>
-  </div>
+</div>
+</div>
+
+<div class="cfg-mobile-order-bar" id="cfg-mobile-order-bar" hidden aria-live="polite">
+  <div class="cfg-mobile-order-summary"><strong id="cfg-mobile-order-total"></strong><span>Tu pedido está guardado</span></div>
+  <button class="cfg-mobile-order-button" id="cfg-mobile-order-review" type="button">Revisar y enviar</button>
 </div>
 
 <div class="cfg-gallery">
@@ -1130,6 +1145,9 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     var total = totalPrendas();
     cart.hidden = pedido.length === 0;
     document.getElementById('cfg-cart-total').textContent = total + (total === 1 ? ' camiseta' : ' camisetas') + ' · aprox. ' + (total * 10) + ' €';
+    document.getElementById('cfg-mobile-order-bar').hidden = pedido.length === 0;
+    document.getElementById('cfg-mobile-order-total').textContent = total + (total === 1 ? ' camiseta' : ' camisetas') + ' · aprox. ' + (total * 10) + ' €';
+    document.body.classList.toggle('cfg-has-order', pedido.length > 0);
     list.innerHTML = '';
 
     pedido.forEach(function (item, indice) {
@@ -1276,12 +1294,16 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     }
     cancelarEdicion();
     renderPedido();
+    if (window.matchMedia('(max-width: 760px)').matches) {
+      document.getElementById('cfg-cart').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   };
   document.getElementById('cfg-add-another').onclick = function () {
     cancelarEdicion();
     document.querySelector('.cfg-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   document.getElementById('cfg-review-order').onclick = abrirModal;
+  document.getElementById('cfg-mobile-order-review').onclick = abrirModal;
   document.getElementById('cfg-cancel-edit').onclick = cancelarEdicion;
   document.getElementById('cfg-modal-cancel').onclick = cerrarModal;
   document.getElementById('cfg-size-guide-open').onclick = abrirGuiaTallas;

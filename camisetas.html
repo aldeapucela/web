@@ -796,9 +796,10 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   // El layout de página inicializa Matomo; esta función deja los hitos del
   // configurador agrupados sin enviar datos personales.
-  function trackEvent(action, label) {
+  function trackEvent(action, label, value) {
     var event = ['trackEvent', 'Camisetas', action];
     if (label) event.push(label);
+    if (typeof value === 'number') event.push(value);
     (window._paq = window._paq || []).push(event);
   }
 
@@ -1243,7 +1244,13 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     cerrarModal();
 
     var total = totalPrendas();
-    trackEvent('Enviar pedido a WhatsApp', pedido.length + ' modelos / ' + total + ' camisetas');
+    // Mantiene el evento que usa el objetivo existente. Su valor permite sumar
+    // camisetas solicitadas, no solo pedidos finalizados.
+    trackEvent('Enviar pedido a WhatsApp', pedido.length + ' modelos', total);
+    // El desglose se envía únicamente al finalizar: no cuenta carritos abandonados.
+    pedido.forEach(function (item) {
+      trackEvent('Camisetas solicitadas por tipo', item.tipo, item.cantidad);
+    });
 
     var lineas = pedido.map(function (item) {
       return item.cantidad + (item.cantidad === 1 ? ' camiseta' : ' camisetas') + '\n' +

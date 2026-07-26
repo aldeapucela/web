@@ -202,6 +202,9 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     border-top: 1px solid var(--border-light);
   }
 
+  .cfg-resume-notice { margin: 14px 0 0; padding: 9px 11px; font-size: 0.8rem; line-height: 1.45; color: var(--text-secondary); background: var(--bg-card-hover); border-radius: 8px; }
+  .cfg-resume-notice i { margin-right: 5px; color: var(--color-primary); }
+
   .cfg-cart-header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
   .cfg-cart-header h3 { margin: 0; font-size: 1.05rem; color: var(--text-header); }
   .cfg-cart-total { font-size: 0.82rem; color: var(--text-muted); white-space: nowrap; }
@@ -709,6 +712,8 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
       <span class="cfg-buy-price">Coste aproximado: 10&nbsp;€ por camiseta</span>
     </button>
 
+    <p class="cfg-resume-notice" id="cfg-resume-notice" hidden><i class="fa-solid fa-arrow-rotate-left" aria-hidden="true"></i> Hemos recuperado tu pedido.</p>
+
     <section class="cfg-cart" id="cfg-cart" hidden aria-live="polite">
       <div class="cfg-cart-header">
         <h3>Tu pedido</h3>
@@ -923,6 +928,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   };
 
   // --- Estado ---
+  var PEDIDO_STORAGE_KEY = 'aldeapucela-camisetas-pedido-v1';
   var sel = { tipo: 'Unisex', talla: 'M', color: COLORES[0], imagen: 'Isotipo con eslogan', tamano: 'Escudo', personalizado: false, personalizacion: '' };
   var pedido = [];
   var editandoIndice = null;
@@ -943,6 +949,52 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
 
   function seleccionInicial() {
     return { tipo: 'Unisex', talla: 'M', color: COLORES[0], imagen: 'Isotipo con eslogan', tamano: 'Escudo', personalizado: false, personalizacion: '' };
+  }
+
+  function seleccionTieneCambios(item) {
+    var inicial = seleccionInicial();
+    return item.tipo !== inicial.tipo || item.talla !== inicial.talla || item.color.n !== inicial.color.n ||
+      item.imagen !== inicial.imagen || item.tamano !== inicial.tamano || item.personalizado || item.personalizacion;
+  }
+
+  function guardarEstadoPedido() {
+    try {
+      if (!pedido.length && !seleccionTieneCambios(sel)) {
+        localStorage.removeItem(PEDIDO_STORAGE_KEY);
+        return;
+      }
+      localStorage.setItem(PEDIDO_STORAGE_KEY, JSON.stringify({ pedido: pedido, seleccion: sel }));
+    } catch (e) {
+      // El pedido sigue funcionando aunque el navegador no permita almacenamiento local.
+    }
+  }
+
+  function restaurarEstadoPedido() {
+    try {
+      var guardado = JSON.parse(localStorage.getItem(PEDIDO_STORAGE_KEY));
+      if (!guardado || !Array.isArray(guardado.pedido) || !guardado.seleccion) return false;
+      pedido = guardado.pedido.filter(function (item) {
+        return item && TIPOS.indexOf(item.tipo) !== -1 && typeof item.talla === 'string' &&
+          item.color && COLORES.some(function (color) { return color.n === item.color.n; });
+      }).map(function (item) {
+        var copia = copiaSeleccion(item);
+        copia.color = COLORES.filter(function (color) { return color.n === item.color.n; })[0];
+        copia.cantidad = Math.max(1, Number(item.cantidad) || 1);
+        return copia;
+      });
+      if (TIPOS.indexOf(guardado.seleccion.tipo) === -1) return pedido.length > 0;
+      sel = copiaSeleccion(guardado.seleccion);
+      sel.color = COLORES.filter(function (color) { return color.n === guardado.seleccion.color.n; })[0] || COLORES[0];
+      delete sel.cantidad;
+      if (tallasDe(sel.tipo).indexOf(sel.talla) === -1) sel.talla = sel.tipo === 'Niño' ? '7-8 años' : 'M';
+      return pedido.length > 0 || seleccionTieneCambios(sel);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function borrarEstadoPedido() {
+    try { localStorage.removeItem(PEDIDO_STORAGE_KEY); } catch (e) { /* Sin almacenamiento local disponible. */ }
   }
 
   function totalPrendas() {
@@ -1039,6 +1091,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     buildButtons('opt-talla', tallasDe(sel.tipo), function (v) { sel.talla = v; });
     document.getElementById('talla-hint').style.display = sel.tipo === 'Unisex' ? '' : 'none';
   }
+  var pedidoRecuperado = restaurarEstadoPedido();
   buildTallas();
 
   document.getElementById('cfg-personalization-text').addEventListener('input', function () {
@@ -1148,6 +1201,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     document.getElementById('cfg-mobile-order-bar').hidden = pedido.length === 0;
     document.getElementById('cfg-mobile-order-total').textContent = total + (total === 1 ? ' camiseta' : ' camisetas') + ' · aprox. ' + (total * 10) + ' €';
     document.body.classList.toggle('cfg-has-order', pedido.length > 0);
+    guardarEstadoPedido();
     list.innerHTML = '';
 
     pedido.forEach(function (item, indice) {
@@ -1360,6 +1414,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     pedido.forEach(function (item) {
       trackEvent('Camisetas solicitadas por tipo', item.tipo, item.cantidad);
     });
+    borrarEstadoPedido();
 
     var lineas = pedido.map(function (item) {
       return item.cantidad + (item.cantidad === 1 ? ' camiseta' : ' camisetas') + '\n' +
@@ -1522,5 +1577,15 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   });
 
   refresh();
+  if (pedidoRecuperado) {
+    document.getElementById('cfg-intro').hidden = true;
+    document.getElementById('cfg-app').hidden = false;
+    document.getElementById('cfg-resume-notice').hidden = false;
+    if (pedido.length) {
+      window.requestAnimationFrame(function () {
+        document.getElementById('cfg-cart').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }
 })();
 </script>

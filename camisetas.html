@@ -265,6 +265,15 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     color: var(--text-muted);
   }
 
+  .cfg-pickup-link,
+  .cfg-modal-disclaimer a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
   .cfg-intro-actions {
     display: flex;
     flex-direction: column;
@@ -630,7 +639,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     <li>Aldea Pucela no gana dinero con estas camisetas.</li>
     <li>Puedes pedirla con la empresa local Rotulated por unos 10&nbsp;€, o descargar el diseño y fabricarla donde prefieras.<span class="cfg-intro-thanks">(Gracias a Rotulated por ofrecer este precio especial a la comunidad.)</span></li>
     <li>Al hacer el pedido, Rotulated te enviará la factura y el pago se hará por transferencia bancaria.</li>
-    <li>Normalmente, el punto de recogida será el quiosco del Calderón.</li>
+    <li>Por defecto, el punto de recogida será el <a class="cfg-pickup-link cfg-map-link" href="https://www.openstreetmap.org/search?query=Quiosco+Calder%C3%B3n&amp;zoom=19&amp;minlon=-4.725987911224366&amp;minlat=41.653010150744116&amp;maxlon=-4.722179174423219&amp;maxlat=41.654593372129376#map=19/41.653818/-4.724191" target="_blank" rel="noopener" aria-label="Abrir la ubicación de Kiosco Calderón en el mapa">Kiosco Calderón <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>.<span class="cfg-intro-thanks">(Muchas gracias a Kiosco Calderón por ofrecerse como punto de recogida.)</span></li>
   </ul>
   <div class="cfg-intro-actions">
     <button class="cfg-intro-ok" id="cfg-intro-ok">
@@ -847,7 +856,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
           <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
           Enviar pedido por WhatsApp
         </button>
-        <p class="cfg-modal-disclaimer">Te redirigiremos al WhatsApp de Rotulated. La gestión posterior del pedido se hará directamente entre tú y la empresa.</p>
+        <p class="cfg-modal-disclaimer">Te redirigiremos al WhatsApp de Rotulated. La gestión posterior del pedido se hará directamente entre tú y la empresa. Por defecto, la recogida se hará en <a class="cfg-map-link" href="https://www.openstreetmap.org/search?query=Quiosco+Calder%C3%B3n&amp;zoom=19&amp;minlon=-4.725987911224366&amp;minlat=41.653010150744116&amp;maxlon=-4.722179174423219&amp;maxlat=41.654593372129376#map=19/41.653818/-4.724191" target="_blank" rel="noopener" aria-label="Abrir la ubicación de Kiosco Calderón en el mapa">Kiosco Calderón</a>.</p>
       </li>
     </ol>
     <button class="cfg-modal-cancel" id="cfg-modal-cancel">Cancelar</button>
@@ -859,6 +868,20 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   'use strict';
 
   var WHATSAPP = '34698941605';
+  var MAPS_OSM = 'https://www.openstreetmap.org/search?query=Quiosco+Calder%C3%B3n&zoom=19&minlon=-4.725987911224366&minlat=41.653010150744116&maxlon=-4.722179174423219&maxlat=41.654593372129376#map=19/41.653818/-4.724191';
+  var MAPS_IOS = 'https://maps.apple.com/?daddr=Calle%20Angustias%202%2C%2047003%20Valladolid';
+  var MAPS_ANDROID = 'geo:0,0?q=Kiosco%20Calder%C3%B3n%2C%20Calle%20Angustias%202%2C%2047003%20Valladolid';
+
+  function prepararEnlacesMapa() {
+    var ua = navigator.userAgent || '';
+    var destino = /Android/i.test(ua) ? MAPS_ANDROID : (/iPhone|iPad|iPod/i.test(ua) ? MAPS_IOS : MAPS_OSM);
+    document.querySelectorAll('.cfg-map-link').forEach(function (enlace) {
+      enlace.href = destino;
+      if (destino !== MAPS_OSM) enlace.removeAttribute('target');
+    });
+  }
+
+  prepararEnlacesMapa();
 
   // El layout de página inicializa Matomo; esta función deja los hitos del
   // configurador agrupados sin enviar datos personales.

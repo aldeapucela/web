@@ -742,6 +742,7 @@ p {
 
 .card-icon-podcast,
 .card-icon-otra-pucela,
+.card-icon-incidencias,
 .card-icon-negocios,
 .card-icon-archivo,
 .card-icon-bluesky,
@@ -762,6 +763,7 @@ p {
 
 [data-theme="dark"] .card-icon-podcast,
 [data-theme="dark"] .card-icon-otra-pucela,
+[data-theme="dark"] .card-icon-incidencias,
 [data-theme="dark"] .card-icon-negocios,
 [data-theme="dark"] .card-icon-archivo,
 [data-theme="dark"] .card-icon-bluesky,

@@ -682,7 +682,8 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
     <li>Aldea Pucela no gana dinero con estas camisetas.</li>
     <li>Puedes pedirla con la empresa local Rotulated por unos 10&nbsp;€, o descargar el diseño y fabricarla donde prefieras.<span class="cfg-intro-thanks">(Gracias a Rotulated por ofrecer este precio especial a la comunidad.)</span></li>
     <li>Al hacer el pedido, Rotulated te enviará la factura y el pago se hará por transferencia bancaria.</li>
-    <li>Por defecto, el punto de recogida será el <a class="cfg-pickup-link cfg-map-link" href="https://www.openstreetmap.org/search?query=Quiosco+Calder%C3%B3n&amp;zoom=19&amp;minlon=-4.725987911224366&amp;minlat=41.653010150744116&amp;maxlon=-4.722179174423219&amp;maxlat=41.654593372129376#map=19/41.653818/-4.724191" target="_blank" rel="noopener" aria-label="Abrir la ubicación de Kiosco Calderón en el mapa">Kiosco Calderón <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>.<span class="cfg-intro-thanks">(Muchas gracias a Kiosco Calderón por ofrecerse como punto de recogida.)</span></li>
+    <li id="cfg-pickup-default">Por defecto, el punto de recogida será el <a class="cfg-pickup-link cfg-map-link" href="https://www.openstreetmap.org/search?query=Quiosco+Calder%C3%B3n&amp;zoom=19&amp;minlon=-4.725987911224366&amp;minlat=41.653010150744116&amp;maxlon=-4.722179174423219&amp;maxlat=41.654593372129376#map=19/41.653818/-4.724191" target="_blank" rel="noopener" aria-label="Abrir la ubicación de Kiosco Calderón en el mapa">Kiosco Calderón <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>.<span class="cfg-intro-thanks">(Muchas gracias a Kiosco Calderón por ofrecerse como punto de recogida.)</span></li>
+    <li id="cfg-pickup-temporary" hidden>Segunda quincena de agosto: recogida en <a class="cfg-pickup-link cfg-map-link" data-map-osm="https://www.openstreetmap.org/search?query=Calle+de+la+Esgueva+11%2C+47003+Valladolid" data-map-ios="https://maps.apple.com/?daddr=Calle%20de%20la%20Esgueva%2011%2C%2047003%20Valladolid" data-map-android="geo:0,0?q=Calle%20de%20la%20Esgueva%2011%2C%2047003%20Valladolid" href="https://www.openstreetmap.org/search?query=Calle+de+la+Esgueva+11%2C+47003+Valladolid" target="_blank" rel="noopener">Muebles Línea Doce (C/ Esgueva, 11) <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>.</li>
   </ul>
   <div class="cfg-intro-actions">
     <button class="cfg-intro-ok" id="cfg-intro-ok">
@@ -899,7 +900,7 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
           <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
           Enviar pedido por WhatsApp
         </button>
-        <p class="cfg-modal-disclaimer">Te redirigiremos al WhatsApp de Rotulated. La gestión posterior del pedido se hará directamente entre tú y la empresa. Por defecto, la recogida se hará en <a class="cfg-map-link" href="https://www.openstreetmap.org/search?query=Quiosco+Calder%C3%B3n&amp;zoom=19&amp;minlon=-4.725987911224366&amp;minlat=41.653010150744116&amp;maxlon=-4.722179174423219&amp;maxlat=41.654593372129376#map=19/41.653818/-4.724191" target="_blank" rel="noopener" aria-label="Abrir la ubicación de Kiosco Calderón en el mapa">Kiosco Calderón</a>.</p>
+        <p class="cfg-modal-disclaimer">Te redirigiremos al WhatsApp de Rotulated. La gestión posterior del pedido se hará directamente entre tú y la empresa. <span id="cfg-modal-pickup-default">Por defecto, la recogida se hará en <a class="cfg-map-link" href="https://www.openstreetmap.org/search?query=Quiosco+Calder%C3%B3n&amp;zoom=19&amp;minlon=-4.725987911224366&amp;minlat=41.653010150744116&amp;maxlon=-4.722179174423219&amp;maxlat=41.654593372129376#map=19/41.653818/-4.724191" target="_blank" rel="noopener" aria-label="Abrir la ubicación de Kiosco Calderón en el mapa">Kiosco Calderón</a>.</span><span id="cfg-modal-pickup-temporary" hidden>Durante la segunda quincena de agosto, la recogida será en <a class="cfg-map-link" data-map-osm="https://www.openstreetmap.org/search?query=Calle+de+la+Esgueva+11%2C+47003+Valladolid" data-map-ios="https://maps.apple.com/?daddr=Calle%20de%20la%20Esgueva%2011%2C%2047003%20Valladolid" data-map-android="geo:0,0?q=Calle%20de+la+Esgueva+11%2C+47003+Valladolid" href="https://www.openstreetmap.org/search?query=Calle+de+la+Esgueva+11%2C+47003+Valladolid" target="_blank" rel="noopener">Muebles Línea Doce (C/ Esgueva, 11)</a>.</span></p>
       </li>
     </ol>
     <button class="cfg-modal-cancel" id="cfg-modal-cancel">Cancelar</button>
@@ -915,17 +916,28 @@ og_image: https://aldeapucela.org/img/social-preview-camisetas.png
   var MAPS_OSM = 'https://www.openstreetmap.org/search?query=Quiosco+Calder%C3%B3n&zoom=19&minlon=-4.725987911224366&minlat=41.653010150744116&maxlon=-4.722179174423219&maxlat=41.654593372129376#map=19/41.653818/-4.724191';
   var MAPS_IOS = 'https://maps.apple.com/?daddr=Calle%20Angustias%202%2C%2047003%20Valladolid';
   var MAPS_ANDROID = 'geo:0,0?q=Kiosco%20Calder%C3%B3n%2C%20Calle%20Angustias%202%2C%2047003%20Valladolid';
-
   function prepararEnlacesMapa() {
     var ua = navigator.userAgent || '';
-    var destino = /Android/i.test(ua) ? MAPS_ANDROID : (/iPhone|iPad|iPod/i.test(ua) ? MAPS_IOS : MAPS_OSM);
     document.querySelectorAll('.cfg-map-link').forEach(function (enlace) {
+      var mapaOsm = enlace.getAttribute('data-map-osm') || MAPS_OSM;
+      var mapaIos = enlace.getAttribute('data-map-ios') || MAPS_IOS;
+      var mapaAndroid = enlace.getAttribute('data-map-android') || MAPS_ANDROID;
+      var destino = /Android/i.test(ua) ? mapaAndroid : (/iPhone|iPad|iPod/i.test(ua) ? mapaIos : mapaOsm);
       enlace.href = destino;
-      if (destino !== MAPS_OSM) enlace.removeAttribute('target');
+      if (destino !== mapaOsm) enlace.removeAttribute('target');
     });
   }
 
+  function actualizarAvisoRecogida() {
+    var avisoTemporal = new Date(2026, 8, 1) > new Date();
+    document.getElementById('cfg-pickup-default').hidden = avisoTemporal;
+    document.getElementById('cfg-pickup-temporary').hidden = !avisoTemporal;
+    document.getElementById('cfg-modal-pickup-default').hidden = avisoTemporal;
+    document.getElementById('cfg-modal-pickup-temporary').hidden = !avisoTemporal;
+  }
+
   prepararEnlacesMapa();
+  actualizarAvisoRecogida();
 
   // El layout de página inicializa Matomo; esta función deja los hitos del
   // configurador agrupados sin enviar datos personales.

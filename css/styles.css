@@ -746,8 +746,13 @@ p {
 .card-icon-archivo,
 .card-icon-bluesky,
 .card-icon-participa,
+.card-icon-vivienda-publica,
 .card-icon-peluditos {
   color: #5B4A78;
+}
+
+.card-icon-segunda-vida {
+  color: #27866D;
 }
 
 .card-icon-eventos,
@@ -767,8 +772,13 @@ p {
 [data-theme="dark"] .card-icon-archivo,
 [data-theme="dark"] .card-icon-bluesky,
 [data-theme="dark"] .card-icon-participa,
+[data-theme="dark"] .card-icon-vivienda-publica,
 [data-theme="dark"] .card-icon-peluditos {
   color: #C7BDE0;
+}
+
+[data-theme="dark"] .card-icon-segunda-vida {
+  color: #9DDFC8;
 }
 
 [data-theme="dark"] .card-icon-eventos,

@@ -692,11 +692,8 @@ p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-  font-size: 1.16rem;
-  line-height: 1;
+  color: var(--color-primary);
   flex-shrink: 0;
-  user-select: none;
 }
 
 .festivals-2026-card .festivals-2026-label {
@@ -734,6 +731,10 @@ p {
   border-color: rgba(201, 183, 230, 0.28);
   color: #D9C9FF;
   box-shadow: 0 10px 24px -20px rgba(0, 0, 0, 0.48);
+}
+
+[data-theme="dark"] .festivals-2026-icon {
+  color: #D9C9FF;
 }
 
 [data-theme="dark"] .festivals-2026-card i {

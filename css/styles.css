@@ -828,6 +828,7 @@ p {
 .card-icon-negocios,
 .card-icon-archivo,
 .card-icon-bluesky,
+.card-icon-camisetas,
 .card-icon-participa,
 .card-icon-vivienda-publica,
 .card-icon-peluditos {
@@ -854,6 +855,7 @@ p {
 [data-theme="dark"] .card-icon-negocios,
 [data-theme="dark"] .card-icon-archivo,
 [data-theme="dark"] .card-icon-bluesky,
+[data-theme="dark"] .card-icon-camisetas,
 [data-theme="dark"] .card-icon-participa,
 [data-theme="dark"] .card-icon-vivienda-publica,
 [data-theme="dark"] .card-icon-peluditos {
@@ -884,6 +886,168 @@ p {
 
 .feature-card.highlight {
   grid-column: span 1;
+}
+
+/* Cardless project navigation */
+.projects-navigation {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% + 30px);
+  max-width: 420px;
+  margin: 0 -15px;
+  padding: 0;
+  background: var(--bg-container);
+}
+
+.projects-section {
+  width: 100%;
+  padding: 20px 22px 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.projects-section-title {
+  margin: 0 0 4px;
+  color: var(--text-header);
+  font-size: 1rem;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.projects-section-subtitle {
+  margin: 0 0 10px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: left;
+}
+
+.project-link {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) 18px;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 60px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  text-align: left;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.project-link:first-child {
+  border-top: 0;
+}
+
+.project-link-icon {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 19px;
+  line-height: 1;
+  transform: translateY(4px);
+}
+
+.project-link span {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 28px;
+  color: var(--text-secondary);
+  font-size: 0.96rem;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.project-link-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  line-height: 1;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.project-link:hover {
+  color: var(--color-primary);
+  transform: translateX(3px);
+}
+
+.project-link:hover span,
+.project-link:hover .project-link-arrow {
+  color: var(--color-primary);
+}
+
+.project-link:hover .project-link-arrow {
+  transform: translateX(2px);
+}
+
+.project-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.projects-section-secondary,
+.projects-section-tertiary {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-light);
+}
+
+.projects-navigation > #foro {
+  width: 100%;
+  max-width: none;
+  margin: 22px 0 0;
+  padding: 20px 22px 0;
+  min-height: 0;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--border-light);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.forum-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.section-eyebrow {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+#foro .forum-heading h2 {
+  display: block;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  color: var(--text-header);
+  font-size: 1.2rem;
+  font-weight: 750;
+  line-height: 1.2;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 /* Telegram trigger */
@@ -956,7 +1120,7 @@ p {
   gap: 14px;
   width: 100%;
   max-width: 420px;
-  margin: 14px auto 0;
+  margin: 19px auto 0;
 }
 
 .hero-secondary-link {
@@ -1215,6 +1379,155 @@ p {
 
 /* --- PREMIUM DESKTOP LAYOUT (>= 900px) --- */
 @media (min-width: 900px) {
+
+  /* Keep the project directory together and give the forum a clear secondary role. */
+  .projects-navigation {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+    column-gap: 48px;
+    row-gap: 28px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 36px 36px;
+    background: var(--bg-container);
+  }
+
+  .projects-navigation > .projects-section {
+    min-width: 0;
+    padding: 28px 0 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .projects-navigation > .projects-section-primary {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .projects-navigation > #foro {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 28px 0 0;
+    background: transparent;
+    border: 0;
+    border-top: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .projects-navigation > .projects-section-secondary {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 0;
+    padding-top: 24px;
+    border-top: 0;
+  }
+
+  .projects-navigation > .projects-section-tertiary {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 0;
+    padding-top: 24px;
+    border-top: 0;
+  }
+
+  .projects-section-title {
+    margin-bottom: 8px;
+    font-size: 1.12rem;
+  }
+
+  #foro .topics-grid {
+    margin-top: 10px;
+  }
+
+  #foro .topic-card {
+    padding: 9px 0;
+  }
+
+  #foro .topic-image {
+    width: 72px;
+    min-width: 72px;
+    height: 72px;
+    align-self: center;
+    border-radius: 8px;
+  }
+
+  #foro .topic-content {
+    padding: 0 0 0 12px;
+  }
+
+  #foro .topic-title {
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+
+  #foro .topic-meta-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    margin-top: 0;
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  #foro .topic-meta-date,
+  #foro .topic-meta-author,
+  #foro .topic-meta-comments {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  #foro .topic-meta-date {
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  #foro .topic-meta-author {
+    gap: 5px;
+    max-width: 120px;
+    overflow: hidden;
+  }
+
+  #foro .topic-meta-author img {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    border-radius: 50%;
+    border: 1px solid var(--border-subtle);
+  }
+
+  #foro .topic-meta-author .author-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #foro .topic-meta-comments {
+    gap: 4px;
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
+  #foro .topic-meta-comments i {
+    font-size: 0.65rem;
+  }
+
+  #foro .more-topics {
+    margin-top: 8px;
+    padding-bottom: 0;
+  }
 
   /* 1. Reset Container Constraints */
   .container,
@@ -1659,15 +1972,17 @@ p {
 }
 
 .more-topics {
-  margin-top: 20px;
-  text-align: right;
+  margin: 12px 0 0;
+  padding-bottom: 12px;
+  text-align: center;
   font-size: 0.9rem;
 }
 
 .more-topics a {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  width: 100%;
   color: var(--text-secondary);
   text-decoration: none;
   font-weight: 600;
@@ -1687,11 +2002,10 @@ p {
 
   /* Compact Horizontal Layout for Mobile */
   .topic-card {
-    flex-direction: row;
-    align-items: center;
-    padding: 14px 0;
+    display: block;
+    padding: 10px 0;
     height: auto;
-    min-height: 80px;
+    min-height: 0;
   }
 
   /* Smaller Image - HIDDEN per user request */
@@ -1706,17 +2020,70 @@ p {
     display: none;
   }
 
+  .topic-content {
+    display: block;
+    padding: 0;
+  }
+
   /* Compact Title */
   .topic-title {
+    display: inline;
     font-size: 0.95rem;
-    margin-bottom: 4px;
-    line-height: 1.3;
+    margin: 0;
+    line-height: 1.28;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: initial;
+    overflow: visible;
   }
 
   /* Adjust Date/Meta top */
   .topic-meta-top {
-    margin-bottom: 4px;
-    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 0 7px;
+    font-size: 0.7rem;
+    line-height: 1.2;
+    vertical-align: baseline;
+  }
+
+  .topic-category-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 5px;
+    vertical-align: 0.08em;
+  }
+
+  #foro .topic-meta-line {
+    display: inline;
+    margin-top: 0;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    line-height: 1.28;
+    white-space: normal;
+  }
+
+  #foro .topic-meta-date {
+    display: inline;
+    margin-left: 7px;
+    vertical-align: baseline;
+    white-space: nowrap;
+  }
+
+  #foro .topic-meta-author,
+  #foro .topic-meta-comments {
+    display: none;
+  }
+
+  .topics-grid {
+    margin-top: 4px;
+  }
+
+  .more-topics {
+    margin-top: 8px;
+    padding-bottom: 14px;
+    font-size: 0.82rem;
   }
 }
 
@@ -1782,8 +2149,8 @@ p {
 /* Ensure mobile header is tight */
 @media (max-width: 600px) {
   #foro h2 {
-    font-size: 1rem;
-    margin-bottom: 16px;
+    font-size: 0.94rem;
+    margin-bottom: 8px;
   }
 }
 
@@ -1799,6 +2166,10 @@ p {
 }
 
 @media (max-width: 899px) {
+  .projects-navigation {
+    max-width: none;
+  }
+
   .hero-split {
     width: calc(100% + 30px);
     max-width: none;
@@ -1874,6 +2245,15 @@ p {
     margin-top: 16px;
   }
 
+  .projects-section {
+    padding: 20px 22px 0;
+  }
+
+  .project-link {
+    min-height: 64px;
+    padding: 16px 0;
+  }
+
   .hero-telegram-trigger .btn-secondary,
   .btn-tertiary,
   .festivals-2026-card {
@@ -1886,6 +2266,12 @@ p {
   .btn-tertiary span,
   .festivals-2026-card span {
     white-space: nowrap;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 899px) {
+  body {
+    padding-top: 0;
   }
 }
 

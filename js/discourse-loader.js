@@ -30,10 +30,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function renderTopics(topics, users) {
     const container = document.getElementById('foro');
-    const topicList = topics.slice(0, 5); // Show top 5 topics
+    const topicList = topics.slice(0, 3); // Show the three most popular topics
 
     let html = `
-        <h2>Popular esta semana</h2>
+        <div class="forum-heading">
+            <h2>Conversaciones populares</h2>
+        </div>
         <div class="topics-grid">
     `;
 
@@ -65,21 +67,21 @@ function renderTopics(topics, users) {
                 </div>
                 
                 <div class="topic-content">
-                    <div class="topic-meta-top">
-                        <span class="topic-category-dot"></span>
-                        <span class="topic-date">${date}</span>
-                    </div>
-                    
                     <h3 class="topic-title">${topic.title}</h3>
-                    
-                    <div class="topic-meta-bottom">
-                        <div class="topic-author">
-                            <img src="${avatarUrl}" alt="${authorName}" loading="lazy">
+
+                    <div class="topic-meta-line">
+                        <span class="topic-meta-date">
+                            <span class="topic-category-dot"></span>
+                            <span class="topic-date">${date}</span>
+                        </span>
+                        <span class="topic-meta-author">
+                            <img src="${avatarUrl}" alt="" loading="lazy">
                             <span class="author-name">${authorName}</span>
-                        </div>
-                        <div class="topic-stats">
-                            <span class="stat"><i class="fa-regular fa-comment" aria-hidden="true"></i> ${topic.posts_count - 1}</span>
-                        </div>
+                        </span>
+                        <span class="topic-meta-comments">
+                            <i class="fa-regular fa-comment" aria-hidden="true"></i>
+                            <span>${topic.posts_count - 1}</span>
+                        </span>
                     </div>
                 </div>
             </a>
@@ -88,7 +90,7 @@ function renderTopics(topics, users) {
 
     html += `
         </div>
-        <p class="more-topics"><a href="https://foro.aldeapucela.org/top?period=weekly">Ver más <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></p>
+        <p class="more-topics"><a href="https://foro.aldeapucela.org/top?period=weekly">Ver más</a></p>
     `;
 
     container.innerHTML = html;

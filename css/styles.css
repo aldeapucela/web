@@ -891,14 +891,14 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 28px;
+  margin-top: 34px;
   text-decoration: none;
   color: inherit;
   width: 100%;
 }
 
 .hero-telegram-trigger .btn-secondary {
-  margin-top: 6px;
+  margin-top: 0;
   background: rgba(43, 120, 184, 0.08);
   color: #2B78B8;
   border: 1px solid rgba(43, 120, 184, 0.22);
@@ -948,15 +948,57 @@ p {
   white-space: nowrap;
 }
 
-.hero-telegram-text {
-  display: block;
+.hero-secondary-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
   width: 100%;
   max-width: 420px;
-  text-align: center;
-  font-size: 0.92rem;
+  margin: 14px auto 0;
+}
+
+.hero-secondary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px;
   color: var(--text-muted);
-  line-height: 1.4;
-  margin: 0 0 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.hero-secondary-link i {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.92rem;
+}
+
+.hero-secondary-link .fa-whatsapp {
+  color: #25D366;
+}
+
+.hero-secondary-link .fa-facebook-f {
+  color: #1877F2;
+}
+
+.hero-secondary-link:hover {
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.hero-secondary-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 .btn-tertiary {
@@ -1311,16 +1353,10 @@ p {
   /* Telegram Section */
   .hero-telegram-trigger {
     order: 3;
-    margin: 26px 0 0;
+    margin: 22px 0 0;
     width: 100%;
     justify-self: center;
     max-width: 100%;
-  }
-
-  /* Telegram Text alignment */
-  .hero-telegram-text {
-    font-size: 0.9rem;
-    margin: 0 0 16px;
   }
 
   .hero-telegram-trigger .btn-secondary,
@@ -1830,7 +1866,12 @@ p {
   }
 
   .hero-telegram-trigger {
-    margin-top: 24px;
+    margin-top: 28px;
+  }
+
+  .hero-secondary-links {
+    gap: 10px;
+    margin-top: 16px;
   }
 
   .hero-telegram-trigger .btn-secondary,

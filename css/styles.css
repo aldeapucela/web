@@ -1154,6 +1154,10 @@ p {
   color: #1877F2;
 }
 
+.hero-secondary-link .fa-instagram {
+  color: #E4405F;
+}
+
 .hero-secondary-link:hover {
   color: var(--color-primary);
   transform: translateY(-1px);
@@ -2243,6 +2247,16 @@ p {
   .hero-secondary-links {
     gap: 10px;
     margin-top: 16px;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    column-gap: 14px;
+    row-gap: 6px;
+    justify-content: center;
+  }
+
+  .hero-secondary-link {
+    justify-content: center;
+    white-space: nowrap;
   }
 
   .projects-section {

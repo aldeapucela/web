@@ -663,90 +663,6 @@ p {
   border-color: var(--text-muted);
 }
 
-/* Fiestas y ferias 2026 - Secondary CTA */
-.festivals-2026-card {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 12px;
-  margin-top: 10px;
-  padding: 14px 18px;
-  background: rgba(102, 81, 125, 0.08);
-  border: 1px solid rgba(102, 81, 125, 0.24);
-  border-radius: 16px;
-  color: var(--color-primary-dark);
-  font-size: 0.92rem;
-  font-weight: 700;
-  line-height: 1.2;
-  text-align: left;
-  text-decoration: none;
-  width: 100%;
-  box-shadow: 0 10px 24px -20px rgba(102, 81, 125, 0.48);
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-}
-
-.festivals-2026-icon {
-  width: 22px;
-  min-width: 22px;
-  height: 22px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-primary);
-  flex-shrink: 0;
-}
-
-.festivals-2026-card .festivals-2026-label {
-  flex: 1;
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-}
-
-.festivals-2026-card .cta-arrow {
-  width: 22px;
-  min-width: 22px;
-  height: 22px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-primary);
-  margin-left: auto;
-  font-size: 0.84rem;
-}
-
-.festivals-2026-card:hover {
-  background: rgba(102, 81, 125, 0.14);
-  border-color: rgba(102, 81, 125, 0.42);
-  transform: translateY(-1px);
-}
-
-.festivals-2026-card:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-}
-
-[data-theme="dark"] .festivals-2026-card {
-  background: rgba(201, 183, 230, 0.12);
-  border-color: rgba(201, 183, 230, 0.28);
-  color: #D9C9FF;
-  box-shadow: 0 10px 24px -20px rgba(0, 0, 0, 0.48);
-}
-
-[data-theme="dark"] .festivals-2026-icon {
-  color: #D9C9FF;
-}
-
-[data-theme="dark"] .festivals-2026-card i {
-  color: #D9C9FF;
-}
-
-[data-theme="dark"] .festivals-2026-card:hover {
-  background: rgba(201, 183, 230, 0.18);
-  border-color: rgba(217, 201, 255, 0.46);
-}
-
-
 /* Feature Grid (The Dashboard) - Strict 2 columns on mobile */
 .features-grid {
   display: grid;
@@ -1678,8 +1594,7 @@ p {
 
   .hero-telegram-trigger .btn-secondary,
   .btn-tertiary,
-  .newsletter-card,
-  .festivals-2026-card {
+  .newsletter-card {
     max-width: 420px;
   }
 
@@ -2270,15 +2185,14 @@ p {
 
   .hero-telegram-trigger .btn-secondary,
   .btn-tertiary,
-  .festivals-2026-card {
+  .newsletter-card {
     padding: 13px 14px;
     font-size: 0.9rem;
   }
 
   .newsletter-card span,
   .hero-telegram-trigger .btn-secondary span,
-  .btn-tertiary span,
-  .festivals-2026-card span {
+  .btn-tertiary span {
     white-space: nowrap;
   }
 }

@@ -1,12 +1,14 @@
 // Telegram Modal Logic
 
 // Global support function for handling modal triggers ensuring robustness
-function openTelegramModal(e) {
+function openTelegramModal(e, source = 'home') {
     if (e) e.preventDefault();
     const modal = document.getElementById('js-telegram-modal');
     if (modal) {
         modal.classList.add('is-visible');
-        window._paq?.push(['trackEvent', 'Telegram', 'open_modal', 'home']);
+        modal.dataset.source = source;
+        window._paq?.push(['trackEvent', 'Telegram', 'open_modal', source]);
+        modal.querySelector('.js-modal-close')?.focus({ preventScroll: true });
     }
 }
 
@@ -29,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtns = document.querySelectorAll('.js-modal-close');
 
     telegramGroupLink?.addEventListener('click', () => {
-        window._paq?.push(['trackEvent', 'Telegram', 'go_to_group', 'home']);
+        window._paq?.push(['trackEvent', 'Telegram', 'go_to_group', modal?.dataset.source || 'home']);
     });
 
     function showShareFeedback(message) {

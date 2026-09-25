@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="/img/favicon.png">
-  <link rel="stylesheet" href="/css/styles.css?v=20260913-1">
+  <link rel="stylesheet" href="/css/styles.css?v=20260925-12">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
   <title>{{ page.title }}</title>
@@ -27,36 +27,43 @@
     <!-- Contenedor que envuelve el contenido Markdown -->
     {{ content }}
 
+    <div class="onboarding-entry">
+      <button type="button" id="onboarding-trigger" class="onboarding-trigger" aria-haspopup="dialog" aria-controls="onboarding-dialog">
+        <span class="onboarding-trigger-icon"><i class="fa-regular fa-compass" aria-hidden="true"></i></span>
+        <span>Ayúdame a empezar</span>
+      </button>
+    </div>
+
     <div class="projects-navigation">
       <section class="projects-section projects-section-primary" aria-labelledby="projects-primary-title">
-        <h2 id="projects-primary-title" class="projects-section-title">Proyectos principales</h2>
+        <h2 id="projects-primary-title" class="projects-section-title" tabindex="-1">Proyectos principales</h2>
         <a href="https://eventos.aldeapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-regular fa-calendar-days card-icon-eventos" aria-hidden="true"></i>
-          <span>Eventos culturales</span>
+          <span class="project-link-copy"><strong>Eventos culturales</strong><small>Qué hacer en Valladolid</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://basuracero.aldeapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-map-location-dot card-icon-incidencias" aria-hidden="true"></i>
-          <span>Incidencias vecinales</span>
+          <span class="project-link-copy"><strong>Incidencias vecinales</strong><small>Problemas del barrio o la ciudad</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://segundavida.aldeapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-recycle card-icon-segunda-vida" aria-hidden="true"></i>
-          <span>Segunda Vida</span>
+          <span class="project-link-copy"><strong>Segunda Vida</strong><small>Dar y encontrar gratis</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://participa.aldeapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-bullhorn card-icon-participa" aria-hidden="true"></i>
-          <span>Campañas vecinales</span>
+          <span class="project-link-copy"><strong>Campañas vecinales</strong><small>Organízate con otros vecinos</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://fotos.aldeapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-camera-retro card-icon-fotos" aria-hidden="true"></i>
-          <span>Fotos de Valladolid</span>
+          <span class="project-link-copy"><strong>Fotos de Valladolid</strong><small>La ciudad en imágenes</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </section>
@@ -70,43 +77,43 @@
         <p class="projects-section-subtitle">Creados por los vecinos de la comunidad.</p>
         <a href="https://otrapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-regular fa-newspaper card-icon-otra-pucela" aria-hidden="true"></i>
-          <span>La Otra Pucela</span>
+          <span class="project-link-copy"><strong>La Otra Pucela</strong><small>Artículos para leer con calma</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://vivienda.aldeapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-house card-icon-vivienda-publica" aria-hidden="true"></i>
-          <span>Vivienda Pública</span>
+          <span class="project-link-copy"><strong>Vivienda Pública</strong><small>Actualidad de la vivienda pública</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://contratos.aldeapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-regular fa-file-lines card-icon-contratos" aria-hidden="true"></i>
-          <span>Contratos municipales</span>
+          <span class="project-link-copy"><strong>Contratos municipales</strong><small>Consulta la contratación municipal</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://negocios.aldeapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-store card-icon-negocios" aria-hidden="true"></i>
-          <span>Negocios locales</span>
+          <span class="project-link-copy"><strong>Negocios locales</strong><small>Descubre comercios de Valladolid</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://peluditos.aldeapucela.org/" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-paw card-icon-peluditos" aria-hidden="true"></i>
-          <span>Peluditos</span>
+          <span class="project-link-copy"><strong>Peluditos</strong><small>Animales de la comunidad</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://presupuestos.aldeapucela.org/" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-landmark card-icon-presupuestos" aria-hidden="true"></i>
-          <span>Presupuestos participativos</span>
+          <span class="project-link-copy"><strong>Presupuestos participativos</strong><small>Propuestas para la ciudad</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://aldeapucela.org/integracion/" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-train-subway card-icon-integracion" aria-hidden="true"></i>
-          <span>Plataforma Integración Ferroviaria</span>
+          <span class="project-link-copy"><strong>Plataforma Integración Ferroviaria</strong><small>Conoce la reivindicación vecinal</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </section>
@@ -115,37 +122,37 @@
         <h2 id="projects-tertiary-title" class="projects-section-title">Recursos</h2>
         <a href="https://creators.spotify.com/pod/show/aldea-pucela" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-podcast card-icon-podcast" aria-hidden="true"></i>
-          <span>Podcasts</span>
+          <span class="project-link-copy"><strong>Podcasts</strong><small>Escucha a la comunidad</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://video.aldeapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-video card-icon-videos" aria-hidden="true"></i>
-          <span>Vídeos</span>
+          <span class="project-link-copy"><strong>Vídeos</strong><small>Contenido audiovisual de Aldea</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="/archivo/" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-box-archive card-icon-archivo" aria-hidden="true"></i>
-          <span>Archivo Chat</span>
+          <span class="project-link-copy"><strong>Archivo Chat</strong><small>Mensajes destacados del grupo</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="/camisetas/" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-shirt card-icon-camisetas" aria-hidden="true"></i>
-          <span>Camisetas Aldea Pucela</span>
+          <span class="project-link-copy"><strong>Camisetas Aldea Pucela</strong><small>Viste la comunidad</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="/normas/" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-circle-info card-icon-normas" aria-hidden="true"></i>
-          <span>Normas</span>
+          <span class="project-link-copy"><strong>Normas</strong><small>Cómo convivimos en Aldea</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
 
         <a href="https://bsky.app/profile/pucelobot.aldeapucela.org" class="project-link" target="_blank" rel="noopener">
           <i class="project-link-icon fa-solid fa-robot card-icon-bluesky" aria-hidden="true"></i>
-          <span>PuceloBot en BlueSky</span>
+          <span class="project-link-copy"><strong>PuceloBot en BlueSky</strong><small>Publicaciones automáticas</small></span>
           <i class="project-link-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
         </a>
       </section>
@@ -165,7 +172,25 @@
 
   {% include telegram_modal.html %}
 
-  <script src="/js/main.js?v=20260925-1"></script>
+  <dialog id="onboarding-dialog" class="onboarding-dialog" aria-labelledby="onboarding-title">
+    <div class="onboarding-shell">
+      <div class="onboarding-top">
+        <button type="button" class="onboarding-back" aria-label="Volver a la pregunta anterior" hidden>
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        </button>
+        <div class="onboarding-progress" aria-label="Progreso del recomendador">
+          <span></span><span></span><span></span>
+        </div>
+        <button type="button" class="onboarding-close" aria-label="Cerrar recomendador">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div id="onboarding-content" class="onboarding-content" aria-live="polite"></div>
+    </div>
+  </dialog>
+
+  <script src="/js/main.js?v=20260925-2"></script>
+  <script src="/js/onboarding.js?v=20260925-12"></script>
   <script src="/js/discourse-loader.js?v=20260826-6"></script>
   <script>
     // Matomo

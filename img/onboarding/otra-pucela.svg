@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title>Favicon La Otra Pucela</title>
+  <desc>Monograma con la O de la cabecera sobre un fondo circular azul grisaceo oscuro.</desc>
+  <circle cx="128" cy="128" r="120" fill="#1f2937" />
+  <g transform="translate(0 7) scale(0.9 0.9)">
+    <path
+      fill="#f4f1e9"
+      fill-rule="evenodd"
+      d="M141.5 38C168.6 38 191.2 46.9 204.1 62.7C216.5 77.8 222 100.5 222 128C222 155.6 216.5 178.2 204.1 193.3C191.2 209.1 168.6 218 141.5 218C114.5 218 91.8 209.1 79 193.3C66.6 178.2 61 155.6 61 128C61 100.5 66.6 77.8 79 62.7C91.8 46.9 114.5 38 141.5 38ZM141.5 71.5C129.5 71.5 119.4 76.3 113.6 85.5C107.8 94.4 105.1 107.5 105.1 128C105.1 148.6 107.8 161.6 113.6 170.5C119.4 179.8 129.5 184.5 141.5 184.5C153.6 184.5 163.7 179.8 169.5 170.5C175.2 161.6 177.9 148.6 177.9 128C177.9 107.5 175.2 94.4 169.5 85.5C163.7 76.3 153.6 71.5 141.5 71.5Z"
+    />
+  </g>
+</svg>

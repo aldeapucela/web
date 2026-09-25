@@ -6,6 +6,7 @@ function openTelegramModal(e) {
     const modal = document.getElementById('js-telegram-modal');
     if (modal) {
         modal.classList.add('is-visible');
+        window._paq?.push(['trackEvent', 'Telegram', 'open_modal', 'home']);
     }
 }
 
@@ -24,7 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let shareFeedbackTimeout;
 
     const modal = document.getElementById('js-telegram-modal');
+    const telegramGroupLink = modal?.querySelector('.btn-modal-action');
     const closeBtns = document.querySelectorAll('.js-modal-close');
+
+    telegramGroupLink?.addEventListener('click', () => {
+        window._paq?.push(['trackEvent', 'Telegram', 'go_to_group', 'home']);
+    });
 
     function showShareFeedback(message) {
         if (!shareFeedback) return;

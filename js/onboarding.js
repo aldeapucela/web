@@ -80,6 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const rootHash = '#empezar';
 
+  function routeName() {
+    return `${firstChoice || 'inicio'}/${secondChoice || 'directo'}`;
+  }
+
   function readRoute() {
     const parts = window.location.hash.slice(1).split('/');
     if (parts[0] !== 'empezar' || parts.length > 3) return null;
@@ -109,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     document.body.classList.remove('onboarding-open');
     if (reason === 'telegram') {
-      window.openTelegramModal(null, 'onboarding');
+      window.openTelegramModal(null, 'onboarding', routeName());
       return;
     }
     if (reason === 'directory') {
@@ -119,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       return;
     }
-    track('close', currentScreen);
+    track('close', `${currentScreen}:${routeName()}`);
     openingFocus.focus({ preventScroll: true });
     window.scrollTo({ top: openingScroll, behavior: 'auto' });
   }
@@ -199,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
       button.type = 'button';
       button.append(element('span', 'onboarding-option-label', option.label));
       button.addEventListener('click', () => {
-        track(level === 'first' ? 'choose_first' : 'choose_second', option.id);
+        track(level === 'first' ? 'choose_first' : 'choose_second', level === 'first' ? option.id : `${firstChoice}/${option.id}`);
         if (level === 'first') {
           navigate(`${rootHash}/${option.id}`);
         } else {
@@ -214,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function showResults(ids) {
     currentScreen = 'results';
-    track('show_results', `${firstChoice}/${secondChoice || 'direct'}:${ids.join(',')}`);
+    track('show_results', `${routeName()}:${ids.join(',')}`);
     const title = element('h2', 'onboarding-title', 'Te puede interesar');
     title.id = 'onboarding-title';
     title.tabIndex = -1;
@@ -245,7 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const action = element('span', 'onboarding-result-action', item.action);
       link.append(art, copy, action);
       link.addEventListener('click', (event) => {
-        track('click_recommendation', `${firstChoice}/${secondChoice || 'direct'}:${id}`);
+        track('click_recommendation', `${routeName()}:${id}`);
         if (item.href === 'telegram-modal') {
           event.preventDefault();
           requestExit('telegram');
@@ -258,13 +262,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const more = element('button', 'onboarding-more', 'Ver otras cosas de Aldea Pucela');
     more.type = 'button';
     more.addEventListener('click', () => {
-      track('view_directory', `${firstChoice}/${secondChoice || 'direct'}`);
+      track('view_directory', routeName());
       requestExit('directory');
     });
     const restart = element('button', 'onboarding-restart', 'Quiero buscar otra cosa');
     restart.type = 'button';
     restart.addEventListener('click', () => {
-      track('restart', `${firstChoice}/${secondChoice || 'direct'}`);
+      track('restart', routeName());
       navigate(rootHash);
     });
     actions.append(more, restart);
@@ -277,11 +281,12 @@ document.addEventListener('DOMContentLoaded', () => {
     originUrl = window.location.href;
     firstChoice = null;
     secondChoice = null;
-    navigate(rootHash);
     track('open', 'home');
+    navigate(rootHash);
   });
 
   backButton.addEventListener('click', () => {
+    track('back', `${currentScreen}:${routeName()}`);
     const depth = window.history.state?.onboardingDepth || 0;
     if (depth > 0) {
       window.history.back();
@@ -308,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('hashchange', renderFromLocation);
   if (readRoute()) {
     originUrl = window.location.href.split('#')[0];
-    renderFromLocation();
     track('open', 'direct_link');
+    renderFromLocation();
   }
 });

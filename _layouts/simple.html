@@ -15,7 +15,8 @@
   <meta property="og:title" content="{{ page.title }}">
   <meta property="og:description" content="{{ page.description | default: 'La mayor comunidad vecinal online sobre Valladolid' }}">
   <meta property="og:image" content="{{ page.og_image | default: 'https://aldeapucela.org/img/social-preview.jpg' }}">
-  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  {% if page.canonical_url %}<link rel="canonical" href="{{ page.canonical_url }}">{% endif %}
+  <meta property="og:url" content="{% if page.canonical_url %}{{ page.canonical_url }}{% else %}{{ site.url }}{{ page.url }}{% endif %}">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_ES">
   <meta name="twitter:card" content="{{ page.twitter_card | default: 'summary_large_image' }}">

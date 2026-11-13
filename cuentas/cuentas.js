@@ -16,13 +16,18 @@ function render(data) {
   for (const item of data.movements) {
     const li = document.createElement('li'); li.className = 'movement';
     const button = document.createElement('button'); button.type = 'button'; button.className = 'movement-button'; button.dataset.id = String(item.id);
-    button.setAttribute('aria-label', `Ver detalles de ${item.concept}, ${date(item.date)}, ${item.amount < 0 ? 'menos' : 'más'} ${money(Math.abs(item.amount))}`);
+    button.setAttribute('aria-label', `Ver detalles de ${item.concept}${item.category ? `, categoría ${item.category}` : ''}, ${date(item.date)}, ${item.amount < 0 ? 'menos' : 'más'} ${money(Math.abs(item.amount))}`);
     const time = document.createElement('time'); time.dateTime = item.date; time.textContent = date(item.date);
     const concept = document.createElement('span'); concept.className = 'concept'; concept.textContent = item.concept;
     const amount = document.createElement('span'); amount.className = `amount ${item.amount < 0 ? 'negative' : 'positive'}`; amount.textContent = `${item.amount < 0 ? '−' : '+'}${money(Math.abs(item.amount))}`;
     button.append(time, concept, amount);
-    if (item.provider || item.details || item.attachments.length) { const documentIcon = document.createElement('span'); documentIcon.className = 'document'; documentIcon.innerHTML = icon; button.append(documentIcon); }
-    button.addEventListener('click', () => showDetails(item, button)); li.append(button); $('list').append(li);
+    if (item.attachments.length) { const documentIcon = document.createElement('span'); documentIcon.className = 'document'; documentIcon.innerHTML = icon; button.append(documentIcon); }
+    button.addEventListener('click', () => {
+      const url = new URL(location.href); url.searchParams.set('id', String(item.id));
+      history.pushState(history.state, '', url);
+      $('status').textContent = '';
+      showDetails(item, button);
+    }); li.append(button); $('list').append(li);
   }
 }
 const externalIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M13 5h6v6M19 5l-9 9M19 14v5H5V5h5"/></svg>';
@@ -59,21 +64,25 @@ function fileType(file) {
 }
 function showDetails(item, button) {
   opener = button;
+  $('details').dataset.movementId = String(item.id);
   $('dialog-title').textContent = item.concept;
   $('dialog-date').textContent = new Intl.DateTimeFormat('es-ES', { day:'numeric', month:'long', year:'numeric', timeZone:'UTC' }).format(new Date(`${item.date}T12:00:00Z`));
   const amount = $('dialog-amount'); amount.textContent = `${item.amount < 0 ? '−' : '+'}${money(Math.abs(item.amount))}`; amount.className = `dialog-amount ${item.amount < 0 ? 'negative' : 'positive'}`;
   const body = $('dialog-body'); body.replaceChildren();
   const description = item.details.trim();
   const files = item.attachments.map(file => ({ url: attachmentUrl(file), label: fileLabel(file), type: fileType(file), file: true })).filter(file => file.url);
-  if (item.provider || description || files.length) {
+  if (item.category || item.provider || description || files.length) {
     body.classList.add('has-content');
+    if (item.category) { const category = document.createElement('span'); category.className = 'movement-category'; category.textContent = item.category; body.append(category); }
     if (item.provider) { const p = document.createElement('p'); p.className = 'detail-provider'; const label = document.createElement('span'); label.textContent = 'Proveedor'; const value = document.createElement('strong'); value.textContent = item.provider; p.append(label, value); body.append(p); }
     if (description) body.append(renderDescription(description));
     linkList(body, files);
   } else body.classList.remove('has-content');
   if (item.modifiedAt !== null) { const note = document.createElement('p'); note.className = 'detail-updated'; note.textContent = `Última actualización: ${updatedDate(item.modifiedAt)}`; body.append(note); }
-  previousOverflow = document.body.style.overflow; document.body.style.overflow = 'hidden';
-  $('details').showModal();
+  if (!$('details').open) {
+    previousOverflow = document.body.style.overflow; document.body.style.overflow = 'hidden';
+    $('details').showModal();
+  }
 }
 $('close').addEventListener('click', () => $('details').close());
 $('details').addEventListener('click', event => {
@@ -82,6 +91,10 @@ $('details').addEventListener('click', event => {
   if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) $('details').close();
 });
 $('details').addEventListener('close', () => {
+  const url = new URL(location.href);
+  if (url.searchParams.get('id') === $('details').dataset.movementId) {
+    url.searchParams.delete('id'); history.replaceState(history.state, '', url);
+  }
   document.body.style.overflow = previousOverflow;
   if (pendingRender) {
     const id = opener?.dataset.id; render(current); pendingRender = false;
@@ -90,9 +103,31 @@ $('details').addEventListener('close', () => {
   if (opener?.isConnected) opener.focus();
 });
 
+function syncMovementFromUrl() {
+  if (!current) return;
+  const id = new URL(location.href).searchParams.get('id');
+  if (id === null) {
+    if ($('status').textContent === 'No se ha encontrado el movimiento solicitado.') $('status').textContent = '';
+    if ($('details').open) $('details').close();
+    return;
+  }
+  const item = current.movements.find(movement => String(movement.id) === id);
+  if (!item) {
+    if ($('details').open) $('details').close();
+    $('status').textContent = 'No se ha encontrado el movimiento solicitado.';
+    return;
+  }
+  $('status').textContent = '';
+  if (!$('details').open || $('details').dataset.movementId !== id) {
+    const button = [...$('list').querySelectorAll('.movement-button')].find(element => element.dataset.id === id);
+    showDetails(item, button || null);
+  }
+}
+window.addEventListener('popstate', syncMovementFromUrl);
+
 async function refresh() {
   if (loading) return; loading = true;
-  try { const data = await fetchMovements(); current = data; if ($('details').open) pendingRender = true; else render(data); $('status').textContent = ''; }
+  try { const data = await fetchMovements(); current = data; if ($('details').open) pendingRender = true; else render(data); $('status').textContent = ''; syncMovementFromUrl(); }
   catch (error) { $('status').textContent = current ? 'No se ha podido actualizar la información. Los datos mostrados podrían estar desactualizados.' : 'No se pueden consultar las cuentas en este momento. Inténtalo de nuevo más tarde.'; }
   finally { loading = false; }
 }

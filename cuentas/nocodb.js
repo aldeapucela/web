@@ -22,7 +22,7 @@ export function normalize(row) {
   if (!['ingreso', 'gasto'].includes(type)) throw new Error('Tipo de movimiento desconocido');
   const amount = cents(row.Importe);
   if (amount < 0 || !/^\d{4}-\d{2}-\d{2}$/.test(row.Fecha || '') || !row.Concepto) throw new Error('Movimiento incompleto');
-  return { id: row.Id, concept: String(row.Concepto), date: row.Fecha, provider: String(row.Proovedor || '').trim(), createdAt: timestamp(row['Created time']), modifiedAt: timestamp(row['Last modified time']), amount: type === 'gasto' ? -amount : amount, details: String(row.Detalles || ''), attachments: Array.isArray(row.Justificante) ? row.Justificante : [] };
+  return { id: row.Id, concept: String(row.Concepto), category: String(row.Categoria || '').trim(), date: row.Fecha, provider: String(row.Proovedor || '').trim(), createdAt: timestamp(row['Created time']), modifiedAt: timestamp(row['Last modified time']), amount: type === 'gasto' ? -amount : amount, details: String(row.Detalles || ''), attachments: Array.isArray(row.Justificante) ? row.Justificante : [] };
 }
 
 export async function fetchMovements() {

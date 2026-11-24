@@ -9,12 +9,14 @@ function safeLink(value) {
 function inline(parent, source, depth = 0) {
   if (depth > 8) { parent.append(document.createTextNode(source)); return; }
   // Links, emphasis and inline code are deliberately restricted to a small safe subset.
-  const tokens = /(!?\[([^\]\n]+)\]\(([^\s)]+)\)|\*\*([^*\n]+)\*\*|__([^_\n]+)__|\*([^*\n]+)\*|_([^_\n]+)_|~~([^~\n]+)~~|`([^`\n]+)`|https?:\/\/[^\s<>]+)/g;
+  const tokens = /(<br\s*\/?>|!?\[([^\]\n]+)\]\(([^\s)]+)\)|\*\*([^*\n]+)\*\*|__([^_\n]+)__|\*([^*\n]+)\*|_([^_\n]+)_|~~([^~\n]+)~~|`([^`\n]+)`|https?:\/\/[^\s<>]+)/gi;
   let position = 0;
   for (const match of source.matchAll(tokens)) {
     parent.append(document.createTextNode(source.slice(position, match.index)));
     const [full, , linkText, destination, strongStar, strongUnder, emphasisStar, emphasisUnder, strike, code] = match;
-    if (destination) {
+    if (/^<br\s*\/?>$/i.test(full)) {
+      parent.append(document.createElement('br'));
+    } else if (destination) {
       const url = full.startsWith('!') ? null : safeLink(destination);
       if (url) {
         const link = document.createElement('a'); link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer';
